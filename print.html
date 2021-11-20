@@ -1,0 +1,748 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Difftastic Manual</title>
+                <meta name="robots" content="noindex" />
+                
+
+        <!-- Custom HTML head -->
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The official manual for difftastic, the syntactic differ">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+                <link rel="icon" href="favicon.svg">
+                        <link rel="shortcut icon" href="favicon.png">
+                <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+                <link rel="stylesheet" href="css/print.css" media="print">
+        
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+                <link rel="stylesheet" href="fonts/fonts.css">
+        
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+            </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting_started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="parsing.html"><strong aria-hidden="true">3.</strong> Parsing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="upstream_parsers.html"><strong aria-hidden="true">3.1.</strong> Upstream Parsers</a></li></ol></li><li class="chapter-item expanded "><a href="diffing.html"><strong aria-hidden="true">4.</strong> Diffing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tricky_cases.html"><strong aria-hidden="true">4.1.</strong> Tricky Cases</a></li></ol></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">5.</strong> Contributing</a></li><li class="chapter-item expanded "><a href="alternative_projects.html"><strong aria-hidden="true">6.</strong> Alternative Projects</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tree_diffing.html"><strong aria-hidden="true">6.1.</strong> Tree Diffing</a></li></ol></li></ol>            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                                                <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                                            </div>
+
+                    <h1 class="menu-title">Difftastic Manual</h1>
+
+                    <div class="right-buttons">
+                                                <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                                                                        
+                    </div>
+                </div>
+
+                                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+<p>Difftastic (<a href="https://github.com/wilfred/difftastic">source on GitHub</a>) is a diff
+tool that understands syntax. It currently supports 18 languages:</p>
+<ul>
+<li>C</li>
+<li>C++</li>
+<li>C#</li>
+<li>Clojure</li>
+<li>CSS</li>
+<li>Elixir</li>
+<li>Emacs Lisp</li>
+<li>Go</li>
+<li>Haskell</li>
+<li>Java</li>
+<li>JavaScript (and JSX)</li>
+<li>JSON</li>
+<li>OCaml</li>
+<li>Python</li>
+<li>Rust</li>
+<li>TypeScript (and TSX)</li>
+</ul>
+<p>When it works, it's <em>fantastic</em>.</p>
+<p>This manual tracks the bleeding edge version of difftastic. <a href="https://github.com/Wilfred/difftastic/blob/master/CHANGELOG.md">The
+changelog</a>
+records which features and bug fixes are in each version.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
+<h2 id="installation"><a class="header" href="#installation">Installation</a></h2>
+<p>The latest version of difftastic is <a href="https://crates.io/crates/difftastic">available on
+crates.io</a>. You can install it
+with Cargo. Difftastic requires Rust 1.54 or later.</p>
+<pre><code>$ cargo install difftastic
+</code></pre>
+<p>See <a href="./contributing.html">contributing</a> for instructions on debug
+builds.</p>
+<h2 id="diffing-files"><a class="header" href="#diffing-files">Diffing Files</a></h2>
+<pre><code>$ difft sample_files/before.js sample_files/after.js
+</code></pre>
+<p>Difftastic uses the file extension to decide which parser to use.</p>
+<h2 id="git-external-diffs"><a class="header" href="#git-external-diffs">Git: External Diffs</a></h2>
+<p>Git <a href="https://git-scm.com/docs/diff-config#Documentation/diff-config.txt-diffexternal">supports external diff
+tools</a>. You
+can use <code>GIT_EXTERNAL_DIFF</code> for a one-off git command.</p>
+<pre><code>$ GIT_EXTERNAL_DIFF=difft git diff
+$ GIT_EXTERNAL_DIFF=difft git log -p --ext-diff
+$ GIT_EXTERNAL_DIFF=difft git show e96a7241760319 --ext-diff
+</code></pre>
+<p>If you want to use difftastic by default, use <code>git config</code>.</p>
+<pre><code># Set git configuration for the current repository.
+$ git config diff.external difft
+
+# Set git configuration for all repositories.
+$ git config --global diff.external difft
+</code></pre>
+<p>After running <code>git config</code>, <code>git diff</code> will use <code>difft</code>
+automatically. Other git commands require <code>--ext-diff</code> to use
+<code>diff.external</code>.</p>
+<pre><code>$ git diff
+$ git log -p --ext-diff
+$ git show e96a7241760319 --ext-diff
+</code></pre>
+<h2 id="git-difftool"><a class="header" href="#git-difftool">Git: Difftool</a></h2>
+<p><a href="https://git-scm.com/docs/git-difftool">git difftool</a> is a git command
+for viewing the current changes with a different diff tool.  Add the
+following to your <code>.gitconfig</code> to use difftastic as your difftool.</p>
+<pre><code class="language-ini">[diff]
+        tool = difftastic
+
+[difftool]
+        prompt = false
+
+[difftool &quot;difftastic&quot;]
+        cmd = difft &quot;$LOCAL&quot; &quot;$REMOTE&quot;
+</code></pre>
+<p>You can then run <code>git difftool</code> to see current changes with difftastic.</p>
+<pre><code>$ git difftool
+</code></pre>
+<h2 id="mercurial-external-diffs"><a class="header" href="#mercurial-external-diffs">Mercurial: External Diffs</a></h2>
+<p>Mercurial <a href="https://www.mercurial-scm.org/wiki/ExtdiffExtension">supports external diff
+tools</a> with the
+Extdiff extension. Enable it by adding an entry to <code>extensions</code> in
+your <code>.hgrc</code>.</p>
+<pre><code>[extensions]
+extdiff =
+</code></pre>
+<p>You can then run <code>hg extdiff -p difft</code> (assumes the <code>difft</code> binary is
+on your <code>$PATH</code>).</p>
+<p>You can also define an alias to run difftastic with hg. Add the
+following to your <code>.hgrc</code> to run difftastic with <code>hg dft</code>.</p>
+<pre><code>[extdiff]
+cmd.dft = difft
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="parsing"><a class="header" href="#parsing">Parsing</a></h1>
+<p>Difftastic uses
+<a href="https://tree-sitter.github.io/tree-sitter/">tree-sitter</a> to build a
+parse tree. The parse tree is then converted to a simpler tree which
+can be diffed.</p>
+<h2 id="parsing-with-tree-sitter"><a class="header" href="#parsing-with-tree-sitter">Parsing with Tree-sitter</a></h2>
+<p>Difftastic relies on tree-sitter to understand syntax. You can view
+the parse tree that tree-sitter produces using the <code>--dump-ts</code>
+flag.</p>
+<pre><code>$ difft --dump-ts sample_files/before.js
+{Node program (0, 0) - (7, 0)}
+  {Node comment (0, 0) - (0, 8)}
+  {Node expression_statement (1, 0) - (1, 6)}
+    {Node call_expression (1, 0) - (1, 5)}
+      {Node identifier (1, 0) - (1, 3)}
+      {Node arguments (1, 3) - (1, 5)}
+        {Node ( (1, 3) - (1, 4)}
+        {Node ) (1, 4) - (1, 5)}
+        ...
+</code></pre>
+<h2 id="simplified-syntax"><a class="header" href="#simplified-syntax">Simplified Syntax</a></h2>
+<p>Difftastic converts the tree-sitter parse tree to a simplified syntax
+tree. The syntax tree is a uniform representation where everything is
+either an atom (e.g. integer literals, comments, variable names) or a
+list (consisting of the open delimiter, children and the close
+delimiter).</p>
+<p>The flag <code>--dump-syntax</code> will display the syntax tree generated for a
+file.</p>
+<pre><code>$ difft --dump-syntax sample_files/before.js
+[
+    Atom id:1 {
+        content: &quot;// hello&quot;,
+        position: &quot;0:0-8&quot;,
+    },
+    List id:2 {
+        open_content: &quot;&quot;,
+        open_position: &quot;1:0-0&quot;,
+        children: [
+          ...
+</code></pre>
+<h3 id="conversion-process"><a class="header" href="#conversion-process">Conversion Process</a></h3>
+<p>The simple representation of difftastic parse tree makes diffing much
+easier. Converting the detailed tree-sitter parse tree is a recursive
+tree walk, treating tree-sitter leaf nodes as atoms. There are two
+exceptions.</p>
+<p>(1) Tree-sitter parse trees sometimes include unwanted structure. Some
+grammars consider string literals to be a single token, whereas others
+treat strings as a complex structure where the delimiters are
+separate.</p>
+<p><code>tree_sitter_parser.rs</code> uses <code>atom_nodes</code> to mark specific tree-sitter
+node names as flat atoms even if the node has children.</p>
+<p>(2) Tree-sitter parse trees include open and closing delimiters as
+tokens. A list <code>[1]</code> will have a parse tree that includes <code>[</code> and <code>]</code>
+as nodes.</p>
+<pre><code>$ echo '[1]' &gt; example.js
+$ difft --dump-ts example.js
+{Node program (0, 0) - (1, 0)}
+  {Node expression_statement (0, 0) - (0, 3)}
+    {Node array (0, 0) - (0, 3)}
+      {Node [ (0, 0) - (0, 1)}
+      {Node number (0, 1) - (0, 2)}
+      {Node ] (0, 2) - (0, 3)}
+</code></pre>
+<p><code>tree_sitter_parser.rs</code> uses <code>open_delimiter_tokens</code> to ensure that
+<code>[</code> and <code>]</code> are used as delimiter content in the enclosing list,
+rather than converitng them to atoms.</p>
+<p>Difftastic can match up atoms that occur in different parts of the
+simplified syntax tree. If e.g. a <code>[</code> is treated as an atom,
+difftastic might match it with another <code>[</code> elsewhere. The resulting
+diff would be unbalanced, highlighting different numbers of open and
+close delimiters.</p>
+<h3 id="lossy-syntax-trees"><a class="header" href="#lossy-syntax-trees">Lossy Syntax Trees</a></h3>
+<p>The simplified syntax tree only stores node content and node
+position. It does not store whitespace between nodes, and position is
+largely ignored during diffing.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="upstream-parsers"><a class="header" href="#upstream-parsers">Upstream Parsers</a></h1>
+<p>Difftastic uses the following tree-sitter parsers:</p>
+<table><thead><tr><th>Language</th><th>Git Repository</th></tr></thead><tbody>
+<tr><td>C</td><td><a href="https://github.com/tree-sitter/tree-sitter-c">tree-sitter/tree-sitter-c</a></td></tr>
+<tr><td>C++</td><td><a href="https://github.com/tree-sitter/tree-sitter-cpp">tree-sitter/tree-sitter-cpp</a></td></tr>
+<tr><td>C#</td><td><a href="https://github.com/tree-sitter/tree-sitter-c-sharp">tree-sitter/tree-sitter-c-sharp</a></td></tr>
+<tr><td>Clojure</td><td><a href="https://github.com/sogaiu/tree-sitter-clojure">sogaiu/tree-sitter-clojure</a></td></tr>
+<tr><td>CSS</td><td><a href="https://github.com/tree-sitter/tree-sitter-css">tree-sitter/tree-sitter-css</a></td></tr>
+<tr><td>Elixir</td><td><a href="https://github.com/ananthakumaran/tree-sitter-elixir">ananthakumaran/tree-sitter-elixir</a></td></tr>
+<tr><td>Emacs Lisp</td><td><a href="https://github.com/Wilfred/tree-sitter-elisp">wilfred/tree-sitter-elisp</a></td></tr>
+<tr><td>Go</td><td><a href="https://github.com/tree-sitter/tree-sitter-go">tree-sitter/tree-sitter-go</a></td></tr>
+<tr><td>Haskell</td><td><a href="https://github.com/tree-sitter/tree-sitter-haskell">tree-sitter/tree-sitter-haskell</a></td></tr>
+<tr><td>Java</td><td><a href="https://github.com/tree-sitter/tree-sitter-java">tree-sitter/tree-sitter-java</a></td></tr>
+<tr><td>JavaScript, JSX</td><td><a href="https://github.com/tree-sitter/tree-sitter-javascript">tree-sitter/tree-sitter-javascript</a></td></tr>
+<tr><td>JSON</td><td><a href="https://github.com/tree-sitter/tree-sitter-json">tree-sitter/tree-sitter-json</a></td></tr>
+<tr><td>OCaml</td><td><a href="https://github.com/tree-sitter/tree-sitter-ocaml">tree-sitter/tree-sitter-ocaml</a></td></tr>
+<tr><td>Python</td><td><a href="https://github.com/tree-sitter/tree-sitter-python">tree-sitter/tree-sitter-python</a></td></tr>
+<tr><td>Rust</td><td><a href="https://github.com/tree-sitter/tree-sitter-rust">tree-sitter/tree-sitter-rust</a> (<a href="https://github.com/Wilfred/tree-sitter-rust">forked</a>)</td></tr>
+<tr><td>TypeScript, TSX</td><td><a href="https://github.com/tree-sitter/tree-sitter-typescript">tree-sitter/tree-sitter-typescript</a></td></tr>
+</tbody></table>
+<p>These parsers are included as git subtrees in <code>vendor/</code>.</p>
+<p>Tree-sitter parsers are sometimes packaged on npm, sometimes packaged
+on crates.io, and have different release frequencies. Git subtrees
+allow difftastic to track the latest version of these parsers.</p>
+<h2 id="adding-a-new-parser"><a class="header" href="#adding-a-new-parser">Adding a new parser</a></h2>
+<p>If you've found a reasonably complete parser implementation for your
+target language, add it to <code>vendor/</code>.</p>
+<pre><code>$ git subtree add --prefix=vendor/tree-sitter-java git@github.com:tree-sitter/tree-sitter-java.git master
+</code></pre>
+<p>Cargo does not allow packages to include subdirectories that contain a
+<code>Cargo.toml</code>. Add a symlink to the <code>src/</code> parser subdirectory.</p>
+<pre><code>$ cd vendor
+$ ln -s tree-sitter-java/src tree-sitter-java-src
+</code></pre>
+<p>You can now add the parser to build by including the directory in
+<code>build.rs</code>. You will also need to update <code>tree_sitter_parser.rs</code> to
+configure the file extensions, atoms and delimiters.</p>
+<p>To add syntax highlighting to the package, you'll also need a symlink
+to the <code>highlights.scm</code>, if available.</p>
+<pre><code>$ cd vendor/highlights
+$ ln -s ../tree-sitter-java/queries/highlights.scm java.scm
+</code></pre>
+<h2 id="updating-a-parser"><a class="header" href="#updating-a-parser">Updating a parser</a></h2>
+<p>To update a parser, pull commits from the upstream git repository. For
+example, the following command will update the Java parser:</p>
+<pre><code>$ git subtree pull --prefix=vendor/tree-sitter-java git@github.com:tree-sitter/tree-sitter-java.git master
+</code></pre>
+<p>To see when each parser was last updated, use the following shell
+command:</p>
+<pre><code>$ for d in $(git log | grep git-subtree-dir | tr -d ' ' | cut -d &quot;:&quot; -f2 | sort); do echo &quot;$d&quot;; git log --pretty=&quot;  %cs&quot; -n 1 $d; done
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="diffing"><a class="header" href="#diffing">Diffing</a></h1>
+<p>Difftastic treats diff calculations as a route finding problem on a
+directed acyclic graph.</p>
+<h2 id="graph-representation"><a class="header" href="#graph-representation">Graph Representation</a></h2>
+<p>A vertex in the graph represents a position in two syntax trees.</p>
+<p>The start vertex has both positions pointing to the first syntax node
+in both trees. The end vertex has both positions just
+after the last syntax node in both trees.</p>
+<p>Consider comparing <code>A</code> with <code>X A</code>.</p>
+<pre><code>            START
+            +---------------------+
+            | Left: A  Right: X A |
+            |      ^         ^    |
+            +---------------------+
+                   /       \
+     Novel atom L /         \ Novel atom R
+1                v       2   v
++---------------------+  +---------------------+
+| Left: A  Right: X A |  | Left: A  Right: X A |
+|        ^       ^    |  |      ^           ^  |
++---------------------+  +---------------------+
+</code></pre>
+<p>From the start vertex, we have two options:</p>
+<ul>
+<li>we can mark the first syntax node on the left as novel, and advance
+to the next syntax node on the left (vertex 1 above), or</li>
+<li>we can mark the first syntax node on the right as novel, and advance
+to the next syntax node on the right (vertex 2 above).</li>
+</ul>
+<p>Choosing &quot;novel atom R&quot; to vertex 2 will turn out to be the best
+choice. From vertex 2, we can see three routes to the end vertex.</p>
+<pre><code>            2
+            +---------------------+
+            | Left: A  Right: X A |
+            |      ^           ^  |
+            +---------------------+
+                   /    |   \
+     Novel atom L /     |    \ Novel atom R
+3                v      | 4   v
++---------------------+ | +---------------------+
+| Left: A  Right: X A | | | Left: A  Right: X A |
+|        ^         ^  | | |      ^             ^|
++---------------------+ | +---------------------+
+  |                     |                    |
+  | Novel atom R        | Nodes match        | Novel atom L
+  |                     |                    |
+  |         END         v                    |
+  |         +---------------------+          |
+  +--------&gt;| Left: A  Right: X A |&lt;---------+
+            |        ^           ^|
+            +---------------------+
+</code></pre>
+<h2 id="comparing-routes"><a class="header" href="#comparing-routes">Comparing Routes</a></h2>
+<p>We assign a cost to each edge. Marking a syntax node as novel is worse
+than finding a matching syntax node, so the &quot;novel atom&quot; edge has a
+higher cost than the &quot;syntax nodes match&quot; edge.</p>
+<p>The best route is the lowest cost route from the start vertex to the
+end vertex.</p>
+<h2 id="finding-the-best-route"><a class="header" href="#finding-the-best-route">Finding The Best Route</a></h2>
+<p>Difftastic uses Dijkstra's algorithm to find the best (i.e. lowest cost)
+route.</p>
+<p>One big advantage of this algorithm is that we don't need to construct
+the graph in advance. Constructing the whole graph would require
+exponential memory relative to the number of syntax nodes. Instead,
+vertex neighbours are constructed as the graph is explored.</p>
+<p>There are lots of resources explaining Dijkstra's algorithm online,
+but I particularly recommend the <a href="https://www.redblobgames.com/pathfinding/a-star/introduction.html#dijkstra">graph search section of Red Blob
+Games</a>.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="tricky-cases"><a class="header" href="#tricky-cases">Tricky Cases</a></h1>
+<p>Tree diffing is challenging in some situations. This page demonstrates
+difficult cases observed during development.</p>
+<p>Not all of these cases work well in difftastic yet.</p>
+<h2 id="adding-delimiters"><a class="header" href="#adding-delimiters">Adding delimiters</a></h2>
+<pre><code>;; Before
+x
+
+;; After
+(x)
+</code></pre>
+<p>This is tricky because <code>x</code> has changed its depth in the tree, but <code>x</code>
+itself is unchanged.</p>
+<p>Not all tree diff algorithms handle this case. It is also challenging
+to display this case clearly: we want to highlight the changed
+delimiters, but not their content. This is challenging in larger
+expressions.</p>
+<h2 id="changing-delimiters"><a class="header" href="#changing-delimiters">Changing Delimiters</a></h2>
+<pre><code>;; Before
+(x)
+
+;; After
+[x]
+</code></pre>
+<p>As with the wrapping case, we want to highlight the delimiters rather
+than the <code>x</code>.</p>
+<h2 id="expanding-delimiters"><a class="header" href="#expanding-delimiters">Expanding Delimiters</a></h2>
+<pre><code>;; Before
+(x) y
+
+;; After
+(x y)
+</code></pre>
+<p>In this case, we want to highlight <code>y</code>. Highlighting the delimiters
+could make <code>x</code> look changed.</p>
+<h2 id="contracting-delimiters"><a class="header" href="#contracting-delimiters">Contracting Delimiters</a></h2>
+<pre><code>;; Before
+(x y)
+
+;; After
+(x) y
+</code></pre>
+<p>This should be highlighted similar to the expanding delimiter case.</p>
+<h2 id="reordering-within-a-list"><a class="header" href="#reordering-within-a-list">Reordering Within A List</a></h2>
+<pre><code>;; Before
+(x y)
+
+;; After
+(y x)
+</code></pre>
+<p>We want to highlight the list contents and not the delimiters.</p>
+<h2 id="middle-insertions"><a class="header" href="#middle-insertions">Middle Insertions</a></h2>
+<pre><code>// Before
+foo(bar(123));
+
+// After
+foo(extra(bar(123)));
+</code></pre>
+<p>We want to consider both <code>foo</code> and <code>bar</code> to be unchanged. This case is
+challenging for diffing algorithms that do a bottom-up then top-down
+matching of trees.</p>
+<h2 id="sliders"><a class="header" href="#sliders">Sliders</a></h2>
+<p>Sliders are a common problem in text based diffs, where lines are
+matched in a confusing way.</p>
+<p>They typically look like this. The diff has to arbitrarily choose a
+delimiter, and it chooses the wrong one.</p>
+<pre><code>+ }
++
++ function foo () {
+  }
+</code></pre>
+<p>git-diff has some heuristics to reduce the risk of this (e.g. the
+&quot;patience diff&quot;), but it can still occur.</p>
+<p>There's a similar problem in tree diffs.</p>
+<pre><code>;; Before
+A B
+C D
+
+;; After
+A B
+A B
+C D
+</code></pre>
+<p>Ideally we'd prefer marking contiguous nodes as novel, so we highlight
+<code>A B</code> rather than <code>B\nA</code>. From the perspective of a
+longest-common-subsequence algorithm, these two choices are
+equivalent.</p>
+<h2 id="minimising-depth-changes"><a class="header" href="#minimising-depth-changes">Minimising Depth Changes</a></h2>
+<pre><code>// Before
+if true {
+  foo(123);
+}
+foo(456);
+
+// After
+foo(789);
+</code></pre>
+<p>Do we consider <code>foo(123)</code> or <code>foo(456)</code> to match with <code>foo(789)</code>?
+Difftastic prefers <code>foo(456)</code> by preferring nodes at the same nesting depth.</p>
+<h2 id="replacements"><a class="header" href="#replacements">Replacements</a></h2>
+<pre><code>// Before
+function foo(x) { return x + 1; }
+
+// After
+function bar(y) { baz(y); }
+</code></pre>
+<p>In this example, we've deleted a function and written a completely
+different one. A tree-based diff could match up the <code>function</code> and the
+outer delimiters, resulting in a confusing display showing lots of
+small changes.</p>
+<p>As with sliders, the replacement problem can also occur in textual
+line-based diffs. Line-diffs struggle if there are a small number of
+common lines. The more precise, granular behaviour of tree diffs makes
+this problem much more common though.</p>
+<h2 id="similar-comments"><a class="header" href="#similar-comments">Similar Comments</a></h2>
+<pre><code>// Before
+/* The quick brown fox. */
+foobar();
+
+// After
+/* The slow brown fox. */
+foobaz();
+</code></pre>
+<p><code>foobar</code> and <code>foobaz</code> are completely different, and should never be
+matched up. For comments, we'd rather match up comments that are
+textually similar.</p>
+<h2 id="multiline-comments"><a class="header" href="#multiline-comments">Multiline Comments</a></h2>
+<pre><code>// Before
+/* Hello
+ * World. */
+
+// After
+if (x) {
+  /* Hello
+   * World. */
+}
+</code></pre>
+<p>The inner content of these two comments is technically different. We
+want to treat them as identical however.</p>
+<h2 id="reflowing-doc-comments"><a class="header" href="#reflowing-doc-comments">Reflowing Doc Comments</a></h2>
+<p>Block comments have prefixes that aren't meaningful.</p>
+<pre><code>// Before
+/* The quick brown fox jumps 
+ * over the lazy dog. */
+
+// After
+/* The quick brown fox immediately
+ * jumps over the lazy dog. */
+</code></pre>
+<p>The inner content has changed from <code>jumps * over</code> to <code>immediately * jumps over</code>. However, the <code>*</code> is decorative and we don't care that
+it's moved.</p>
+<h2 id="invalid-syntax"><a class="header" href="#invalid-syntax">Invalid Syntax</a></h2>
+<p>There's no guarantee that the input we're given is valid syntax. Even
+if the code is valid, it might use syntax that isn't supported by the
+parser.</p>
+<p>Tree-sitter provided explicit error nodes, and difftastic treats them
+as atoms so it can run the same tree diff algorithm regardless.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="contributing"><a class="header" href="#contributing">Contributing</a></h1>
+<h2 id="building"><a class="header" href="#building">Building</a></h2>
+<p>Install Rust with <a href="https://rustup.rs/">rustup</a>, then clone the code.</p>
+<pre><code>$ git clone git@github.com:Wilfred/difftastic.git
+$ cd difftastic
+</code></pre>
+<p>Difftastic uses <a href="https://doc.rust-lang.org/cargo/">Cargo</a> for
+building.</p>
+<pre><code>$ cargo build
+</code></pre>
+<p>Debug builds are significantly slower than release builds. For files
+with more than fifty lines, it's usually worth using an optimised
+build.</p>
+<pre><code>$ cargo build --release
+</code></pre>
+<h2 id="testing"><a class="header" href="#testing">Testing</a></h2>
+<pre><code>$ cargo test
+</code></pre>
+<p>There are also several files in <code>sample_files/</code> that you can use.</p>
+<p>The best way to test difftastic is to look at history from a real
+project. Set <code>GIT_EXTERNAL_DIFF</code> to point to your current build.</p>
+<p>For example, you can run difftastic on its own source code.</p>
+<pre><code>$ GIT_EXTERNAL_DIFF=./target/release/difft git log -p --ext-diff -- src
+</code></pre>
+<h2 id="logging"><a class="header" href="#logging">Logging</a></h2>
+<p>Difftastic uses the <code>pretty_env_logger</code> library to log some additional
+debug information.</p>
+<pre><code>$ RUST_LOG=debug cargo run sample_files/old.jsx sample_files/new.jsx
+</code></pre>
+<p>See the <a href="https://docs.rs/env_logger/0.9.0/env_logger/"><code>env_logger</code>
+documentation</a> for full details.</p>
+<h2 id="profiling"><a class="header" href="#profiling">Profiling</a></h2>
+<p>If you have a file that's particularly slow, you can use
+<a href="https://github.com/flamegraph-rs/flamegraph">cargo-flamegraph</a> to see
+which functions are slow.</p>
+<pre><code>$ cargo flamegraph --bin difft sample_files/slow_before.rs sample_files/slow_after.rs
+</code></pre>
+<p>It's also worth looking at memory usage, as graph traversal bugs can
+lead to huge memory consumption.</p>
+<pre><code>$ /usr/bin/time -v ./target/release/difft sample_files/slow_before.rs sample_files/slow_after.rs
+</code></pre>
+<p>If timing measurement are noisy, Linux's <code>perf</code> tool will report
+instructions executed, which is more stable.</p>
+<pre><code>$ perf stat ./target/release/difft sample_files/slow_before.rs sample_files/slow_after.rs
+</code></pre>
+<p>Many more profiling techniques are discussed in the <a href="https://nnethercote.github.io/perf-book/">The Rust
+Performance Book</a>.</p>
+<h2 id="manual"><a class="header" href="#manual">Manual</a></h2>
+<p>This website is generated with
+<a href="https://github.com/rust-lang/mdBook/">mdbook</a>. mdbook can be
+installed with Cargo.</p>
+<pre><code>$ cargo install mdbook
+</code></pre>
+<p>You can then use the <code>mdbook</code> binary to build and serve the site
+locally.</p>
+<pre><code>$ cd manual
+$ mdbook serve
+</code></pre>
+<h2 id="releasing"><a class="header" href="#releasing">Releasing</a></h2>
+<p>Use Cargo to create a new release, and tag it in git.</p>
+<pre><code>$ cargo publish
+$ VERSION=$(cargo metadata | jq -r '.packages | .[] | select(.name == &quot;difftastic&quot;) | .version')
+$ git tag $VERSION
+$ git push --tags
+</code></pre>
+<p>You can now increment the version in Cargo.toml and add a new entry
+CHANGELOG.md.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="alternative-projects"><a class="header" href="#alternative-projects">Alternative Projects</a></h1>
+<p>Many different tools exist for diffing files. This section of the
+manual discusses the design of other tools that have influenced
+difftastic.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="tree-diffing"><a class="header" href="#tree-diffing">Tree Diffing</a></h1>
+<p>The following diff tools build a tree and compare it, rather than a
+simple textual comparison.</p>
+<h2 id="json-diff-pairwise-comparison"><a class="header" href="#json-diff-pairwise-comparison">json-diff (Pairwise Comparison)</a></h2>
+<p><a href="https://github.com/andreyvit/json-diff">json-diff</a> performs a
+structural diff of JSON files. It considers subtrees to be different
+if they don't match exactly, so e.g. <code>&quot;foo&quot;</code> and <code>[&quot;foo&quot;]</code> are
+entirely different.</p>
+<p>json-diff is also noteworthy for its extremely readable display of
+results.</p>
+<h2 id="autochrome-dijkstras-algorithm"><a class="header" href="#autochrome-dijkstras-algorithm">Autochrome (Dijkstra's Algorithm)</a></h2>
+<p><a href="https://fazzone.github.io/autochrome.html">Autochrome</a> parses Clojure
+with a custom parser that preserves comments. Autochrome uses
+Dijkstra's algorithm to compare syntax trees.</p>
+<p>Autochrome's webpage includes worked examples of the algorithm and a
+discussion of design tradeoffs. It's a really great resource for
+understanding tree diffing techniques in general.</p>
+<h2 id="tree-diff-a-search"><a class="header" href="#tree-diff-a-search">Tree Diff (A* Search)</a></h2>
+<p>Tristan Hume wrote a tree diffing algorithm during his 2017 internship
+and Jane Street. The source code is not available, but <a href="https://thume.ca/2017/06/17/tree-diffing/">he has a blog
+post</a> discussing the design
+in depth.</p>
+<p>This project finds minimal diffs between s-expression files used as
+configuration by Jane Street. It uses A* search to find the minimal
+diff between them, and builds a new s-expression with a section marked
+with <code>:date-switch</code> for the differing parts.</p>
+<h2 id="gumtree-top-down-then-bottom-up"><a class="header" href="#gumtree-top-down-then-bottom-up">GumTree (Top-down, then Bottom-up)</a></h2>
+<p><a href="https://github.com/GumTreeDiff/gumtree">GumTree</a> can parse several
+programming languages and then performs a tree-based diff, outputting
+an HTML display.</p>
+<p>The GumTree algorithm is described in the associated paper
+'Fine-grained and accurate source code differencing' by Falleri et al
+(<a href="http://doi.acm.org/10.1145/2642937.2642982">DOI</a>,
+<a href="https://hal.archives-ouvertes.fr/hal-01054552/document">PDF</a>). It
+performs a greedy top-down search for identical subtrees, then
+performs a bottom-up search to match up the rest.</p>
+<p>(The academic literature has a lot of discussion of tree differencing,
+<a href="http://useless-factor.blogspot.com/2008/01/matching-diffing-and-merging-xml.html">this blog
+post</a>
+has a good overview of tree differencing focusing on XML.)</p>
+<h2 id="diffsitter-lcs-on-leaves"><a class="header" href="#diffsitter-lcs-on-leaves">Diffsitter (LCS on Leaves)</a></h2>
+<p><a href="https://github.com/afnanenayet/diffsitter">Diffsitter</a> is another
+tree-sitter based diff tool. It uses <a href="https://github.com/afnanenayet/diffsitter/blob/b0fd72612c6fcfdb8c061d3afa3bea2b0b754f33/src/ast.rs#L310-L313">LCS diffing on the leaves of the
+syntax
+tree</a>.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                        
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                            </nav>
+
+        </div>
+
+        
+        
+        
+                <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+        
+                <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+                        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+                
+    </body>
+</html>
