@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["MAX_PADDING",""]],"fn":[["add_context",""],["after_with_opposites","Before: 120    – (novel) 121    – 122    –"],["before_with_opposites","Before: 118    – 119    – 120    – (novel)"],["calculate_context",""],["flip_tuples",""],["opposite_positions",""],["pad_after",""],["pad_before",""]]});

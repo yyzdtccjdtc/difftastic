@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["is_probably_binary","Do these bytes look like a binary (non-textual) format?"],["read_or_die",""]]});

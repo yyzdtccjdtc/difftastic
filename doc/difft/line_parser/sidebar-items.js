@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["parse","Split `s` by lines, and treat each line as an atom."]]});

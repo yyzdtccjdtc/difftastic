@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["mark_syntax",""],["shortest_path",""]],"struct":[["OrdVertex","A vertex with a distance."]],"type":[["PredecessorInfo",""]]});
