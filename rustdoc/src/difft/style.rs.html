@@ -280,6 +280,11 @@
 <span id="278">278</span>
 <span id="279">279</span>
 <span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Apply colours and styling to strings.</span>
 
@@ -318,7 +323,12 @@
     }
 }
 
-<span class="doccomment">/// &quot;fooba&quot;, 3 -&gt; vec![&quot;foo&quot;, &quot;ba &quot;]</span>
+<span class="doccomment">/// Split a string into equal length parts, padding the last part if</span>
+<span class="doccomment">/// necessary.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// split_string(&quot;fooba&quot;, 3) // vec![&quot;foo&quot;, &quot;ba &quot;]</span>
+<span class="doccomment">/// ```</span>
 <span class="kw">fn</span> <span class="ident">split_string</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">max_len</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">vec!</span>[];
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">s</span>;

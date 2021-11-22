@@ -590,8 +590,21 @@
 <span id="588">588</span>
 <span id="589">589</span>
 <span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
 </pre><pre class="rust">
-<span class="doccomment">//! Parse code with tree-sitter language implementations.</span>
+<span class="doccomment">//! Load and configure parsers written with tree-sitter.</span>
 
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">borrow::Borrow</span>, <span class="ident">collections::HashSet</span>, <span class="ident">ffi::OsStr</span>};
 
@@ -603,21 +616,34 @@
     <span class="ident">syntax</span>::{<span class="ident">AtomKind</span>, <span class="ident">Syntax</span>},
 };
 
+<span class="doccomment">/// Configuration for a tree-sitter parser.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TreeSitterConfig</span> {
+    <span class="doccomment">/// The language name shown to the user.</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>,
+
+    <span class="doccomment">/// The tree-sitter language parser.</span>
     <span class="kw">pub</span> <span class="ident">language</span>: <span class="ident">Language</span>,
-    <span class="comment">// Tree-sitter nodes that we treat as indivisible atoms. This is</span>
-    <span class="comment">// particularly useful for strings, as some grammars use several</span>
-    <span class="comment">// nodes for a single string literal. We don&#39;t want to say</span>
-    <span class="comment">// e.g. the closing string delimiter moved, as it&#39;s confusing and</span>
-    <span class="comment">// not well-balanced syntax.</span>
-    <span class="comment">//</span>
-    <span class="comment">// This is also useful for when tree-sitter nodes don&#39;t include</span>
-    <span class="comment">// all the children in the source. This is known limitation of</span>
-    <span class="comment">// tree-sitter, and occurs more often for complex string syntax.</span>
-    <span class="comment">// https://github.com/tree-sitter/tree-sitter/issues/1156</span>
+
+    <span class="doccomment">/// Tree-sitter nodes that we treat as indivisible atoms.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This is particularly useful for strings, as some grammars use</span>
+    <span class="doccomment">/// several nodes for a single string literal. We don&#39;t want to</span>
+    <span class="doccomment">/// say e.g. the closing string delimiter moved, as it&#39;s confusing</span>
+    <span class="doccomment">/// and not well-balanced syntax.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This is also useful for when tree-sitter nodes don&#39;t include</span>
+    <span class="doccomment">/// all the children in the source. This is known limitation of</span>
+    <span class="doccomment">/// tree-sitter, and occurs more often for complex string syntax.</span>
+    <span class="doccomment">/// &lt;https://github.com/tree-sitter/tree-sitter/issues/1156&gt;</span>
     <span class="ident">atom_nodes</span>: <span class="ident">HashSet</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span>,
+
+    <span class="doccomment">/// We want to consider delimiter tokens as part of lists, not</span>
+    <span class="doccomment">/// standalone atoms. Tree-sitter includes delimiter tokens, so</span>
+    <span class="doccomment">/// mark which token pairs we consider to be delimiters.</span>
     <span class="ident">delimiter_tokens</span>: <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>)<span class="op">&gt;</span>,
+
+    <span class="doccomment">/// Tree-sitter queries used for syntax highlighting this</span>
+    <span class="doccomment">/// language.</span>
     <span class="ident">highlight_queries</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>,
 }
 

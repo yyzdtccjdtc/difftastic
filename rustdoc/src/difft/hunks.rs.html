@@ -685,7 +685,22 @@
 <span id="683">683</span>
 <span id="684">684</span>
 <span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
+<span id="688">688</span>
+<span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
+<span id="695">695</span>
 </pre><pre class="rust">
+<span class="doccomment">//! Calculating which modified lines should be displayed together.</span>
+
+<span class="doccomment">/// The maximum number of lines that may occur between changed lines in a hunk.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// If we exceed this, the lines are stored in separate hunks.</span>
 <span class="kw">const</span> <span class="ident">MAX_DISTANCE</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">4</span>;
 
 <span class="kw">use</span> <span class="ident">std::collections</span>::{<span class="ident">HashMap</span>, <span class="ident">HashSet</span>};
@@ -696,6 +711,8 @@
     <span class="ident">syntax</span>::{<span class="ident">zip_pad_shorter</span>, <span class="ident">MatchedPos</span>},
 };
 
+<span class="doccomment">/// A hunk represents a series of modified lines that are displayed</span>
+<span class="doccomment">/// together.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Hunk</span> {
     <span class="kw">pub</span> <span class="ident">lines</span>: <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span>)<span class="op">&gt;</span>,
@@ -1090,18 +1107,21 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// Before:</span>
 <span class="doccomment">///</span>
+<span class="doccomment">/// ```text</span>
 <span class="doccomment">/// 1 11</span>
 <span class="doccomment">/// 3 14</span>
 <span class="doccomment">/// 4 --</span>
+<span class="doccomment">/// ```</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// After</span>
+<span class="doccomment">/// After:</span>
 <span class="doccomment">///</span>
+<span class="doccomment">/// ```text</span>
 <span class="doccomment">/// 1 10</span>
 <span class="doccomment">/// 2 12 (choosing to align even though content doesn&#39;t match)</span>
 <span class="doccomment">/// - 13 (fix uneven gap)</span>
 <span class="doccomment">/// 3 14</span>
 <span class="doccomment">/// 4 -- (preserve outer gaps)</span>
-<span class="doccomment">///</span>
+<span class="doccomment">/// ```</span>
 <span class="kw">fn</span> <span class="ident">ensure_contiguous</span>(
     <span class="ident">lines</span>: <span class="kw-2">&amp;</span>[(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span>)],
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span>)<span class="op">&gt;</span> {

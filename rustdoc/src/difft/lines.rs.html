@@ -248,6 +248,8 @@
 <span id="246">246</span>
 <span id="247">247</span>
 <span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Manipulate lines of text and groups of lines.</span>
 
@@ -258,6 +260,8 @@
 
 <span class="doccomment">/// A distinct number type for line numbers, to prevent confusion with</span>
 <span class="doccomment">/// other numerical data.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Zero-indexed internally.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">Hash</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LineNumber</span>(<span class="kw">pub</span> <span class="ident">usize</span>);
 
