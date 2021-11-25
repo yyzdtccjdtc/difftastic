@@ -712,7 +712,7 @@
         <span class="comment">//</span>
         <span class="comment">// TODO: allow users to override the association between</span>
         <span class="comment">// extensions and parses.</span>
-        <span class="string">&quot;cc&quot;</span> <span class="op">|</span> <span class="string">&quot;cpp&quot;</span> <span class="op">|</span> <span class="string">&quot;h&quot;</span> <span class="op">|</span> <span class="string">&quot;hpp&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">TreeSitterConfig</span> {
+        <span class="string">&quot;cc&quot;</span> <span class="op">|</span> <span class="string">&quot;cpp&quot;</span> <span class="op">|</span> <span class="string">&quot;h&quot;</span> <span class="op">|</span> <span class="string">&quot;hh&quot;</span> <span class="op">|</span> <span class="string">&quot;hpp&quot;</span> <span class="op">|</span> <span class="string">&quot;cxx&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">TreeSitterConfig</span> {
             <span class="ident">name</span>: <span class="string">&quot;C++&quot;</span>,
             <span class="ident">language</span>: <span class="kw">unsafe</span> { <span class="ident">tree_sitter_cpp</span>() },
             <span class="comment">// The C++ grammar extends the C grammar, so the node</span>
@@ -757,7 +757,7 @@
             <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>)]),
             <span class="ident">highlight_queries</span>: <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/css.scm&quot;</span>),
         }),
-        <span class="string">&quot;el&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">TreeSitterConfig</span> {
+        <span class="string">&quot;el&quot;</span> <span class="op">|</span> <span class="string">&quot;.emacs&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">TreeSitterConfig</span> {
             <span class="ident">name</span>: <span class="string">&quot;Emacs Lisp&quot;</span>,
             <span class="ident">language</span>: <span class="kw">unsafe</span> { <span class="ident">tree_sitter_elisp</span>() },
             <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
@@ -837,14 +837,14 @@
             <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>)]),
             <span class="ident">highlight_queries</span>: <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/ocaml.scm&quot;</span>),
         }),
-        <span class="string">&quot;py&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">TreeSitterConfig</span> {
+        <span class="string">&quot;py&quot;</span> <span class="op">|</span> <span class="string">&quot;py3&quot;</span> <span class="op">|</span> <span class="string">&quot;pyi&quot;</span> <span class="op">|</span> <span class="string">&quot;TARGETS&quot;</span> <span class="op">|</span> <span class="string">&quot;BUCK&quot;</span> <span class="op">|</span> <span class="string">&quot;bzl&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">TreeSitterConfig</span> {
             <span class="ident">name</span>: <span class="string">&quot;Python&quot;</span>,
             <span class="ident">language</span>: <span class="kw">unsafe</span> { <span class="ident">tree_sitter_python</span>() },
             <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
             <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>)]),
             <span class="ident">highlight_queries</span>: <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/python.scm&quot;</span>),
         }),
-        <span class="string">&quot;rb&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">TreeSitterConfig</span> {
+        <span class="string">&quot;rb&quot;</span> <span class="op">|</span> <span class="string">&quot;spec&quot;</span> <span class="op">|</span> <span class="string">&quot;rake&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">TreeSitterConfig</span> {
             <span class="ident">name</span>: <span class="string">&quot;Ruby&quot;</span>,
             <span class="ident">language</span>: <span class="kw">unsafe</span> { <span class="ident">tree_sitter_ruby</span>() },
             <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>, <span class="string">&quot;heredoc_body&quot;</span>, <span class="string">&quot;regex&quot;</span>])
