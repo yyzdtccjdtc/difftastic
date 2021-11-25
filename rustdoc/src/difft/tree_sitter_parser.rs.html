@@ -603,6 +603,14 @@
 <span id="601">601</span>
 <span id="602">602</span>
 <span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Load and configure parsers written with tree-sitter.</span>
 
@@ -648,6 +656,7 @@
 }
 
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
+    <span class="kw">fn</span> <span class="ident">tree_sitter_bash</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_c</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_c_sharp</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_clojure</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Language</span>;
@@ -673,6 +682,13 @@
     <span class="comment">// TODO: find a nice way to extract name and extension information</span>
     <span class="comment">// from the package.json in these parsers.</span>
     <span class="kw">match</span> <span class="ident">extension</span>.<span class="ident">to_string_lossy</span>().<span class="ident">borrow</span>() {
+        <span class="string">&quot;bash&quot;</span> <span class="op">|</span> <span class="string">&quot;sh&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">TreeSitterConfig</span> {
+            <span class="ident">name</span>: <span class="string">&quot;Bash&quot;</span>,
+            <span class="ident">language</span>: <span class="kw">unsafe</span> { <span class="ident">tree_sitter_bash</span>() },
+            <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>, <span class="string">&quot;raw_string&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+            <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)]),
+            <span class="ident">highlight_queries</span>: <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/bash.scm&quot;</span>),
+        }),
         <span class="string">&quot;c&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">TreeSitterConfig</span> {
             <span class="ident">name</span>: <span class="string">&quot;C&quot;</span>,
             <span class="ident">language</span>: <span class="kw">unsafe</span> { <span class="ident">tree_sitter_c</span>() },
