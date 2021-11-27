@@ -909,6 +909,8 @@
 <span id="907">907</span>
 <span id="908">908</span>
 <span id="909">909</span>
+<span id="910">910</span>
+<span id="911">911</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Syntax tree definitions with change metadata.</span>
 
@@ -1156,10 +1158,6 @@
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">num_ancestors</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
         <span class="self">self</span>.<span class="ident">info</span>().<span class="ident">num_ancestors</span>.<span class="ident">get</span>()
-    }
-
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">change</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ChangeKind</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">info</span>().<span class="ident">change</span>.<span class="ident">get</span>()
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">first_line</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span> {
@@ -1706,6 +1704,12 @@
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="ident">pretty_assertions::assert_eq</span>;
+
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">change</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ChangeKind</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">info</span>().<span class="ident">change</span>.<span class="ident">get</span>()
+        }
+    }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_comment_and_atom_differ</span>() {
