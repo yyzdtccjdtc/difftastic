@@ -615,6 +615,14 @@
 <span id="613">613</span>
 <span id="614">614</span>
 <span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Load and configure parsers written with tree-sitter.</span>
 
@@ -665,6 +673,7 @@
     <span class="kw">fn</span> <span class="ident">tree_sitter_c_sharp</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_clojure</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_cpp</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Language</span>;
+    <span class="kw">fn</span> <span class="ident">tree_sitter_commonlisp</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_css</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_elisp</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_elixir</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Language</span>;
@@ -821,6 +830,13 @@
             <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
             <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)]),
             <span class="ident">highlight_queries</span>: <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/json.scm&quot;</span>),
+        }),
+        <span class="string">&quot;lisp&quot;</span> <span class="op">|</span> <span class="string">&quot;lsp&quot;</span> <span class="op">|</span> <span class="string">&quot;asd&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">TreeSitterConfig</span> {
+            <span class="ident">name</span>: <span class="string">&quot;Common Lisp&quot;</span>,
+            <span class="ident">language</span>: <span class="kw">unsafe</span> { <span class="ident">tree_sitter_commonlisp</span>() },
+            <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;str_lit&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+            <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>)]),
+            <span class="ident">highlight_queries</span>: <span class="string">&quot;&quot;</span>,
         }),
         <span class="string">&quot;ml&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">TreeSitterConfig</span> {
             <span class="ident">name</span>: <span class="string">&quot;OCaml&quot;</span>,
