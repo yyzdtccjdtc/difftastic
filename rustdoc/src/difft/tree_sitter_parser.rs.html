@@ -777,7 +777,7 @@
         <span class="string">&quot;css&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">TreeSitterConfig</span> {
             <span class="ident">name</span>: <span class="string">&quot;CSS&quot;</span>,
             <span class="ident">language</span>: <span class="kw">unsafe</span> { <span class="ident">tree_sitter_css</span>() },
-            <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;integer_value&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+            <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;integer_value&quot;</span>, <span class="string">&quot;float_value&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
             <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>)]),
             <span class="ident">highlight_queries</span>: <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/css.scm&quot;</span>),
         }),
