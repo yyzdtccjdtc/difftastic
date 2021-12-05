@@ -745,8 +745,8 @@
 
 <span class="kw">fn</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>: <span class="ident">Vertex</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">Edge</span>, <span class="ident">Vertex</span>)<span class="op">&gt;</span> {
     <span class="comment">// We want to visit nodes with the shortest distance first, but</span>
-    <span class="comment">// BinaryHeap is a max-heap. Ensure nodes are wrapped with Reverse</span>
-    <span class="comment">// to flip comparisons.</span>
+    <span class="comment">// RadixHeapMap is a max-heap. Ensure nodes are wrapped with</span>
+    <span class="comment">// Reverse to flip comparisons.</span>
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">heap</span>: <span class="ident">RadixHeapMap</span><span class="op">&lt;</span><span class="ident">Reverse</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span>, <span class="ident">Vertex</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">RadixHeapMap::new</span>();
 
     <span class="ident">heap</span>.<span class="ident">push</span>(<span class="ident">Reverse</span>(<span class="number">0</span>), <span class="ident">start</span>);
