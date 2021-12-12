@@ -405,7 +405,7 @@
     <span class="comment">// TODO: document in manual.</span>
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">s</span>) <span class="op">=</span> <span class="ident">env::var</span>(<span class="string">&quot;DFT_WIDTH&quot;</span>) {
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">i</span>) <span class="op">=</span> <span class="ident">s</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>() {
-            <span class="kw">return</span> <span class="ident">i</span>
+            <span class="kw">return</span> <span class="ident">i</span>;
         }
     }
 
