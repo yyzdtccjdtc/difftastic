@@ -9,8 +9,8 @@ other numerical data.</p>
 line-relative positions.</p>
 </td></tr></table><h2 id="traits" class="section-header"><a href="#traits">Traits</a></h2>
 <table><tr class="module-item"><td><a class="trait" href="trait.MaxLine.html" title="difft::lines::MaxLine trait">MaxLine</a></td><td class="docblock-short"></td></tr></table><h2 id="functions" class="section-header"><a href="#functions">Functions</a></h2>
-<table><tr class="module-item"><td><a class="fn" href="fn.codepoint_len.html" title="difft::lines::codepoint_len fn">codepoint_len</a></td><td class="docblock-short"><p>Return the length of <code>s</code> in codepoints. This ensures that it’s
-safe to slice <code>s</code> at this boundary.</p>
+<table><tr class="module-item"><td><a class="fn" href="fn.codepoint_len.html" title="difft::lines::codepoint_len fn">codepoint_len</a></td><td class="docblock-short"><p>Return the length of <code>s</code> in codepoints. This is important when
+finding character boundaries for slicing without errors.</p>
 </td></tr><tr class="module-item"><td><a class="fn" href="fn.format_line_num.html" title="difft::lines::format_line_num fn">format_line_num</a></td><td class="docblock-short"></td></tr><tr class="module-item"><td><a class="fn" href="fn.substring_by_codepoint.html" title="difft::lines::substring_by_codepoint fn">substring_by_codepoint</a></td><td class="docblock-short"><p>The first <code>len</code> codepoints of <code>s</code>. This is safer than slicing by
 bytes, which panics if the byte isn’t on a codepoint boundary.</p>
 </td></tr></table></section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="difft" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div><script src="../../main.js"></script></body></html>
