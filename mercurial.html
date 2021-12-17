@@ -149,6 +149,15 @@ following to your <code>.hgrc</code> to run difftastic with <code>hg dft</code>.
 <pre><code>[extdiff]
 cmd.dft = difft
 </code></pre>
+<h2 id="hg-log--p"><a class="header" href="#hg-log--p">hg log -p</a></h2>
+<p>Mercurial does not have a way of changing the default diff tool, at
+least to the author's knowledge.</p>
+<p>If you just want to view the diff of the most recent commit, you can
+use the following.</p>
+<pre><code>GIT_PAGER_IN_USE=1 hg dft -r .^ -r . | less
+</code></pre>
+<p>This is equivalent to <code>hg log -l 1 -p</code>, although it does not show the
+commit message.</p>
 
                     </main>
 
