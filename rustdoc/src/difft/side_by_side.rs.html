@@ -391,7 +391,6 @@
 <span id="389">389</span>
 <span id="390">390</span>
 <span id="391">391</span>
-<span id="392">392</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Side-by-side (two column) display of diffs.</span>
 
@@ -401,7 +400,6 @@
     <span class="ident">collections</span>::{<span class="ident">HashMap</span>, <span class="ident">HashSet</span>},
     <span class="ident">env</span>,
 };
-<span class="kw">use</span> <span class="ident">terminal_size::terminal_size</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">context::opposite_positions</span>,
@@ -424,7 +422,7 @@
         }
     }
 
-    <span class="ident">terminal_size</span>().<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">w</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="ident">w</span>.<span class="number">0</span> <span class="kw">as</span> <span class="ident">usize</span>).<span class="ident">unwrap_or</span>(<span class="number">80</span>)
+    <span class="ident">term_size::dimensions</span>().<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">w</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="ident">w</span>).<span class="ident">unwrap_or</span>(<span class="number">80</span>)
 }
 
 <span class="doccomment">/// Split `s` by newlines, but guarantees that the output is nonempty.</span>
