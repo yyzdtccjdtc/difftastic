@@ -251,6 +251,8 @@ pub fn display_hunks(
 
         let widths = Widths::new(display_width(), &aligned_lines, lhs_src, rhs_src);
         for (lhs_line_num, rhs_line_num) in aligned_lines {
+            dbg!(lhs_line_num, rhs_line_num);
+
             let (display_lhs_line_num, display_rhs_line_num) = display_line_nums(
                 lhs_line_num,
                 rhs_line_num,
@@ -284,7 +286,7 @@ pub fn display_hunks(
                     ));
                 }
             } else {
-                let lhs_line = match lhs_line_num {
+                let lhs_line = match dbg!(lhs_line_num) {
                     Some(lhs_line_num) => split_and_apply(
                         &lhs_lines[lhs_line_num.0],
                         widths.lhs_content,
@@ -358,6 +360,8 @@ pub fn display_hunks(
 
 #[cfg(test)]
 mod tests {
+    use crate::syntax::{MatchKind, TokenKind};
+
     use super::*;
     use pretty_assertions::assert_eq;
 
@@ -373,5 +377,60 @@ mod tests {
 
         assert_eq!(widths.lhs_line_nums, 2);
         assert_eq!(widths.rhs_line_nums, 3);
+    }
+
+    #[test]
+    fn test_display_hunks_extra_blank_lines() {
+        let hunks = vec![Hunk {
+            lines: vec![(Some(0.into()), None)],
+        }];
+        display_hunks(
+            &hunks,
+            "whatever.rs",
+            "Rust",
+            "foo\nbar\n",
+            "\n\n\nbar\n\n",
+            &[
+                MatchedPos {
+                    kind: MatchKind::Novel {
+                        highlight: TokenKind::Delimiter,
+                    },
+                    pos: SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 0,
+                        end_col: 3,
+                    },
+                },
+                MatchedPos {
+                    kind: MatchKind::Unchanged {
+                        highlight: TokenKind::Delimiter,
+                        self_pos: (
+                            vec![SingleLineSpan {
+                                line: 1.into(),
+                                start_col: 0,
+                                end_col: 0,
+                            }],
+                            vec![],
+                        ),
+                        opposite_pos: (
+                            vec![SingleLineSpan {
+                                line: 4.into(),
+                                start_col: 0,
+                                end_col: 0,
+                            }],
+                            vec![],
+                        ),
+                    },
+                    pos: SingleLineSpan {
+                        line: 1.into(),
+                        start_col: 0,
+                        end_col: 3,
+                    },
+                },
+            ],
+            &[],
+        );
+
+        assert_eq!(1, 2);
     }
 }
