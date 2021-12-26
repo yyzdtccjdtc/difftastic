@@ -36,24 +36,32 @@
 <span id="34">34</span>
 <span id="35">35</span>
 <span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
 </pre><pre class="rust">
 <span class="doccomment">//! File reading utilities.</span>
 
-<span class="kw">use</span> <span class="ident">std::fs</span>;
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fs</span>, <span class="ident">path::Path</span>};
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_or_die</span>(<span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_or_die</span>(<span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
     <span class="kw">match</span> <span class="ident">fs::read</span>(<span class="ident">path</span>) {
         <span class="prelude-val">Ok</span>(<span class="ident">src</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">src</span>,
         <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> {
             <span class="kw">match</span> <span class="ident">e</span>.<span class="ident">kind</span>() {
                 <span class="ident">std::io::ErrorKind::NotFound</span> <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="macro">eprintln!</span>(<span class="string">&quot;No such file: {}&quot;</span>, <span class="ident">path</span>);
+                    <span class="macro">eprintln!</span>(<span class="string">&quot;No such file: {}&quot;</span>, <span class="ident">path</span>.<span class="ident">display</span>());
                 }
                 <span class="ident">std::io::ErrorKind::PermissionDenied</span> <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="macro">eprintln!</span>(<span class="string">&quot;Permission denied when reading file: {}&quot;</span>, <span class="ident">path</span>);
+                    <span class="macro">eprintln!</span>(<span class="string">&quot;Permission denied when reading file: {}&quot;</span>, <span class="ident">path</span>.<span class="ident">display</span>());
                 }
                 <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="macro">eprintln!</span>(<span class="string">&quot;Could not read file: {} (error {:?})&quot;</span>, <span class="ident">path</span>, <span class="ident">e</span>.<span class="ident">kind</span>());
+                    <span class="macro">eprintln!</span>(
+                        <span class="string">&quot;Could not read file: {} (error {:?})&quot;</span>,
+                        <span class="ident">path</span>.<span class="ident">display</span>(),
+                        <span class="ident">e</span>.<span class="ident">kind</span>()
+                    );
                 }
             };
             <span class="ident">std::process::exit</span>(<span class="number">1</span>);
