@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Language","Languages supported by difftastic. Each language here has a corresponding tree-sitter parser."]],"fn":[["from_extension",""],["guess",""]]});

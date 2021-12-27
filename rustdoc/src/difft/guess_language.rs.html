@@ -1,0 +1,167 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/guess_language.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>guess_language.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
+<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../difft/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img src="../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img src="../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1"> 1</span>
+<span id="2"> 2</span>
+<span id="3"> 3</span>
+<span id="4"> 4</span>
+<span id="5"> 5</span>
+<span id="6"> 6</span>
+<span id="7"> 7</span>
+<span id="8"> 8</span>
+<span id="9"> 9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+</pre><pre class="rust">
+<span class="doccomment">//! Guess which programming language a file is written in.</span>
+
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">borrow::Borrow</span>, <span class="ident">ffi::OsStr</span>, <span class="ident">path::Path</span>};
+
+<span class="doccomment">/// Languages supported by difftastic. Each language here has a</span>
+<span class="doccomment">/// corresponding tree-sitter parser.</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Language</span> {
+    <span class="ident">Bash</span>,
+    <span class="ident">C</span>,
+    <span class="ident">Clojure</span>,
+    <span class="ident">CommonLisp</span>,
+    <span class="ident">CPlusPlus</span>,
+    <span class="ident">CSharp</span>,
+    <span class="ident">Css</span>,
+    <span class="ident">Elixir</span>,
+    <span class="ident">EmacsLisp</span>,
+    <span class="ident">Go</span>,
+    <span class="ident">Haskell</span>,
+    <span class="ident">Java</span>,
+    <span class="ident">JavaScript</span>,
+    <span class="ident">Json</span>,
+    <span class="ident">Jsx</span>,
+    <span class="ident">OCaml</span>,
+    <span class="ident">OCamlInterface</span>,
+    <span class="ident">Python</span>,
+    <span class="ident">Ruby</span>,
+    <span class="ident">Rust</span>,
+    <span class="ident">Tsx</span>,
+    <span class="ident">TypeScript</span>,
+}
+
+<span class="kw">use</span> <span class="ident">Language</span>::<span class="kw-2">*</span>;
+
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">guess</span>(<span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Language</span><span class="op">&gt;</span> {
+    <span class="kw">match</span> <span class="ident">path</span>.<span class="ident">extension</span>() {
+        <span class="prelude-val">Some</span>(<span class="ident">extension</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">from_extension</span>(<span class="ident">extension</span>),
+        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+    }
+}
+
+<span class="kw">fn</span> <span class="ident">from_extension</span>(<span class="ident">extension</span>: <span class="kw-2">&amp;</span><span class="ident">OsStr</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Language</span><span class="op">&gt;</span> {
+    <span class="comment">// TODO: find a nice way to extract name and extension information</span>
+    <span class="comment">// from the package.json in these parsers.</span>
+    <span class="comment">// TODO: consider using</span>
+    <span class="comment">// https://github.com/github/linguist/blob/master/lib/linguist/languages.yml</span>
+    <span class="comment">// as a source of extensions.</span>
+    <span class="comment">// TODO: support files without extensions, such as .bashrc.</span>
+    <span class="kw">match</span> <span class="ident">extension</span>.<span class="ident">to_string_lossy</span>().<span class="ident">borrow</span>() {
+        <span class="string">&quot;bash&quot;</span> <span class="op">|</span> <span class="string">&quot;sh&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Bash</span>),
+        <span class="string">&quot;c&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">C</span>),
+        <span class="comment">// Treat .h as C++ rather than C. This is an arbitrary choice,</span>
+        <span class="comment">// but C++ is more widely used than C according to</span>
+        <span class="comment">// https://madnight.github.io/githut/</span>
+        <span class="comment">//</span>
+        <span class="comment">// TODO: allow users to override the association between</span>
+        <span class="comment">// extensions and parses.</span>
+        <span class="string">&quot;cc&quot;</span> <span class="op">|</span> <span class="string">&quot;cpp&quot;</span> <span class="op">|</span> <span class="string">&quot;h&quot;</span> <span class="op">|</span> <span class="string">&quot;hh&quot;</span> <span class="op">|</span> <span class="string">&quot;hpp&quot;</span> <span class="op">|</span> <span class="string">&quot;cxx&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">CPlusPlus</span>),
+        <span class="string">&quot;bb&quot;</span> <span class="op">|</span> <span class="string">&quot;boot&quot;</span> <span class="op">|</span> <span class="string">&quot;clj&quot;</span> <span class="op">|</span> <span class="string">&quot;cljc&quot;</span> <span class="op">|</span> <span class="string">&quot;clje&quot;</span> <span class="op">|</span> <span class="string">&quot;cljs&quot;</span> <span class="op">|</span> <span class="string">&quot;cljx&quot;</span> <span class="op">|</span> <span class="string">&quot;edn&quot;</span> <span class="op">|</span> <span class="string">&quot;joke&quot;</span> <span class="op">|</span> <span class="string">&quot;joker&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">Clojure</span>)
+        }
+        <span class="string">&quot;cs&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">CSharp</span>),
+        <span class="string">&quot;css&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Css</span>),
+        <span class="string">&quot;el&quot;</span> <span class="op">|</span> <span class="string">&quot;.emacs&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">EmacsLisp</span>),
+        <span class="string">&quot;ex&quot;</span> <span class="op">|</span> <span class="string">&quot;exs&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Elixir</span>),
+        <span class="string">&quot;go&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Go</span>),
+        <span class="string">&quot;hs&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Haskell</span>),
+        <span class="string">&quot;java&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Java</span>),
+        <span class="string">&quot;cjs&quot;</span> <span class="op">|</span> <span class="string">&quot;js&quot;</span> <span class="op">|</span> <span class="string">&quot;mjs&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">JavaScript</span>),
+        <span class="string">&quot;jsx&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Jsx</span>),
+        <span class="string">&quot;json&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Json</span>),
+        <span class="string">&quot;lisp&quot;</span> <span class="op">|</span> <span class="string">&quot;lsp&quot;</span> <span class="op">|</span> <span class="string">&quot;asd&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">CommonLisp</span>),
+        <span class="string">&quot;ml&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">OCaml</span>),
+        <span class="string">&quot;mli&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">OCamlInterface</span>),
+        <span class="string">&quot;py&quot;</span> <span class="op">|</span> <span class="string">&quot;py3&quot;</span> <span class="op">|</span> <span class="string">&quot;pyi&quot;</span> <span class="op">|</span> <span class="string">&quot;TARGETS&quot;</span> <span class="op">|</span> <span class="string">&quot;BUCK&quot;</span> <span class="op">|</span> <span class="string">&quot;bzl&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Python</span>),
+        <span class="string">&quot;rb&quot;</span> <span class="op">|</span> <span class="string">&quot;spec&quot;</span> <span class="op">|</span> <span class="string">&quot;rake&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Ruby</span>),
+        <span class="string">&quot;rs&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Rust</span>),
+        <span class="string">&quot;ts&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">TypeScript</span>),
+        <span class="string">&quot;tsx&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Tsx</span>),
+        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+    }
+}
+</pre></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="difft" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script></body></html>
