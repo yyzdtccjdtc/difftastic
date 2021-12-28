@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["Language","Languages supported by difftastic. Each language here has a corresponding tree-sitter parser."]],"fn":[["from_extension",""],["from_name",""],["guess",""]]});
+initSidebarItems({"enum":[["Language","Languages supported by difftastic. Each language here has a corresponding tree-sitter parser."]],"fn":[["from_extension",""],["from_name",""],["from_shebang","Try to guess the language based on a shebang present in the source."],["guess",""]]});
