@@ -172,8 +172,9 @@ target language, add it to <code>vendor/</code>.</p>
 $ ln -s tree-sitter-java/src tree-sitter-java-src
 </code></pre>
 <p>You can now add the parser to build by including the directory in
-<code>build.rs</code>. You will also need to update <code>tree_sitter_parser.rs</code> to
-configure the file extensions, atoms and delimiters.</p>
+<code>build.rs</code>. You will also need to update <code>guess_language.rs</code> to
+configure the file extensions, and <code>tree_sitter_parser.rs</code> to
+configure atoms and delimiters.</p>
 <p>To add syntax highlighting to the package, you'll also need a symlink
 to the <code>highlights.scm</code>, if available.</p>
 <pre><code>$ cd vendor/highlights
