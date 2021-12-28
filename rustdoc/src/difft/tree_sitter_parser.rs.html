@@ -743,6 +743,13 @@
                 .<span class="ident">collect</span>(),
             <span class="ident">highlight_queries</span>: <span class="string">&quot;&quot;</span>,
         },
+        <span class="ident">CommonLisp</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">TreeSitterConfig</span> {
+            <span class="ident">name</span>: <span class="string">&quot;Common Lisp&quot;</span>,
+            <span class="ident">language</span>: <span class="kw">unsafe</span> { <span class="ident">tree_sitter_commonlisp</span>() },
+            <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;str_lit&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+            <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>)]),
+            <span class="ident">highlight_queries</span>: <span class="string">&quot;&quot;</span>,
+        },
         <span class="ident">CSharp</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">TreeSitterConfig</span> {
             <span class="ident">name</span>: <span class="string">&quot;C#&quot;</span>,
             <span class="ident">language</span>: <span class="kw">unsafe</span> { <span class="ident">tree_sitter_c_sharp</span>() },
@@ -829,13 +836,6 @@
             <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
             <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)]),
             <span class="ident">highlight_queries</span>: <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/json.scm&quot;</span>),
-        },
-        <span class="ident">CommonLisp</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">TreeSitterConfig</span> {
-            <span class="ident">name</span>: <span class="string">&quot;Common Lisp&quot;</span>,
-            <span class="ident">language</span>: <span class="kw">unsafe</span> { <span class="ident">tree_sitter_commonlisp</span>() },
-            <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;str_lit&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
-            <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>)]),
-            <span class="ident">highlight_queries</span>: <span class="string">&quot;&quot;</span>,
         },
         <span class="ident">OCaml</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">TreeSitterConfig</span> {
             <span class="ident">name</span>: <span class="string">&quot;OCaml&quot;</span>,
