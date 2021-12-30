@@ -138,7 +138,7 @@
 <p>Tree diffing is challenging in some situations. This page demonstrates
 difficult cases observed during development.</p>
 <p>Not all of these cases work well in difftastic yet.</p>
-<h2 id="adding-delimiters"><a class="header" href="#adding-delimiters">Adding delimiters</a></h2>
+<h2 id="adding-delimiters"><a class="header" href="#adding-delimiters">Adding Delimiters</a></h2>
 <pre><code>;; Before
 x
 
@@ -233,7 +233,7 @@ foo(789);
 </code></pre>
 <p>Do we consider <code>foo(123)</code> or <code>foo(456)</code> to match with <code>foo(789)</code>?
 Difftastic prefers <code>foo(456)</code> by preferring nodes at the same nesting depth.</p>
-<h2 id="replacements"><a class="header" href="#replacements">Replacements</a></h2>
+<h2 id="replacements-with-minor-similarities"><a class="header" href="#replacements-with-minor-similarities">Replacements With Minor Similarities</a></h2>
 <pre><code>// Before
 function foo(x) { return x + 1; }
 
