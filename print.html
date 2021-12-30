@@ -552,7 +552,7 @@ small changes.</p>
 line-based diffs. Line-diffs struggle if there are a small number of
 common lines. The more precise, granular behaviour of tree diffs makes
 this problem much more common though.</p>
-<h2 id="similar-comments"><a class="header" href="#similar-comments">Similar Comments</a></h2>
+<h2 id="matching-substrings-in-comments"><a class="header" href="#matching-substrings-in-comments">Matching Substrings In Comments</a></h2>
 <pre><code>// Before
 /* The quick brown fox. */
 foobar();
@@ -561,9 +561,9 @@ foobar();
 /* The slow brown fox. */
 foobaz();
 </code></pre>
-<p><code>foobar</code> and <code>foobaz</code> are completely different, and should never be
-matched up. For comments, we'd rather match up comments that are
-textually similar.</p>
+<p><code>foobar</code> and <code>foobaz</code> are completely different, and their common
+prefix <code>fooba</code> should not be matched up. However, matching common
+prefixes or suffixes for comments is desirable.</p>
 <h2 id="multiline-comments"><a class="header" href="#multiline-comments">Multiline Comments</a></h2>
 <pre><code>// Before
 /* Hello
@@ -606,6 +606,49 @@ the most common.</p>
 <p>Syntactic diffing can ignore whitespace changes, but it has to assume
 punctuation is meaningful. This can lead to punctuation changes being
 highlighted, which may be quite far from the relevant content change.</p>
+<h2 id="novel-blank-lines"><a class="header" href="#novel-blank-lines">Novel Blank Lines</a></h2>
+<p>Blank lines are challenging for syntactic diffs. We are comparing
+syntactic tokens, so we don't see blank lines.</p>
+<pre><code>// Before
+A
+B
+
+// After
+A
+
+B
+</code></pre>
+<p>Generally we want syntactic diffing to ignore blank lines. In this
+first example, this should show no changes.</p>
+<p>This is occasionally problematic, as it can hide accidental code
+reformatting.</p>
+<pre><code>// Before
+A
+B
+
+// After
+A
+X
+
+Y
+B
+</code></pre>
+<p>In this second example, we've inserted X and Y and a blank line. We
+want to highlight the blank line as an addition.</p>
+<pre><code>// Before
+A
+
+
+B
+
+// After
+A
+X
+B
+</code></pre>
+<p>In this third example, the syntactic diffing only sees an
+addition. From the user's perspective, there has also been a removal
+of two blank lines.</p>
 <h2 id="invalid-syntax"><a class="header" href="#invalid-syntax">Invalid Syntax</a></h2>
 <p>There's no guarantee that the input we're given is valid syntax. Even
 if the code is valid, it might use syntax that isn't supported by the
