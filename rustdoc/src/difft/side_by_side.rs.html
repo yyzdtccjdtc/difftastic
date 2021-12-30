@@ -400,6 +400,12 @@
 <span id="398">398</span>
 <span id="399">399</span>
 <span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Side-by-side (two column) display of diffs.</span>
 
@@ -799,6 +805,12 @@
 
         <span class="macro">assert_eq!</span>(<span class="ident">widths</span>.<span class="ident">lhs_line_nums</span>, <span class="number">2</span>);
         <span class="macro">assert_eq!</span>(<span class="ident">widths</span>.<span class="ident">rhs_line_nums</span>, <span class="number">3</span>);
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_display_width</span>() {
+        <span class="comment">// Basic smoke test.</span>
+        <span class="macro">assert!</span>(<span class="ident">display_width</span>() <span class="op">&gt;</span> <span class="number">10</span>);
     }
 }
 </pre></div>
