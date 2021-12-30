@@ -406,6 +406,13 @@
 <span id="404">404</span>
 <span id="405">405</span>
 <span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Side-by-side (two column) display of diffs.</span>
 
@@ -811,6 +818,13 @@
     <span class="kw">fn</span> <span class="ident">test_display_width</span>() {
         <span class="comment">// Basic smoke test.</span>
         <span class="macro">assert!</span>(<span class="ident">display_width</span>() <span class="op">&gt;</span> <span class="number">10</span>);
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_display_single_column</span>() {
+        <span class="comment">// Basic smoke test.</span>
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">display_single_column</span>(<span class="string">&quot;foo.py&quot;</span>, <span class="string">&quot;Python&quot;</span>, <span class="string">&quot;print(123)\n&quot;</span>, <span class="ident">Color::Green</span>);
+        <span class="macro">assert!</span>(<span class="ident">res</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">10</span>);
     }
 }
 </pre></div>
