@@ -589,6 +589,26 @@ want to treat them as identical however.</p>
 </code></pre>
 <p>The inner content has changed from <code>jumps * over</code> to <code>immediately * jumps over</code>. However, the <code>*</code> is decorative and we don't care that
 it's moved.</p>
+<h2 id="small-changes-to-large-strings"><a class="header" href="#small-changes-to-large-strings">Small Changes To Large Strings</a></h2>
+<pre><code>// Before
+&quot;&quot;&quot;A very long string
+with lots of words about
+lots of stuff.&quot;&quot;&quot;
+
+// After
+&quot;&quot;&quot;A very long string
+with lots of NOVEL words about
+lots of stuff.&quot;&quot;&quot;
+</code></pre>
+<p>It would be correct to higlight the entire string literal as being
+removed and replaced with a new string literal. However, this makes it
+hard to see what's actually changed.</p>
+<p>It's clear that variable names should be treated atomically, and
+comments are safe to show subword changes. It's not clear how to
+handle a small change in a 20 line string literal.</p>
+<p>It's tempting to split strings on spaces and diff that, but users
+still want to know when whitespace changes inside strings. <code>&quot; &quot;</code> and
+<code>&quot;  &quot;</code> are not the same.</p>
 <h2 id="autoformatter-punctuation"><a class="header" href="#autoformatter-punctuation">Autoformatter Punctuation</a></h2>
 <pre><code>// Before
 foo(&quot;looooong&quot;, &quot;also looooong&quot;);
