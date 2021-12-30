@@ -285,6 +285,23 @@ want to treat them as identical however.</p>
 </code></pre>
 <p>The inner content has changed from <code>jumps * over</code> to <code>immediately * jumps over</code>. However, the <code>*</code> is decorative and we don't care that
 it's moved.</p>
+<h3 id="autoformatter-punctuation"><a class="header" href="#autoformatter-punctuation">Autoformatter Punctuation</a></h3>
+<pre><code>// Before
+foo(&quot;looooong&quot;, &quot;also looooong&quot;);
+
+// Before
+foo(
+  &quot;looooong&quot;,
+  &quot;novel&quot;,
+  &quot;also looooong&quot;,
+);
+</code></pre>
+<p>Autoformatters (e.g. <a href="https://prettier.io/">prettier</a>) will sometimes
+add or remove punctuation when formatting. Commas and parentheses are
+the most common.</p>
+<p>Syntactic diffing can ignore whitespace changes, but it has to assume
+punctuation is meaningful. This can lead to punctuation changes being
+highlighted, which may be quite far from the relevant content change.</p>
 <h2 id="invalid-syntax"><a class="header" href="#invalid-syntax">Invalid Syntax</a></h2>
 <p>There's no guarantee that the input we're given is valid syntax. Even
 if the code is valid, it might use syntax that isn't supported by the
