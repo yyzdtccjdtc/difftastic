@@ -413,9 +413,6 @@
 <span id="411">411</span>
 <span id="412">412</span>
 <span id="413">413</span>
-<span id="414">414</span>
-<span id="415">415</span>
-<span id="416">416</span>
 </pre><pre class="rust">
 <span class="doccomment">//! A graph representation for computing tree diffs.</span>
 
@@ -550,10 +547,7 @@
             <span class="comment">// novel rather than marking 90% of the children as</span>
             <span class="comment">// novel. This stops us matching up completely unrelated trees.</span>
             <span class="ident">NovelTreeLHS</span> { <span class="ident">num_descendants</span> } <span class="op">|</span> <span class="ident">NovelTreeRHS</span> { <span class="ident">num_descendants</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="comment">// TODO: this crashes on debug builds if we have less</span>
-                <span class="comment">// than 20 descendants.</span>
-                <span class="number">300</span> <span class="op">+</span> (<span class="kw-2">*</span><span class="ident">num_descendants</span> <span class="kw">as</span> <span class="ident">u64</span> <span class="op">-</span> <span class="number">10</span>)
-                    <span class="op">*</span> <span class="ident">NovelDelimiterLHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> }.<span class="ident">cost</span>()
+                <span class="number">300</span> <span class="op">+</span> (<span class="kw-2">*</span><span class="ident">num_descendants</span> <span class="kw">as</span> <span class="ident">u64</span> <span class="op">-</span> <span class="number">10</span>) <span class="op">*</span> <span class="ident">NovelAtomLHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> }.<span class="ident">cost</span>()
             }
         }
     }
