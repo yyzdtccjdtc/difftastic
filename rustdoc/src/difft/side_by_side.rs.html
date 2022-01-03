@@ -464,10 +464,37 @@
 <span id="462">462</span>
 <span id="463">463</span>
 <span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Side-by-side (two column) display of diffs.</span>
 
 <span class="kw">use</span> <span class="ident">colored</span>::{<span class="ident">Color</span>, <span class="ident">Colorize</span>};
+<span class="kw">use</span> <span class="ident">lazy_static::lazy_static</span>;
+<span class="kw">use</span> <span class="ident">regex::Regex</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">cmp::max</span>,
     <span class="ident">collections</span>::{<span class="ident">HashMap</span>, <span class="ident">HashSet</span>},
@@ -505,9 +532,12 @@
         <span class="kw">return</span> <span class="macro">vec!</span>[<span class="string">&quot;&quot;</span>.<span class="ident">into</span>()];
     }
 
+    <span class="macro">lazy_static!</span> {
+        <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">RE</span>: <span class="ident">Regex</span> <span class="op">=</span> <span class="ident">Regex::new</span>(<span class="string">&quot;(?m)([^\n]*)$&quot;</span>).<span class="ident">unwrap</span>();
+    }
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">lines</span> <span class="op">=</span> <span class="macro">vec!</span>[];
-    <span class="kw">for</span> <span class="ident">line</span> <span class="kw">in</span> <span class="ident">s</span>.<span class="ident">lines</span>() {
-        <span class="ident">lines</span>.<span class="ident">push</span>(<span class="ident">line</span>.<span class="ident">into</span>());
+    <span class="kw">for</span> <span class="ident">line_capture</span> <span class="kw">in</span> <span class="ident">RE</span>.<span class="ident">captures_iter</span>(<span class="ident">s</span>) {
+        <span class="ident">lines</span>.<span class="ident">push</span>(<span class="ident">line_capture</span>[<span class="number">1</span>].<span class="ident">into</span>());
     }
     <span class="ident">lines</span>
 }
@@ -927,6 +957,26 @@
         <span class="comment">// Basic smoke test.</span>
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">display_single_column</span>(<span class="string">&quot;foo.py&quot;</span>, <span class="string">&quot;Python&quot;</span>, <span class="string">&quot;print(123)\n&quot;</span>, <span class="ident">Color::Green</span>);
         <span class="macro">assert!</span>(<span class="ident">res</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">10</span>);
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_split_line_empty</span>() {
+        <span class="macro">assert_eq!</span>(<span class="ident">split_lines_nonempty</span>(<span class="string">&quot;&quot;</span>), <span class="macro">vec!</span>[<span class="string">&quot;&quot;</span>]);
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_split_line_single</span>() {
+        <span class="macro">assert_eq!</span>(<span class="ident">split_lines_nonempty</span>(<span class="string">&quot;foo&quot;</span>), <span class="macro">vec!</span>[<span class="string">&quot;foo&quot;</span>]);
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_split_line_with_newline</span>() {
+        <span class="macro">assert_eq!</span>(<span class="ident">split_lines_nonempty</span>(<span class="string">&quot;foo\nbar&quot;</span>), <span class="macro">vec!</span>[<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>]);
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_split_line_with_trailing_newline</span>() {
+        <span class="macro">assert_eq!</span>(<span class="ident">split_lines_nonempty</span>(<span class="string">&quot;foo\nbar\n&quot;</span>), <span class="macro">vec!</span>[<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>, <span class="string">&quot;&quot;</span>]);
     }
 }
 </pre></div>
