@@ -844,6 +844,10 @@
 <span id="842">842</span>
 <span id="843">843</span>
 <span id="844">844</span>
+<span id="845">845</span>
+<span id="846">846</span>
+<span id="847">847</span>
+<span id="848">848</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Calculating which modified lines should be displayed together.</span>
 
@@ -1304,9 +1308,11 @@
 
 <span class="doccomment">/// Fill matched pairs from `start` to end.</span>
 <span class="doccomment">///</span>
+<span class="doccomment">/// ```text</span>
 <span class="doccomment">/// 10 20</span>
 <span class="doccomment">/// 11 25</span>
 <span class="doccomment">/// 17 31</span>
+<span class="doccomment">/// ```</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Pairs are monotonically increasing, but may have gaps.</span>
 <span class="doccomment">///</span>
@@ -1544,6 +1550,7 @@
 
     <span class="doccomment">/// Simulate a simple diff:</span>
     <span class="doccomment">///</span>
+    <span class="doccomment">/// ```text</span>
     <span class="doccomment">/// // Old</span>
     <span class="doccomment">/// A</span>
     <span class="doccomment">/// B</span>
@@ -1552,6 +1559,7 @@
     <span class="doccomment">/// A</span>
     <span class="doccomment">/// x</span>
     <span class="doccomment">/// B</span>
+    <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_aligned_lines_from_hunk</span>() {
         <span class="kw">let</span> <span class="ident">hunk</span> <span class="op">=</span> <span class="ident">Hunk</span> {
