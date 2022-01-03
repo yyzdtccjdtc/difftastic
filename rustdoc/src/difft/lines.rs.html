@@ -457,16 +457,16 @@
         <span class="macro">assert_eq!</span>(
             <span class="ident">line_spans</span>,
             <span class="macro">vec!</span>[
-                (<span class="ident">SingleLineSpan</span> {
+                <span class="ident">SingleLineSpan</span> {
                     <span class="ident">line</span>: <span class="number">1</span>.<span class="ident">into</span>(),
                     <span class="ident">start_col</span>: <span class="number">1</span>,
                     <span class="ident">end_col</span>: <span class="number">3</span>
-                }),
-                (<span class="ident">SingleLineSpan</span> {
+                },
+                <span class="ident">SingleLineSpan</span> {
                     <span class="ident">line</span>: <span class="number">2</span>.<span class="ident">into</span>(),
                     <span class="ident">start_col</span>: <span class="number">0</span>,
                     <span class="ident">end_col</span>: <span class="number">2</span>
-                })
+                }
             ]
         );
     }
