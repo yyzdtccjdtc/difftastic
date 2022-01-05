@@ -1042,60 +1042,6 @@
 <span id="1040">1040</span>
 <span id="1041">1041</span>
 <span id="1042">1042</span>
-<span id="1043">1043</span>
-<span id="1044">1044</span>
-<span id="1045">1045</span>
-<span id="1046">1046</span>
-<span id="1047">1047</span>
-<span id="1048">1048</span>
-<span id="1049">1049</span>
-<span id="1050">1050</span>
-<span id="1051">1051</span>
-<span id="1052">1052</span>
-<span id="1053">1053</span>
-<span id="1054">1054</span>
-<span id="1055">1055</span>
-<span id="1056">1056</span>
-<span id="1057">1057</span>
-<span id="1058">1058</span>
-<span id="1059">1059</span>
-<span id="1060">1060</span>
-<span id="1061">1061</span>
-<span id="1062">1062</span>
-<span id="1063">1063</span>
-<span id="1064">1064</span>
-<span id="1065">1065</span>
-<span id="1066">1066</span>
-<span id="1067">1067</span>
-<span id="1068">1068</span>
-<span id="1069">1069</span>
-<span id="1070">1070</span>
-<span id="1071">1071</span>
-<span id="1072">1072</span>
-<span id="1073">1073</span>
-<span id="1074">1074</span>
-<span id="1075">1075</span>
-<span id="1076">1076</span>
-<span id="1077">1077</span>
-<span id="1078">1078</span>
-<span id="1079">1079</span>
-<span id="1080">1080</span>
-<span id="1081">1081</span>
-<span id="1082">1082</span>
-<span id="1083">1083</span>
-<span id="1084">1084</span>
-<span id="1085">1085</span>
-<span id="1086">1086</span>
-<span id="1087">1087</span>
-<span id="1088">1088</span>
-<span id="1089">1089</span>
-<span id="1090">1090</span>
-<span id="1091">1091</span>
-<span id="1092">1092</span>
-<span id="1093">1093</span>
-<span id="1094">1094</span>
-<span id="1095">1095</span>
-<span id="1096">1096</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Calculating which modified lines should be displayed together.</span>
 
@@ -1853,22 +1799,16 @@
         <span class="kw">let</span> <span class="ident">matched_mp</span> <span class="op">=</span> <span class="ident">MatchedPos</span> {
             <span class="ident">kind</span>: <span class="ident">MatchKind::Unchanged</span> {
                 <span class="ident">highlight</span>: <span class="ident">TokenKind::Delimiter</span>,
-                <span class="ident">self_pos</span>: (
-                    <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
-                        <span class="ident">line</span>: <span class="number">1</span>.<span class="ident">into</span>(),
-                        <span class="ident">start_col</span>: <span class="number">1</span>,
-                        <span class="ident">end_col</span>: <span class="number">2</span>,
-                    }],
-                    <span class="macro">vec!</span>[],
-                ),
-                <span class="ident">opposite_pos</span>: (
-                    <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
-                        <span class="ident">line</span>: <span class="number">2</span>.<span class="ident">into</span>(),
-                        <span class="ident">start_col</span>: <span class="number">1</span>,
-                        <span class="ident">end_col</span>: <span class="number">2</span>,
-                    }],
-                    <span class="macro">vec!</span>[],
-                ),
+                <span class="ident">self_pos</span>: <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
+                    <span class="ident">line</span>: <span class="number">1</span>.<span class="ident">into</span>(),
+                    <span class="ident">start_col</span>: <span class="number">1</span>,
+                    <span class="ident">end_col</span>: <span class="number">2</span>,
+                }],
+                <span class="ident">opposite_pos</span>: <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
+                    <span class="ident">line</span>: <span class="number">2</span>.<span class="ident">into</span>(),
+                    <span class="ident">start_col</span>: <span class="number">1</span>,
+                    <span class="ident">end_col</span>: <span class="number">2</span>,
+                }],
             },
             <span class="ident">pos</span>: <span class="ident">SingleLineSpan</span> {
                 <span class="ident">line</span>: <span class="number">1</span>.<span class="ident">into</span>(),
@@ -1905,22 +1845,16 @@
             <span class="ident">MatchedPos</span> {
                 <span class="ident">kind</span>: <span class="ident">MatchKind::Unchanged</span> {
                     <span class="ident">highlight</span>: <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Normal</span>),
-                    <span class="ident">self_pos</span>: (
-                        <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
-                            <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
-                            <span class="ident">start_col</span>: <span class="number">0</span>,
-                            <span class="ident">end_col</span>: <span class="number">1</span>,
-                        }],
-                        <span class="macro">vec!</span>[],
-                    ),
-                    <span class="ident">opposite_pos</span>: (
-                        <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
-                            <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
-                            <span class="ident">start_col</span>: <span class="number">0</span>,
-                            <span class="ident">end_col</span>: <span class="number">1</span>,
-                        }],
-                        <span class="macro">vec!</span>[],
-                    ),
+                    <span class="ident">self_pos</span>: <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
+                        <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
+                        <span class="ident">start_col</span>: <span class="number">0</span>,
+                        <span class="ident">end_col</span>: <span class="number">1</span>,
+                    }],
+                    <span class="ident">opposite_pos</span>: <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
+                        <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
+                        <span class="ident">start_col</span>: <span class="number">0</span>,
+                        <span class="ident">end_col</span>: <span class="number">1</span>,
+                    }],
                 },
                 <span class="ident">pos</span>: <span class="ident">SingleLineSpan</span> {
                     <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
@@ -1931,22 +1865,16 @@
             <span class="ident">MatchedPos</span> {
                 <span class="ident">kind</span>: <span class="ident">MatchKind::Unchanged</span> {
                     <span class="ident">highlight</span>: <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Normal</span>),
-                    <span class="ident">self_pos</span>: (
-                        <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
-                            <span class="ident">line</span>: <span class="number">1</span>.<span class="ident">into</span>(),
-                            <span class="ident">start_col</span>: <span class="number">0</span>,
-                            <span class="ident">end_col</span>: <span class="number">1</span>,
-                        }],
-                        <span class="macro">vec!</span>[],
-                    ),
-                    <span class="ident">opposite_pos</span>: (
-                        <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
-                            <span class="ident">line</span>: <span class="number">2</span>.<span class="ident">into</span>(),
-                            <span class="ident">start_col</span>: <span class="number">0</span>,
-                            <span class="ident">end_col</span>: <span class="number">1</span>,
-                        }],
-                        <span class="macro">vec!</span>[],
-                    ),
+                    <span class="ident">self_pos</span>: <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
+                        <span class="ident">line</span>: <span class="number">1</span>.<span class="ident">into</span>(),
+                        <span class="ident">start_col</span>: <span class="number">0</span>,
+                        <span class="ident">end_col</span>: <span class="number">1</span>,
+                    }],
+                    <span class="ident">opposite_pos</span>: <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
+                        <span class="ident">line</span>: <span class="number">2</span>.<span class="ident">into</span>(),
+                        <span class="ident">start_col</span>: <span class="number">0</span>,
+                        <span class="ident">end_col</span>: <span class="number">1</span>,
+                    }],
                 },
                 <span class="ident">pos</span>: <span class="ident">SingleLineSpan</span> {
                     <span class="ident">line</span>: <span class="number">1</span>.<span class="ident">into</span>(),
@@ -1960,22 +1888,16 @@
             <span class="ident">MatchedPos</span> {
                 <span class="ident">kind</span>: <span class="ident">MatchKind::Unchanged</span> {
                     <span class="ident">highlight</span>: <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Normal</span>),
-                    <span class="ident">self_pos</span>: (
-                        <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
-                            <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
-                            <span class="ident">start_col</span>: <span class="number">0</span>,
-                            <span class="ident">end_col</span>: <span class="number">1</span>,
-                        }],
-                        <span class="macro">vec!</span>[],
-                    ),
-                    <span class="ident">opposite_pos</span>: (
-                        <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
-                            <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
-                            <span class="ident">start_col</span>: <span class="number">0</span>,
-                            <span class="ident">end_col</span>: <span class="number">1</span>,
-                        }],
-                        <span class="macro">vec!</span>[],
-                    ),
+                    <span class="ident">self_pos</span>: <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
+                        <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
+                        <span class="ident">start_col</span>: <span class="number">0</span>,
+                        <span class="ident">end_col</span>: <span class="number">1</span>,
+                    }],
+                    <span class="ident">opposite_pos</span>: <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
+                        <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
+                        <span class="ident">start_col</span>: <span class="number">0</span>,
+                        <span class="ident">end_col</span>: <span class="number">1</span>,
+                    }],
                 },
                 <span class="ident">pos</span>: <span class="ident">SingleLineSpan</span> {
                     <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
@@ -1996,22 +1918,16 @@
             <span class="ident">MatchedPos</span> {
                 <span class="ident">kind</span>: <span class="ident">MatchKind::Unchanged</span> {
                     <span class="ident">highlight</span>: <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Normal</span>),
-                    <span class="ident">self_pos</span>: (
-                        <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
-                            <span class="ident">line</span>: <span class="number">2</span>.<span class="ident">into</span>(),
-                            <span class="ident">start_col</span>: <span class="number">0</span>,
-                            <span class="ident">end_col</span>: <span class="number">1</span>,
-                        }],
-                        <span class="macro">vec!</span>[],
-                    ),
-                    <span class="ident">opposite_pos</span>: (
-                        <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
-                            <span class="ident">line</span>: <span class="number">1</span>.<span class="ident">into</span>(),
-                            <span class="ident">start_col</span>: <span class="number">0</span>,
-                            <span class="ident">end_col</span>: <span class="number">1</span>,
-                        }],
-                        <span class="macro">vec!</span>[],
-                    ),
+                    <span class="ident">self_pos</span>: <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
+                        <span class="ident">line</span>: <span class="number">2</span>.<span class="ident">into</span>(),
+                        <span class="ident">start_col</span>: <span class="number">0</span>,
+                        <span class="ident">end_col</span>: <span class="number">1</span>,
+                    }],
+                    <span class="ident">opposite_pos</span>: <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
+                        <span class="ident">line</span>: <span class="number">1</span>.<span class="ident">into</span>(),
+                        <span class="ident">start_col</span>: <span class="number">0</span>,
+                        <span class="ident">end_col</span>: <span class="number">1</span>,
+                    }],
                 },
                 <span class="ident">pos</span>: <span class="ident">SingleLineSpan</span> {
                     <span class="ident">line</span>: <span class="number">2</span>.<span class="ident">into</span>(),
@@ -2055,22 +1971,16 @@
             <span class="ident">MatchedPos</span> {
                 <span class="ident">kind</span>: <span class="ident">MatchKind::Unchanged</span> {
                     <span class="ident">highlight</span>: <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Normal</span>),
-                    <span class="ident">self_pos</span>: (
-                        <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
-                            <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
-                            <span class="ident">start_col</span>: <span class="number">0</span>,
-                            <span class="ident">end_col</span>: <span class="number">1</span>,
-                        }],
-                        <span class="macro">vec!</span>[],
-                    ),
-                    <span class="ident">opposite_pos</span>: (
-                        <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
-                            <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
-                            <span class="ident">start_col</span>: <span class="number">0</span>,
-                            <span class="ident">end_col</span>: <span class="number">1</span>,
-                        }],
-                        <span class="macro">vec!</span>[],
-                    ),
+                    <span class="ident">self_pos</span>: <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
+                        <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
+                        <span class="ident">start_col</span>: <span class="number">0</span>,
+                        <span class="ident">end_col</span>: <span class="number">1</span>,
+                    }],
+                    <span class="ident">opposite_pos</span>: <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
+                        <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
+                        <span class="ident">start_col</span>: <span class="number">0</span>,
+                        <span class="ident">end_col</span>: <span class="number">1</span>,
+                    }],
                 },
                 <span class="ident">pos</span>: <span class="ident">SingleLineSpan</span> {
                     <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
@@ -2081,22 +1991,16 @@
             <span class="ident">MatchedPos</span> {
                 <span class="ident">kind</span>: <span class="ident">MatchKind::Unchanged</span> {
                     <span class="ident">highlight</span>: <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Normal</span>),
-                    <span class="ident">self_pos</span>: (
-                        <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
-                            <span class="ident">line</span>: <span class="number">1</span>.<span class="ident">into</span>(),
-                            <span class="ident">start_col</span>: <span class="number">0</span>,
-                            <span class="ident">end_col</span>: <span class="number">1</span>,
-                        }],
-                        <span class="macro">vec!</span>[],
-                    ),
-                    <span class="ident">opposite_pos</span>: (
-                        <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
-                            <span class="ident">line</span>: <span class="number">2</span>.<span class="ident">into</span>(),
-                            <span class="ident">start_col</span>: <span class="number">0</span>,
-                            <span class="ident">end_col</span>: <span class="number">1</span>,
-                        }],
-                        <span class="macro">vec!</span>[],
-                    ),
+                    <span class="ident">self_pos</span>: <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
+                        <span class="ident">line</span>: <span class="number">1</span>.<span class="ident">into</span>(),
+                        <span class="ident">start_col</span>: <span class="number">0</span>,
+                        <span class="ident">end_col</span>: <span class="number">1</span>,
+                    }],
+                    <span class="ident">opposite_pos</span>: <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
+                        <span class="ident">line</span>: <span class="number">2</span>.<span class="ident">into</span>(),
+                        <span class="ident">start_col</span>: <span class="number">0</span>,
+                        <span class="ident">end_col</span>: <span class="number">1</span>,
+                    }],
                 },
                 <span class="ident">pos</span>: <span class="ident">SingleLineSpan</span> {
                     <span class="ident">line</span>: <span class="number">1</span>.<span class="ident">into</span>(),
@@ -2110,22 +2014,16 @@
             <span class="ident">MatchedPos</span> {
                 <span class="ident">kind</span>: <span class="ident">MatchKind::Unchanged</span> {
                     <span class="ident">highlight</span>: <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Normal</span>),
-                    <span class="ident">self_pos</span>: (
-                        <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
-                            <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
-                            <span class="ident">start_col</span>: <span class="number">0</span>,
-                            <span class="ident">end_col</span>: <span class="number">1</span>,
-                        }],
-                        <span class="macro">vec!</span>[],
-                    ),
-                    <span class="ident">opposite_pos</span>: (
-                        <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
-                            <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
-                            <span class="ident">start_col</span>: <span class="number">0</span>,
-                            <span class="ident">end_col</span>: <span class="number">1</span>,
-                        }],
-                        <span class="macro">vec!</span>[],
-                    ),
+                    <span class="ident">self_pos</span>: <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
+                        <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
+                        <span class="ident">start_col</span>: <span class="number">0</span>,
+                        <span class="ident">end_col</span>: <span class="number">1</span>,
+                    }],
+                    <span class="ident">opposite_pos</span>: <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
+                        <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
+                        <span class="ident">start_col</span>: <span class="number">0</span>,
+                        <span class="ident">end_col</span>: <span class="number">1</span>,
+                    }],
                 },
                 <span class="ident">pos</span>: <span class="ident">SingleLineSpan</span> {
                     <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
@@ -2146,22 +2044,16 @@
             <span class="ident">MatchedPos</span> {
                 <span class="ident">kind</span>: <span class="ident">MatchKind::Unchanged</span> {
                     <span class="ident">highlight</span>: <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Normal</span>),
-                    <span class="ident">self_pos</span>: (
-                        <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
-                            <span class="ident">line</span>: <span class="number">2</span>.<span class="ident">into</span>(),
-                            <span class="ident">start_col</span>: <span class="number">0</span>,
-                            <span class="ident">end_col</span>: <span class="number">1</span>,
-                        }],
-                        <span class="macro">vec!</span>[],
-                    ),
-                    <span class="ident">opposite_pos</span>: (
-                        <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
-                            <span class="ident">line</span>: <span class="number">1</span>.<span class="ident">into</span>(),
-                            <span class="ident">start_col</span>: <span class="number">0</span>,
-                            <span class="ident">end_col</span>: <span class="number">1</span>,
-                        }],
-                        <span class="macro">vec!</span>[],
-                    ),
+                    <span class="ident">self_pos</span>: <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
+                        <span class="ident">line</span>: <span class="number">2</span>.<span class="ident">into</span>(),
+                        <span class="ident">start_col</span>: <span class="number">0</span>,
+                        <span class="ident">end_col</span>: <span class="number">1</span>,
+                    }],
+                    <span class="ident">opposite_pos</span>: <span class="macro">vec!</span>[<span class="ident">SingleLineSpan</span> {
+                        <span class="ident">line</span>: <span class="number">1</span>.<span class="ident">into</span>(),
+                        <span class="ident">start_col</span>: <span class="number">0</span>,
+                        <span class="ident">end_col</span>: <span class="number">1</span>,
+                    }],
                 },
                 <span class="ident">pos</span>: <span class="ident">SingleLineSpan</span> {
                     <span class="ident">line</span>: <span class="number">2</span>.<span class="ident">into</span>(),
