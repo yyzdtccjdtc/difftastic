@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["parse","Split `s` by lines, and treat each line as an atom."]]});
+initSidebarItems({"enum":[["TextChangeKind",""]],"fn":[["change_positions",""],["changed_parts",""],["merge_novel",""],["split_lines_keep_newline",""]]});
