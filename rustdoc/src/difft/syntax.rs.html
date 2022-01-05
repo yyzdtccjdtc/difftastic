@@ -914,15 +914,6 @@
 <span id="912">912</span>
 <span id="913">913</span>
 <span id="914">914</span>
-<span id="915">915</span>
-<span id="916">916</span>
-<span id="917">917</span>
-<span id="918">918</span>
-<span id="919">919</span>
-<span id="920">920</span>
-<span id="921">921</span>
-<span id="922">922</span>
-<span id="923">923</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Syntax tree definitions with change metadata.</span>
 
@@ -1618,19 +1609,19 @@
     <span class="ident">positions</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">MatchedPos</span><span class="op">&gt;</span>,
 ) {
     <span class="kw">for</span> <span class="ident">node</span> <span class="kw">in</span> <span class="ident">nodes</span> {
+        <span class="kw">let</span> <span class="ident">change</span> <span class="op">=</span> <span class="ident">node</span>
+            .<span class="ident">info</span>()
+            .<span class="ident">change</span>
+            .<span class="ident">get</span>()
+            .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="macro">panic!</span>(<span class="string">&quot;Should have changes set in all nodes: {:#?}&quot;</span>, <span class="ident">node</span>));
+
         <span class="kw">match</span> <span class="ident">node</span> {
             <span class="ident">List</span> {
-                <span class="ident">info</span>,
                 <span class="ident">open_position</span>,
                 <span class="ident">children</span>,
                 <span class="ident">close_position</span>,
                 ..
             } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="kw">let</span> <span class="ident">change</span> <span class="op">=</span> <span class="ident">info</span>
-                    .<span class="ident">change</span>
-                    .<span class="ident">get</span>()
-                    .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="macro">panic!</span>(<span class="string">&quot;Should have changes set in all nodes: {:#?}&quot;</span>, <span class="ident">node</span>));
-
                 <span class="ident">positions</span>.<span class="ident">extend</span>(<span class="ident">MatchedPos::new</span>(
                     <span class="ident">change</span>,
                     <span class="ident">TokenKind::Delimiter</span>,
@@ -1647,16 +1638,7 @@
                     <span class="bool-val">true</span>,
                 ));
             }
-            <span class="ident">Atom</span> {
-                <span class="ident">info</span>,
-                <span class="ident">position</span>,
-                <span class="ident">kind</span>,
-                ..
-            } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="kw">let</span> <span class="ident">change</span> <span class="op">=</span> <span class="ident">info</span>
-                    .<span class="ident">change</span>
-                    .<span class="ident">get</span>()
-                    .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="macro">panic!</span>(<span class="string">&quot;Should have changes set in all nodes: {:#?}&quot;</span>, <span class="ident">node</span>));
+            <span class="ident">Atom</span> { <span class="ident">position</span>, <span class="ident">kind</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">positions</span>.<span class="ident">extend</span>(<span class="ident">MatchedPos::new</span>(
                     <span class="ident">change</span>,
                     <span class="ident">TokenKind::Atom</span>(<span class="kw-2">*</span><span class="ident">kind</span>),
