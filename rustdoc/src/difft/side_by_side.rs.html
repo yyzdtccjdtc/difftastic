@@ -477,6 +477,11 @@
 <span id="475">475</span>
 <span id="476">476</span>
 <span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Side-by-side (two column) display of diffs.</span>
 
@@ -677,14 +682,19 @@
     <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">LineNumber</span>, <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">SingleLineSpan</span>, <span class="ident">Style</span>)<span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">LineNumber</span>, <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">SingleLineSpan</span>, <span class="ident">Style</span>)<span class="op">&gt;</span><span class="op">&gt;</span>,
 ) {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">lhs_styles</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">LineNumber</span>, <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">SingleLineSpan</span>, <span class="ident">Style</span>)<span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">HashMap::new</span>();
-    <span class="kw">for</span> (<span class="ident">span</span>, <span class="ident">style</span>) <span class="kw">in</span> <span class="ident">color_positions</span>(<span class="bool-val">true</span>, <span class="ident">lhs_mps</span>) {
+    <span class="kw">let</span> <span class="ident">lhs_positions</span> <span class="op">=</span> <span class="ident">color_positions</span>(<span class="bool-val">true</span>, <span class="ident">lhs_mps</span>);
+    <span class="comment">// Preallocate the hashmap assuming the average line will have 2 items on it.</span>
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">lhs_styles</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">LineNumber</span>, <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">SingleLineSpan</span>, <span class="ident">Style</span>)<span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span>
+        <span class="ident">HashMap::with_capacity</span>(<span class="ident">lhs_positions</span>.<span class="ident">len</span>() <span class="op">/</span> <span class="number">2</span>);
+    <span class="kw">for</span> (<span class="ident">span</span>, <span class="ident">style</span>) <span class="kw">in</span> <span class="ident">lhs_positions</span> {
         <span class="kw">let</span> <span class="ident">styles</span> <span class="op">=</span> <span class="ident">lhs_styles</span>.<span class="ident">entry</span>(<span class="ident">span</span>.<span class="ident">line</span>).<span class="ident">or_insert_with</span>(<span class="ident">Vec::new</span>);
         <span class="ident">styles</span>.<span class="ident">push</span>((<span class="ident">span</span>, <span class="ident">style</span>));
     }
 
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rhs_styles</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">LineNumber</span>, <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">SingleLineSpan</span>, <span class="ident">Style</span>)<span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">HashMap::new</span>();
-    <span class="kw">for</span> (<span class="ident">span</span>, <span class="ident">style</span>) <span class="kw">in</span> <span class="ident">color_positions</span>(<span class="bool-val">false</span>, <span class="ident">rhs_mps</span>) {
+    <span class="kw">let</span> <span class="ident">rhs_positions</span> <span class="op">=</span> <span class="ident">color_positions</span>(<span class="bool-val">false</span>, <span class="ident">rhs_mps</span>);
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rhs_styles</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">LineNumber</span>, <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">SingleLineSpan</span>, <span class="ident">Style</span>)<span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span>
+        <span class="ident">HashMap::with_capacity</span>(<span class="ident">rhs_positions</span>.<span class="ident">len</span>() <span class="op">/</span> <span class="number">2</span>);
+    <span class="kw">for</span> (<span class="ident">span</span>, <span class="ident">style</span>) <span class="kw">in</span> <span class="ident">rhs_positions</span> {
         <span class="kw">let</span> <span class="ident">styles</span> <span class="op">=</span> <span class="ident">rhs_styles</span>.<span class="ident">entry</span>(<span class="ident">span</span>.<span class="ident">line</span>).<span class="ident">or_insert_with</span>(<span class="ident">Vec::new</span>);
         <span class="ident">styles</span>.<span class="ident">push</span>((<span class="ident">span</span>, <span class="ident">style</span>));
     }
