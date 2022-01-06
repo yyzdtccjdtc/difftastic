@@ -477,9 +477,6 @@
 <span id="475">475</span>
 <span id="476">476</span>
 <span id="477">477</span>
-<span id="478">478</span>
-<span id="479">479</span>
-<span id="480">480</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Side-by-side (two column) display of diffs.</span>
 
@@ -617,12 +614,9 @@
     <span class="kw">fn</span> <span class="ident">new</span>(
         <span class="ident">terminal_width</span>: <span class="ident">usize</span>,
         <span class="ident">line_nums</span>: <span class="kw-2">&amp;</span>[(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span>)],
-        <span class="ident">lhs_src</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-        <span class="ident">rhs_src</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
+        <span class="ident">lhs_lines</span>: <span class="kw-2">&amp;</span>[<span class="ident">String</span>],
+        <span class="ident">rhs_lines</span>: <span class="kw-2">&amp;</span>[<span class="ident">String</span>],
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="kw">let</span> <span class="ident">lhs_lines</span> <span class="op">=</span> <span class="ident">split_on_newlines</span>(<span class="ident">lhs_src</span>);
-        <span class="kw">let</span> <span class="ident">rhs_lines</span> <span class="op">=</span> <span class="ident">split_on_newlines</span>(<span class="ident">rhs_src</span>);
-
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">lhs_max_line</span>: <span class="ident">LineNumber</span> <span class="op">=</span> <span class="number">1</span>.<span class="ident">into</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rhs_max_line</span>: <span class="ident">LineNumber</span> <span class="op">=</span> <span class="number">1</span>.<span class="ident">into</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">lhs_max_content</span> <span class="op">=</span> <span class="number">1</span>;
@@ -774,7 +768,7 @@
         <span class="kw">let</span> <span class="ident">no_rhs_changes</span> <span class="op">=</span> <span class="ident">hunk</span>.<span class="ident">lines</span>.<span class="ident">iter</span>().<span class="ident">all</span>(<span class="op">|</span>(<span class="kw">_</span>, <span class="ident">r</span>)<span class="op">|</span> <span class="ident">r</span>.<span class="ident">is_none</span>());
         <span class="kw">let</span> <span class="ident">same_lines</span> <span class="op">=</span> <span class="ident">aligned_lines</span>.<span class="ident">iter</span>().<span class="ident">all</span>(<span class="op">|</span>(<span class="ident">l</span>, <span class="ident">r</span>)<span class="op">|</span> <span class="ident">l</span> <span class="op">=</span><span class="op">=</span> <span class="ident">r</span>);
 
-        <span class="kw">let</span> <span class="ident">widths</span> <span class="op">=</span> <span class="ident">Widths::new</span>(<span class="ident">display_width</span>(), <span class="kw-2">&amp;</span><span class="ident">aligned_lines</span>, <span class="ident">lhs_src</span>, <span class="ident">rhs_src</span>);
+        <span class="kw">let</span> <span class="ident">widths</span> <span class="op">=</span> <span class="ident">Widths::new</span>(<span class="ident">display_width</span>(), <span class="kw-2">&amp;</span><span class="ident">aligned_lines</span>, <span class="kw-2">&amp;</span><span class="ident">lhs_lines</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_lines</span>);
         <span class="kw">for</span> (<span class="ident">lhs_line_num</span>, <span class="ident">rhs_line_num</span>) <span class="kw">in</span> <span class="ident">aligned_lines</span> {
             <span class="kw">let</span> <span class="ident">lhs_line_novel</span> <span class="op">=</span> <span class="ident">highlight_as_novel</span>(
                 <span class="ident">lhs_line_num</span>,
@@ -920,8 +914,8 @@
         <span class="kw">let</span> <span class="ident">widths</span> <span class="op">=</span> <span class="ident">Widths::new</span>(
             <span class="number">80</span>,
             <span class="kw-2">&amp;</span><span class="ident">line_nums</span>,
-            <span class="string">&quot;foo\nbar\n&quot;</span>,
-            <span class="string">&quot;x\nx\nx\nx\nx\nx\nx\nx\nx\nx\nx\n&quot;</span>,
+            <span class="kw-2">&amp;</span><span class="ident">split_on_newlines</span>(<span class="string">&quot;foo\nbar\n&quot;</span>),
+            <span class="kw-2">&amp;</span><span class="ident">split_on_newlines</span>(<span class="string">&quot;x\nx\nx\nx\nx\nx\nx\nx\nx\nx\nx\n&quot;</span>),
         );
 
         <span class="macro">assert_eq!</span>(<span class="ident">widths</span>.<span class="ident">lhs_line_nums</span>, <span class="number">2</span>);
