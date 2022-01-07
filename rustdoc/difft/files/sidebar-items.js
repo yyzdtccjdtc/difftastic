@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["is_probably_binary","Do these bytes look like a binary (non-textual) format?"],["read_or_die",""]]});
+initSidebarItems({"fn":[["eprint_read_error",""],["is_probably_binary","Do these bytes look like a binary (non-textual) format?"],["read_files_or_die",""],["read_or_die",""]]});
