@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Upstream Parsers - Difftastic Manual</title>
+        <title>Glossary - Difftastic Manual</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="The official manual for difftastic, the syntactic differ">
@@ -75,7 +75,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting_started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="git.html"><strong aria-hidden="true">2.1.</strong> Git</a></li><li class="chapter-item expanded "><a href="mercurial.html"><strong aria-hidden="true">2.2.</strong> Mercurial</a></li></ol></li><li class="chapter-item expanded "><a href="parsing.html"><strong aria-hidden="true">3.</strong> Parsing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="upstream_parsers.html" class="active"><strong aria-hidden="true">3.1.</strong> Upstream Parsers</a></li></ol></li><li class="chapter-item expanded "><a href="diffing.html"><strong aria-hidden="true">4.</strong> Diffing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tricky_cases.html"><strong aria-hidden="true">4.1.</strong> Tricky Cases</a></li></ol></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">5.</strong> Contributing</a></li><li class="chapter-item expanded "><a href="glossary.html"><strong aria-hidden="true">6.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="alternative_projects.html"><strong aria-hidden="true">7.</strong> Alternative Projects</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tree_diffing.html"><strong aria-hidden="true">7.1.</strong> Tree Diffing</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting_started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="git.html"><strong aria-hidden="true">2.1.</strong> Git</a></li><li class="chapter-item expanded "><a href="mercurial.html"><strong aria-hidden="true">2.2.</strong> Mercurial</a></li></ol></li><li class="chapter-item expanded "><a href="parsing.html"><strong aria-hidden="true">3.</strong> Parsing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="upstream_parsers.html"><strong aria-hidden="true">3.1.</strong> Upstream Parsers</a></li></ol></li><li class="chapter-item expanded "><a href="diffing.html"><strong aria-hidden="true">4.</strong> Diffing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tricky_cases.html"><strong aria-hidden="true">4.1.</strong> Tricky Cases</a></li></ol></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">5.</strong> Contributing</a></li><li class="chapter-item expanded "><a href="glossary.html" class="active"><strong aria-hidden="true">6.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="alternative_projects.html"><strong aria-hidden="true">7.</strong> Alternative Projects</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tree_diffing.html"><strong aria-hidden="true">7.1.</strong> Tree Diffing</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -134,70 +134,35 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="upstream-parsers"><a class="header" href="#upstream-parsers">Upstream Parsers</a></h1>
-<p>Difftastic uses the following tree-sitter parsers:</p>
-<table><thead><tr><th>Language</th><th>Git Repository</th></tr></thead><tbody>
-<tr><td>Bash</td><td><a href="https://github.com/tree-sitter/tree-sitter-bash">tree-sitter/tree-sitter-bash</a></td></tr>
-<tr><td>C</td><td><a href="https://github.com/tree-sitter/tree-sitter-c">tree-sitter/tree-sitter-c</a></td></tr>
-<tr><td>C++</td><td><a href="https://github.com/tree-sitter/tree-sitter-cpp">tree-sitter/tree-sitter-cpp</a></td></tr>
-<tr><td>C#</td><td><a href="https://github.com/tree-sitter/tree-sitter-c-sharp">tree-sitter/tree-sitter-c-sharp</a></td></tr>
-<tr><td>Clojure</td><td><a href="https://github.com/sogaiu/tree-sitter-clojure">sogaiu/tree-sitter-clojure</a></td></tr>
-<tr><td>Common Lisp</td><td><a href="https://github.com/theHamsta/tree-sitter-commonlisp">theHamsta/tree-sitter-commonlisp</a></td></tr>
-<tr><td>CSS</td><td><a href="https://github.com/tree-sitter/tree-sitter-css">tree-sitter/tree-sitter-css</a></td></tr>
-<tr><td>Elixir</td><td><a href="https://github.com/elixir-lang/tree-sitter-elixir">elixir-lang/tree-sitter-elixir</a></td></tr>
-<tr><td>Emacs Lisp</td><td><a href="https://github.com/Wilfred/tree-sitter-elisp">wilfred/tree-sitter-elisp</a></td></tr>
-<tr><td>Go</td><td><a href="https://github.com/tree-sitter/tree-sitter-go">tree-sitter/tree-sitter-go</a></td></tr>
-<tr><td>Haskell</td><td><a href="https://github.com/tree-sitter/tree-sitter-haskell">tree-sitter/tree-sitter-haskell</a></td></tr>
-<tr><td>Java</td><td><a href="https://github.com/tree-sitter/tree-sitter-java">tree-sitter/tree-sitter-java</a></td></tr>
-<tr><td>JavaScript, JSX</td><td><a href="https://github.com/tree-sitter/tree-sitter-javascript">tree-sitter/tree-sitter-javascript</a></td></tr>
-<tr><td>JSON</td><td><a href="https://github.com/tree-sitter/tree-sitter-json">tree-sitter/tree-sitter-json</a></td></tr>
-<tr><td>OCaml</td><td><a href="https://github.com/tree-sitter/tree-sitter-ocaml">tree-sitter/tree-sitter-ocaml</a></td></tr>
-<tr><td>Python</td><td><a href="https://github.com/tree-sitter/tree-sitter-python">tree-sitter/tree-sitter-python</a></td></tr>
-<tr><td>Ruby</td><td><a href="https://github.com/tree-sitter/tree-sitter-ruby">tree-sitter/tree-sitter-ruby</a></td></tr>
-<tr><td>Rust</td><td><a href="https://github.com/tree-sitter/tree-sitter-rust">tree-sitter/tree-sitter-rust</a> (<a href="https://github.com/Wilfred/tree-sitter-rust">forked</a>)</td></tr>
-<tr><td>TypeScript, TSX</td><td><a href="https://github.com/tree-sitter/tree-sitter-typescript">tree-sitter/tree-sitter-typescript</a></td></tr>
-</tbody></table>
-<p>These parsers are included as git subtrees in <code>vendor/</code>.</p>
-<p>Tree-sitter parsers are sometimes packaged on npm, sometimes packaged
-on crates.io, and have different release frequencies. Git subtrees
-allow difftastic to track the latest version of these parsers.</p>
-<h2 id="adding-a-new-parser"><a class="header" href="#adding-a-new-parser">Adding a new parser</a></h2>
-<p>If you've found a reasonably complete parser implementation for your
-target language, add it to <code>vendor/</code>.</p>
-<pre><code>$ git subtree add --prefix=vendor/tree-sitter-java git@github.com:tree-sitter/tree-sitter-java.git master
-</code></pre>
-<p>Cargo does not allow packages to include subdirectories that contain a
-<code>Cargo.toml</code>. Add a symlink to the <code>src/</code> parser subdirectory.</p>
-<pre><code>$ cd vendor
-$ ln -s tree-sitter-java/src tree-sitter-java-src
-</code></pre>
-<p>You can now add the parser to build by including the directory in
-<code>build.rs</code>. You will also need to update <code>guess_language.rs</code> to
-configure the file extensions, and <code>tree_sitter_parser.rs</code> to
-configure atoms and delimiters.</p>
-<p>To add syntax highlighting to the package, you'll also need a symlink
-to the <code>highlights.scm</code>, if available.</p>
-<pre><code>$ cd vendor/highlights
-$ ln -s ../tree-sitter-java/queries/highlights.scm java.scm
-</code></pre>
-<h2 id="updating-a-parser"><a class="header" href="#updating-a-parser">Updating a parser</a></h2>
-<p>To update a parser, pull commits from the upstream git repository. For
-example, the following command will update the Java parser:</p>
-<pre><code>$ git subtree pull --prefix=vendor/tree-sitter-java git@github.com:tree-sitter/tree-sitter-java.git master
-</code></pre>
-<p>To see when each parser was last updated, use the following shell
-command:</p>
-<pre><code>$ for d in $(git log | grep git-subtree-dir | tr -d ' ' | cut -d &quot;:&quot; -f2 | sort); do echo &quot;$d&quot;; git log --pretty=&quot;  %cs&quot; -n 1 $d; done
-</code></pre>
+                        <h1 id="glossary"><a class="header" href="#glossary">Glossary</a></h1>
+<p><strong>Atom</strong>: An atom is an item in difftastic's syntax tree structure
+that has no children. It represents things like literals, variable
+names, and comments. See also 'list'.</p>
+<p><strong>Delimiter</strong>: A paired piece of syntax. A list has an open delimiter
+and a close delimiter, such as <code>[</code> and <code>]</code>. Delimiters may not be
+punctuation (e.g. <code>begin</code> and <code>end</code>) and may be empty strings (e.g. infix
+syntax converted to difftastic's syntax tree).</p>
+<p><strong>LHS</strong>: Left-hand side. Difftastic compares two items, and LHS refers
+to the first item. See also 'RHS'.</p>
+<p><strong>List</strong>: A list is an item in difftastic's syntax tree structure that
+has an open delimiter, children, and a close delimiter. It represents
+things like expressions and function definitions. See also 'atom'.</p>
+<p><strong>Novel</strong>: An addition or a removal. Syntax is novel if it only occurs
+in one of two items being compared.</p>
+<p><strong>RHS</strong>: Right-hand side. Difftastic compares two items, and RHS
+refers to the second item. See also 'LHS'.</p>
+<p><strong>Token</strong>: A small piece of syntax tracked by difftastic (e.g. <code>$x</code>,
+<code>function</code> or <code>]</code>), for highlighting and aligned display. This is
+either an atom or a non-empty delimiter.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="parsing.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="contributing.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                            <a rel="next" href="diffing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="alternative_projects.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
@@ -206,10 +171,10 @@ command:</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="parsing.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="contributing.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                    <a rel="next" href="diffing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="alternative_projects.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
