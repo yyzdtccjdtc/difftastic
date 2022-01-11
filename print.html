@@ -772,32 +772,31 @@ either an atom or a non-empty delimiter.</p>
 manual discusses the design of other tools that have influenced
 difftastic.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="tree-diffing"><a class="header" href="#tree-diffing">Tree Diffing</a></h1>
-<p>The following diff tools build a tree and compare it, rather than a
-simple textual comparison.</p>
-<h2 id="json-diff-pairwise-comparison"><a class="header" href="#json-diff-pairwise-comparison">json-diff (Pairwise Comparison)</a></h2>
+<p>This page summarises some of the other tree diffing tools available.</p>
+<p>If you're in a hurry, start by looking at Autochrome. It's extremely
+capable, and has an excellent description of the design.</p>
+<p>If you're interested in a summary of the academic literature, <a href="http://useless-factor.blogspot.com/2008/01/matching-diffing-and-merging-xml.html">this
+blog
+post</a>
+(and its <a href="http://useless-factor.blogspot.com/2008/01/matching-diffing-and-merging-xml.html">accompanying
+paper</a>
+-- mirrored under a CC BY-NC license) are great resources.</p>
+<h2 id="json-diff-2012"><a class="header" href="#json-diff-2012">json-diff (2012)</a></h2>
+<p>Languages: JSON<br />
+Algorithm: Pairwise comparison<br />
+Output: CLI colours</p>
 <p><a href="https://github.com/andreyvit/json-diff">json-diff</a> performs a
 structural diff of JSON files. It considers subtrees to be different
 if they don't match exactly, so e.g. <code>&quot;foo&quot;</code> and <code>[&quot;foo&quot;]</code> are
 entirely different.</p>
 <p>json-diff is also noteworthy for its extremely readable display of
 results.</p>
-<h2 id="autochrome-dijkstras-algorithm"><a class="header" href="#autochrome-dijkstras-algorithm">Autochrome (Dijkstra's Algorithm)</a></h2>
-<p><a href="https://fazzone.github.io/autochrome.html">Autochrome</a> parses Clojure
-with a custom parser that preserves comments. Autochrome uses
-Dijkstra's algorithm to compare syntax trees.</p>
-<p>Autochrome's webpage includes worked examples of the algorithm and a
-discussion of design tradeoffs. It's a really great resource for
-understanding tree diffing techniques in general.</p>
-<h2 id="tree-diff-a-search"><a class="header" href="#tree-diff-a-search">Tree Diff (A* Search)</a></h2>
-<p>Tristan Hume wrote a tree diffing algorithm during his 2017 internship
-and Jane Street. The source code is not available, but <a href="https://thume.ca/2017/06/17/tree-diffing/">he has a blog
-post</a> discussing the design
-in depth.</p>
-<p>This project finds minimal diffs between s-expression files used as
-configuration by Jane Street. It uses A* search to find the minimal
-diff between them, and builds a new s-expression with a section marked
-with <code>:date-switch</code> for the differing parts.</p>
-<h2 id="gumtree-top-down-then-bottom-up"><a class="header" href="#gumtree-top-down-then-bottom-up">GumTree (Top-down, then Bottom-up)</a></h2>
+<h2 id="gumtree-2014"><a class="header" href="#gumtree-2014">GumTree (2014)</a></h2>
+<p>Languages: <a href="https://github.com/GumTreeDiff/gumtree/wiki/Languages">~10 programming
+languages</a><br />
+Parser: Several, including <a href="https://www.srcml.org/">srcML</a><br />
+Algorithm: Top-down, then bottom-up<br />
+Ouput: HTML, Swing GUI, or text</p>
 <p><a href="https://github.com/GumTreeDiff/gumtree">GumTree</a> can parse several
 programming languages and then performs a tree-based diff, outputting
 an HTML display.</p>
@@ -807,15 +806,59 @@ an HTML display.</p>
 <a href="https://hal.archives-ouvertes.fr/hal-01054552/document">PDF</a>). It
 performs a greedy top-down search for identical subtrees, then
 performs a bottom-up search to match up the rest.</p>
-<p>(The academic literature has a lot of discussion of tree differencing,
-<a href="http://useless-factor.blogspot.com/2008/01/matching-diffing-and-merging-xml.html">this blog
-post</a>
-has a good overview of tree differencing focusing on XML.)</p>
-<h2 id="diffsitter-lcs-on-leaves"><a class="header" href="#diffsitter-lcs-on-leaves">Diffsitter (LCS on Leaves)</a></h2>
+<h2 id="tree-diff-2017"><a class="header" href="#tree-diff-2017">Tree Diff (2017)</a></h2>
+<p>Languages: S-expression data format<br />
+Algorithm: A* search<br />
+Output: Merged s-expression file</p>
+<p>Tristan Hume wrote a tree diffing algorithm during his 2017 internship
+and Jane Street. The source code is not available, but <a href="https://thume.ca/2017/06/17/tree-diffing/">he has a blog
+post</a> discussing the design
+in depth.</p>
+<p>This project finds minimal diffs between s-expression files used as
+configuration by Jane Street. It uses A* search to find the minimal
+diff between them, and builds a new s-expression with a section marked
+with <code>:date-switch</code> for the differing parts.</p>
+<p>(Jane Street also has patdiff, but that seems to be a line-oriented
+diff with some whitespace/integer display polish. It doesn't
+understand that e.g. whitespace in <code>&quot;foo &quot;</code> is meaningful).</p>
+<h2 id="autochrome-2017"><a class="header" href="#autochrome-2017">Autochrome (2017)</a></h2>
+<p>Languages: Clojure<br />
+Parser: Custom, preserves comments<br />
+Algorithm: Dijkstra (previously A* search)<br />
+Output: HTML</p>
+<p><a href="https://fazzone.github.io/autochrome.html">Autochrome</a> parses Clojure
+with a custom parser that preserves comments. Autochrome uses
+Dijkstra's algorithm to compare syntax trees.</p>
+<p>Autochrome's webpage includes worked examples of the algorithm and a
+discussion of design tradeoffs. It's a really great resource for
+understanding tree diffing techniques in general.</p>
+<h2 id="graphtage-2020"><a class="header" href="#graphtage-2020">graphtage (2020)</a></h2>
+<p>Languages: JSON, XML, HTML, YAML, plist, and CSS<br />
+Parser: json5, pyYAML, ignores comments<br />
+Algorithm: Levenshtein distance<br />
+Output: CLI colours</p>
+<p><a href="https://blog.trailofbits.com/2020/08/28/graphtage/">graphtage</a>
+compares structured data by parsing into a generic file format, then
+displaying a diff. It even allows things like diffing JSON against
+YAML.</p>
+<p>As with json-diff, it does not consider <code>[&quot;foo&quot;]</code> and <code>&quot;foo&quot;</code> to have
+any similarities.</p>
+<h2 id="diffsitter-2020"><a class="header" href="#diffsitter-2020">Diffsitter (2020)</a></h2>
+<p>Parser: <a href="https://tree-sitter.github.io/tree-sitter/">Tree-sitter</a><br />
+Algorithm: Longest-common-subsequence<br />
+Output: CLI colours</p>
 <p><a href="https://github.com/afnanenayet/diffsitter">Diffsitter</a> is another
 tree-sitter based diff tool. It uses <a href="https://github.com/afnanenayet/diffsitter/blob/b0fd72612c6fcfdb8c061d3afa3bea2b0b754f33/src/ast.rs#L310-L313">LCS diffing on the leaves of the
 syntax
 tree</a>.</p>
+<h2 id="sdiff-2021"><a class="header" href="#sdiff-2021">sdiff (2021)</a></h2>
+<p>Languages: Scheme<br />
+Parser: Scheme's built-in <code>read</code>, ignores comments<br />
+Algorithm: MH-Diff from the Chawathe paper<br />
+Output: CLI colours</p>
+<p><a href="https://archive.fosdem.org/2021/schedule/event/sexpressiondiff/">Semantically meaningful S-expression diff: Tree-diff for lisp source
+code</a>
+was presented at FOSDEM 2021.</p>
 
                     </main>
 
