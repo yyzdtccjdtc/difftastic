@@ -855,7 +855,7 @@
         <span class="ident">OCaml</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">TreeSitterConfig</span> {
             <span class="ident">name</span>: <span class="string">&quot;OCaml&quot;</span>,
             <span class="ident">language</span>: <span class="kw">unsafe</span> { <span class="ident">tree_sitter_ocaml</span>() },
-            <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;character&quot;</span>, <span class="string">&quot;string&quot;</span>, <span class="string">&quot;type_variable&quot;</span>])
+            <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;character&quot;</span>, <span class="string">&quot;string&quot;</span>, <span class="string">&quot;tag&quot;</span>, <span class="string">&quot;type_variable&quot;</span>])
                 .<span class="ident">into_iter</span>()
                 .<span class="ident">collect</span>(),
             <span class="comment">// TODO: begin/end and object/end.</span>
