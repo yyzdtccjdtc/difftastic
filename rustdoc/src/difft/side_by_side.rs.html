@@ -485,6 +485,7 @@
 <span id="483">483</span>
 <span id="484">484</span>
 <span id="485">485</span>
+<span id="486">486</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Side-by-side (two column) display of diffs.</span>
 
@@ -498,11 +499,12 @@
 };
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
+    <span class="ident">context::opposite_positions</span>,
     <span class="ident">hunks</span>::{<span class="ident">aligned_lines_from_hunk</span>, <span class="ident">Hunk</span>},
     <span class="ident">lines</span>::{<span class="ident">codepoint_len</span>, <span class="ident">format_line_num</span>, <span class="ident">LineNumber</span>, <span class="ident">MaxLine</span>},
     <span class="ident">positions::SingleLineSpan</span>,
     <span class="ident">style</span>::{<span class="self">self</span>, <span class="ident">apply_colors</span>, <span class="ident">color_positions</span>, <span class="ident">split_and_apply</span>, <span class="ident">Style</span>},
-    <span class="ident">syntax</span>::{<span class="ident">zip_pad_shorter</span>, <span class="ident">MatchedPos</span>}, <span class="ident">context::opposite_positions</span>,
+    <span class="ident">syntax</span>::{<span class="ident">zip_pad_shorter</span>, <span class="ident">MatchedPos</span>},
 };
 
 <span class="kw">const</span> <span class="ident">SPACER</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot; &quot;</span>;

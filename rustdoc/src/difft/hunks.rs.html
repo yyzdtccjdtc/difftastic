@@ -1066,6 +1066,7 @@
 <span id="1064">1064</span>
 <span id="1065">1065</span>
 <span id="1066">1066</span>
+<span id="1067">1067</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Calculating which modified lines should be displayed together.</span>
 
@@ -1805,8 +1806,9 @@
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::{
+        <span class="ident">context::opposite_positions</span>,
         <span class="ident">positions::SingleLineSpan</span>,
-        <span class="ident">syntax</span>::{<span class="ident">AtomKind</span>, <span class="ident">MatchKind</span>, <span class="ident">TokenKind</span>}, <span class="ident">context::opposite_positions</span>,
+        <span class="ident">syntax</span>::{<span class="ident">AtomKind</span>, <span class="ident">MatchKind</span>, <span class="ident">TokenKind</span>},
     };
     <span class="kw">use</span> <span class="ident">pretty_assertions::assert_eq</span>;
 
