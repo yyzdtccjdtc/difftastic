@@ -254,6 +254,7 @@
 <span id="252">252</span>
 <span id="253">253</span>
 <span id="254">254</span>
+<span id="255">255</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Manipulate lines of text and groups of lines.</span>
 
@@ -330,6 +331,7 @@
         <span class="macro">assert!</span>(<span class="ident">region_start</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">region_end</span>);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">vec!</span>[];
+        <span class="comment">// TODO: Use std::slice::binary_search here instead.</span>
         <span class="kw">for</span> (<span class="ident">line_num</span>, <span class="ident">line_start</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">positions</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
             <span class="kw">let</span> <span class="ident">line_end</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">positions</span>.<span class="ident">get</span>(<span class="ident">line_num</span> <span class="op">+</span> <span class="number">1</span>) {
                 <span class="comment">// TODO: this assumes lines terminate with \n, not \r\n.</span>
