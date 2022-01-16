@@ -943,6 +943,20 @@
 <span id="941">941</span>
 <span id="942">942</span>
 <span id="943">943</span>
+<span id="944">944</span>
+<span id="945">945</span>
+<span id="946">946</span>
+<span id="947">947</span>
+<span id="948">948</span>
+<span id="949">949</span>
+<span id="950">950</span>
+<span id="951">951</span>
+<span id="952">952</span>
+<span id="953">953</span>
+<span id="954">954</span>
+<span id="955">955</span>
+<span id="956">956</span>
+<span id="957">957</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Syntax tree definitions with change metadata.</span>
 
@@ -988,13 +1002,27 @@
 
 <span class="doccomment">/// Fields that are common to both `Syntax::List` and `Syntax::Atom`.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SyntaxInfo</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// The syntax node that occurs after this one, in a depth-first</span>
+    <span class="doccomment">/// tree traversal.</span>
     <span class="ident">next</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The syntax node that occurs before this one, in a depth-first</span>
+    <span class="doccomment">/// tree traversal.</span>
     <span class="ident">prev</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The parent syntax node, if present.</span>
     <span class="ident">parent</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Does the previous syntax node occur on the same line as the</span>
+    <span class="doccomment">/// first line of this node?</span>
     <span class="ident">prev_is_contiguous</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Whether or not this syntax node has changed. This value is set</span>
+    <span class="doccomment">/// when computing the diff with another syntax tree.</span>
     <span class="ident">change</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ChangeKind</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The number of nodes that are ancestors of this one.</span>
     <span class="ident">num_ancestors</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// A number that uniquely identifies this syntax node.</span>
     <span class="ident">unique_id</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// A number that uniquely identifies the content of this syntax</span>
+    <span class="doccomment">/// node. This may be the same as nodes on the other side of the</span>
+    <span class="doccomment">/// diff, or nodes at different positions.</span>
     <span class="ident">content_id</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
 }
 
