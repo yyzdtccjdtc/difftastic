@@ -851,6 +851,9 @@
     <span class="kw">fn</span> <span class="ident">tree_sitter_typescript</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
 }
 
+<span class="comment">// TODO: begin/end and object/end.</span>
+<span class="kw">const</span> <span class="ident">OCAML_ATOM_NODES</span>: [<span class="kw-2">&amp;</span><span class="ident">str</span>; <span class="number">4</span>] <span class="op">=</span> [<span class="string">&quot;character&quot;</span>, <span class="string">&quot;string&quot;</span>, <span class="string">&quot;tag&quot;</span>, <span class="string">&quot;type_variable&quot;</span>];
+
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_language</span>(<span class="ident">language</span>: <span class="ident">guess::Language</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TreeSitterConfig</span> {
     <span class="kw">use</span> <span class="ident">guess::Language</span>::<span class="kw-2">*</span>;
     <span class="kw">match</span> <span class="ident">language</span> {
@@ -1084,10 +1087,7 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;OCaml&quot;</span>,
                 <span class="ident">language</span>: <span class="kw">unsafe</span> { <span class="ident">tree_sitter_ocaml</span>() },
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;character&quot;</span>, <span class="string">&quot;string&quot;</span>, <span class="string">&quot;tag&quot;</span>, <span class="string">&quot;type_variable&quot;</span>])
-                    .<span class="ident">into_iter</span>()
-                    .<span class="ident">collect</span>(),
-                <span class="comment">// TODO: begin/end and object/end.</span>
+                <span class="ident">atom_nodes</span>: <span class="ident">OCAML_ATOM_NODES</span>.<span class="ident">iter</span>().<span class="ident">cloned</span>().<span class="ident">collect</span>(),
                 <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>)]),
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
                     <span class="ident">language</span>,
@@ -1101,7 +1101,7 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;OCaml Interface&quot;</span>,
                 <span class="ident">language</span>: <span class="kw">unsafe</span> { <span class="ident">tree_sitter_ocaml_interface</span>() },
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;character&quot;</span>, <span class="string">&quot;string&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">atom_nodes</span>: <span class="ident">OCAML_ATOM_NODES</span>.<span class="ident">iter</span>().<span class="ident">cloned</span>().<span class="ident">collect</span>(),
                 <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>)]),
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
                     <span class="ident">language</span>,
