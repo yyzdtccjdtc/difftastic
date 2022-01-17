@@ -535,6 +535,8 @@
 <span id="533">533</span>
 <span id="534">534</span>
 <span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Side-by-side (two column) display of diffs.</span>
 
@@ -925,7 +927,8 @@
                         <span class="ident">display_lhs_line_num</span>.<span class="ident">clone</span>()
                     } <span class="kw">else</span> {
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">format_missing_line_num</span>(
-                            <span class="ident">lhs_line_num</span>.<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">prev_lhs_line_num</span>.<span class="ident">unwrap_or</span>(<span class="number">10</span>.<span class="ident">into</span>())),
+                            <span class="ident">lhs_line_num</span>
+                                .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">prev_lhs_line_num</span>.<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="number">10</span>.<span class="ident">into</span>())),
                             <span class="ident">widths</span>.<span class="ident">lhs_line_nums</span>,
                         );
                         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">line_num</span>) <span class="op">=</span> <span class="ident">lhs_line_num</span> {
@@ -939,7 +942,8 @@
                         <span class="ident">display_rhs_line_num</span>.<span class="ident">clone</span>()
                     } <span class="kw">else</span> {
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">format_missing_line_num</span>(
-                            <span class="ident">rhs_line_num</span>.<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">prev_rhs_line_num</span>.<span class="ident">unwrap_or</span>(<span class="number">10</span>.<span class="ident">into</span>())),
+                            <span class="ident">rhs_line_num</span>
+                                .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">prev_rhs_line_num</span>.<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="number">10</span>.<span class="ident">into</span>())),
                             <span class="ident">widths</span>.<span class="ident">rhs_line_nums</span>,
                         );
                         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">line_num</span>) <span class="op">=</span> <span class="ident">rhs_line_num</span> {

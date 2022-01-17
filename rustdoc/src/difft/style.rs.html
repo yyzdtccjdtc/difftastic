@@ -354,7 +354,7 @@
         <span class="ident">s</span> <span class="op">=</span> <span class="ident">substring_by_codepoint</span>(<span class="ident">s</span>, <span class="ident">max_len</span>, <span class="ident">codepoint_len</span>(<span class="ident">s</span>));
     }
 
-    <span class="kw">if</span> <span class="ident">res</span>.<span class="ident">is_empty</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">s</span> <span class="op">!</span><span class="op">=</span> <span class="string">&quot;&quot;</span> {
+    <span class="kw">if</span> <span class="ident">res</span>.<span class="ident">is_empty</span>() <span class="op">|</span><span class="op">|</span> <span class="op">!</span><span class="ident">s</span>.<span class="ident">is_empty</span>() {
         <span class="ident">res</span>.<span class="ident">push</span>(<span class="macro">format!</span>(<span class="string">&quot;{:width$}&quot;</span>, <span class="ident">s</span>, <span class="ident">width</span> <span class="op">=</span> <span class="ident">max_len</span>));
     }
 
