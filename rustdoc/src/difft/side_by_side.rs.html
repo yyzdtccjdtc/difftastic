@@ -486,6 +486,55 @@
 <span id="484">484</span>
 <span id="485">485</span>
 <span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Side-by-side (two column) display of diffs.</span>
 
@@ -923,6 +972,8 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
+    <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::syntax</span>::{<span class="ident">AtomKind</span>, <span class="ident">MatchKind</span>, <span class="ident">TokenKind</span>};
+
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="ident">pretty_assertions::assert_eq</span>;
 
@@ -971,6 +1022,53 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_split_line_with_trailing_newline</span>() {
         <span class="macro">assert_eq!</span>(<span class="ident">split_on_newlines</span>(<span class="string">&quot;foo\nbar\n&quot;</span>), <span class="macro">vec!</span>[<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>, <span class="string">&quot;&quot;</span>]);
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_display_hunks</span>() {
+        <span class="comment">// Simulate diffing:</span>
+        <span class="comment">//</span>
+        <span class="comment">// Old:</span>
+        <span class="comment">// foo</span>
+        <span class="comment">//</span>
+        <span class="comment">// New:</span>
+        <span class="comment">// bar</span>
+        <span class="kw">let</span> <span class="ident">lhs_mps</span> <span class="op">=</span> [<span class="ident">MatchedPos</span> {
+            <span class="ident">kind</span>: <span class="ident">MatchKind::Novel</span> {
+                <span class="ident">highlight</span>: <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Normal</span>),
+            },
+            <span class="ident">pos</span>: <span class="ident">SingleLineSpan</span> {
+                <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
+                <span class="ident">start_col</span>: <span class="number">0</span>,
+                <span class="ident">end_col</span>: <span class="number">3</span>,
+            },
+        }];
+
+        <span class="kw">let</span> <span class="ident">rhs_mps</span> <span class="op">=</span> [<span class="ident">MatchedPos</span> {
+            <span class="ident">kind</span>: <span class="ident">MatchKind::Novel</span> {
+                <span class="ident">highlight</span>: <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Normal</span>),
+            },
+            <span class="ident">pos</span>: <span class="ident">SingleLineSpan</span> {
+                <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
+                <span class="ident">start_col</span>: <span class="number">0</span>,
+                <span class="ident">end_col</span>: <span class="number">3</span>,
+            },
+        }];
+
+        <span class="kw">let</span> <span class="ident">hunks</span> <span class="op">=</span> [<span class="ident">Hunk</span> {
+            <span class="ident">lines</span>: <span class="macro">vec!</span>[(<span class="prelude-val">Some</span>(<span class="number">0</span>.<span class="ident">into</span>()), <span class="prelude-val">Some</span>(<span class="number">0</span>.<span class="ident">into</span>()))],
+        }];
+
+        <span class="comment">// Simple smoke test.</span>
+        <span class="ident">display_hunks</span>(
+            <span class="kw-2">&amp;</span><span class="ident">hunks</span>,
+            <span class="string">&quot;foo.el&quot;</span>,
+            <span class="string">&quot;Emacs Lisp&quot;</span>,
+            <span class="string">&quot;foo&quot;</span>,
+            <span class="string">&quot;bar&quot;</span>,
+            <span class="kw-2">&amp;</span><span class="ident">lhs_mps</span>,
+            <span class="kw-2">&amp;</span><span class="ident">rhs_mps</span>,
+        );
     }
 }
 </pre></div>
