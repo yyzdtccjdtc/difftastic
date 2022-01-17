@@ -255,6 +255,10 @@
 <span id="253">253</span>
 <span id="254">254</span>
 <span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Manipulate lines of text and groups of lines.</span>
 
@@ -278,7 +282,11 @@
 
 <span class="kw">impl</span> <span class="ident">fmt::Debug</span> <span class="kw">for</span> <span class="ident">LineNumber</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt::Result</span> {
-        <span class="ident">f</span>.<span class="ident">write_fmt</span>(<span class="macro">format_args!</span>(<span class="string">&quot;LineNumber: {} (raw: {})&quot;</span>, <span class="self">self</span>.<span class="ident">one_indexed</span>(), <span class="self">self</span>.<span class="number">0</span>))
+        <span class="ident">f</span>.<span class="ident">write_fmt</span>(<span class="macro">format_args!</span>(
+            <span class="string">&quot;LineNumber: {} (raw: {})&quot;</span>,
+            <span class="self">self</span>.<span class="ident">one_indexed</span>(),
+            <span class="self">self</span>.<span class="number">0</span>
+        ))
     }
 }
 
