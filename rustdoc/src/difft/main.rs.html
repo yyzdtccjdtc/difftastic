@@ -392,12 +392,20 @@
 <span id="390">390</span>
 <span id="391">391</span>
 <span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Difftastic is a syntactic diff tool.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! For usage instructions and advice on contributing, see [the</span>
 <span class="doccomment">//! manual](http://difftastic.wilfred.me.uk/).</span>
 <span class="doccomment">//!</span>
+
+<span class="comment">// This tends to trigger on larger tuples of simple types, and naming</span>
+<span class="comment">// them would probably be worse for readability.</span>
+<span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy::type_complexity</span>)]</span>
 
 <span class="kw">mod</span> <span class="ident">context</span>;
 <span class="kw">mod</span> <span class="ident">dijkstra</span>;
