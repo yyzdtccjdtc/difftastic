@@ -185,6 +185,22 @@
 <span id="183">183</span>
 <span id="184">184</span>
 <span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
 </pre><pre class="rust">
 <span class="doccomment">//! A fallback &quot;parser&quot; for plain text.</span>
 
@@ -369,6 +385,22 @@
         <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="string">&quot;foo\nbar\nbaz&quot;</span>;
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">split_lines_keep_newline</span>(<span class="ident">s</span>);
         <span class="macro">assert_eq!</span>(<span class="ident">res</span>, <span class="macro">vec!</span>[<span class="string">&quot;foo\n&quot;</span>, <span class="string">&quot;bar\n&quot;</span>, <span class="string">&quot;baz&quot;</span>])
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_positions_no_changes</span>() {
+        <span class="kw">let</span> <span class="ident">positions</span> <span class="op">=</span> <span class="ident">change_positions</span>(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;foo&quot;</span>);
+
+        <span class="macro">assert_eq!</span>(<span class="ident">positions</span>.<span class="ident">len</span>(), <span class="number">1</span>);
+        <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">positions</span>[<span class="number">0</span>].<span class="ident">kind</span>.<span class="ident">is_change</span>());
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_positions_novel_lhs</span>() {
+        <span class="kw">let</span> <span class="ident">positions</span> <span class="op">=</span> <span class="ident">change_positions</span>(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;&quot;</span>);
+
+        <span class="macro">assert_eq!</span>(<span class="ident">positions</span>.<span class="ident">len</span>(), <span class="number">1</span>);
+        <span class="macro">assert!</span>(<span class="ident">positions</span>[<span class="number">0</span>].<span class="ident">kind</span>.<span class="ident">is_change</span>());
     }
 }
 </pre></div>

@@ -81,8 +81,6 @@
 <span id="79">79</span>
 <span id="80">80</span>
 <span id="81">81</span>
-<span id="82">82</span>
-<span id="83">83</span>
 </pre><pre class="rust">
 <span class="doccomment">//! File reading utilities.</span>
 
@@ -98,8 +96,6 @@
         <span class="comment">// Proceed if we&#39;ve been given two paths and only one</span>
         <span class="comment">// exists. This is important for mercurial diffs when a file</span>
         <span class="comment">// has been removed.</span>
-        <span class="comment">//</span>
-        <span class="comment">// TODO: we&#39;re still computing a diff when one side is &quot;&quot;, which is pointless.</span>
         (<span class="prelude-val">Ok</span>(<span class="ident">lhs_src</span>), <span class="prelude-val">Err</span>(<span class="ident">e</span>)) <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">NotFound</span> <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">lhs_src</span>, <span class="macro">vec!</span>[]),
         (<span class="prelude-val">Err</span>(<span class="ident">e</span>), <span class="prelude-val">Ok</span>(<span class="ident">rhs_src</span>)) <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">NotFound</span> <span class="op">=</span><span class="op">&gt;</span> (<span class="macro">vec!</span>[], <span class="ident">rhs_src</span>),
         (<span class="ident">lhs_res</span>, <span class="ident">rhs_res</span>) <span class="op">=</span><span class="op">&gt;</span> {
