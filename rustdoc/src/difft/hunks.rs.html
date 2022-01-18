@@ -1420,7 +1420,7 @@
     <span class="ident">res</span>.<span class="ident">push</span>(<span class="ident">hunk_end</span>);
 
     <span class="kw">let</span> <span class="ident">after_context</span> <span class="op">=</span> <span class="ident">calculate_after_context</span>(
-        <span class="kw-2">&amp;</span>[<span class="ident">before_context</span>, <span class="ident">hunk_lines</span>].<span class="ident">concat</span>(),
+        <span class="kw-2">&amp;</span><span class="ident">res</span>,
         <span class="ident">opposite_to_lhs</span>,
         <span class="ident">opposite_to_rhs</span>,
         <span class="ident">max_lhs_src_line</span>,
