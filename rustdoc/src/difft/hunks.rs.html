@@ -783,7 +783,6 @@
 <span id="781">781</span>
 <span id="782">782</span>
 <span id="783">783</span>
-<span id="784">784</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Calculating which modified lines should be displayed together.</span>
 
@@ -798,7 +797,7 @@
 };
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
-    <span class="ident">context</span>::{<span class="ident">add_context</span>, <span class="ident">calculate_after_context</span>, <span class="ident">calculate_before_context</span>, <span class="ident">flip_tuples</span>},
+    <span class="ident">context</span>::{<span class="ident">add_context</span>, <span class="ident">calculate_before_context</span>, <span class="ident">flip_tuples</span>, <span class="ident">calculate_after_context</span>},
     <span class="ident">lines::LineNumber</span>,
     <span class="ident">syntax</span>::{<span class="ident">zip_pad_shorter</span>, <span class="ident">MatchedPos</span>},
 };
@@ -1395,17 +1394,9 @@
 
     <span class="comment">// TODO: this largely duplicates add_context().</span>
     <span class="kw">let</span> <span class="ident">before_context</span> <span class="op">=</span> <span class="ident">calculate_before_context</span>(<span class="kw-2">&amp;</span><span class="ident">hunk_lines</span>, <span class="ident">opposite_to_lhs</span>, <span class="ident">opposite_to_rhs</span>);
-    <span class="kw">let</span> <span class="ident">after_context</span> <span class="op">=</span> <span class="ident">calculate_after_context</span>(
-        <span class="kw-2">&amp;</span><span class="ident">hunk_lines</span>,
-        <span class="kw-2">&amp;</span><span class="ident">before_context</span>,
-        <span class="ident">opposite_to_lhs</span>,
-        <span class="ident">opposite_to_rhs</span>,
-        <span class="ident">max_lhs_src_line</span>,
-        <span class="ident">max_rhs_src_line</span>,
-    );
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span>: <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span>)<span class="op">&gt;</span> <span class="op">=</span> <span class="macro">vec!</span>[];
-    <span class="ident">res</span>.<span class="ident">extend</span>(<span class="ident">before_context</span>);
+    <span class="ident">res</span>.<span class="ident">extend</span>(<span class="kw-2">&amp;</span><span class="ident">before_context</span>);
 
     <span class="comment">// TODO: this is a more general case of the `fill_aligned`</span>
     <span class="comment">// situation, so make this the only case.</span>
@@ -1428,6 +1419,13 @@
     <span class="ident">res</span>.<span class="ident">extend</span>(<span class="ident">aligned_between</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">x</span>, <span class="ident">y</span>)<span class="op">|</span> (<span class="prelude-val">Some</span>(<span class="kw-2">*</span><span class="ident">x</span>), <span class="prelude-val">Some</span>(<span class="kw-2">*</span><span class="ident">y</span>))));
     <span class="ident">res</span>.<span class="ident">push</span>(<span class="ident">hunk_end</span>);
 
+    <span class="kw">let</span> <span class="ident">after_context</span> <span class="op">=</span> <span class="ident">calculate_after_context</span>(
+        <span class="kw-2">&amp;</span>[<span class="ident">before_context</span>, <span class="ident">hunk_lines</span>].<span class="ident">concat</span>(),
+        <span class="ident">opposite_to_lhs</span>,
+        <span class="ident">opposite_to_rhs</span>,
+        <span class="ident">max_lhs_src_line</span>,
+        <span class="ident">max_rhs_src_line</span>,
+    );
     <span class="ident">res</span>.<span class="ident">extend</span>(<span class="ident">after_context</span>);
 
     <span class="ident">compact_gaps</span>(<span class="ident">ensure_contiguous</span>(<span class="kw-2">&amp;</span><span class="ident">res</span>))
