@@ -781,6 +781,37 @@
 <span id="779">779</span>
 <span id="780">780</span>
 <span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Calculating which modified lines should be displayed together.</span>
 
@@ -1401,7 +1432,7 @@
 
     <span class="kw">let</span> <span class="ident">aligned_between</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">first_novel</span> {
         (<span class="prelude-val">Some</span>(<span class="ident">lhs_start</span>), <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
-            <span class="comment">// align based on blank lines too.</span>
+            <span class="comment">// TODO: align based on blank lines too.</span>
             <span class="ident">fill_matched_lines</span>(<span class="ident">lhs_start</span>, <span class="ident">max_lhs_src_line</span>, <span class="ident">hunk_end</span>, <span class="ident">opposite_to_lhs</span>)
         }
         (<span class="kw">_</span>, <span class="prelude-val">Some</span>(<span class="ident">rhs_start</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">flip_tuples</span>(<span class="kw-2">&amp;</span><span class="ident">fill_matched_lines</span>(
@@ -1559,6 +1590,37 @@
                 (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="number">1</span>.<span class="ident">into</span>())),
                 (<span class="prelude-val">Some</span>(<span class="number">1</span>.<span class="ident">into</span>()), <span class="prelude-val">Some</span>(<span class="number">2</span>.<span class="ident">into</span>())),
                 (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="number">3</span>.<span class="ident">into</span>())),
+            ]
+        );
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="attribute">#[<span class="ident">ignore</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_aligned_lines_when_hunk_doesnt_align</span>() {
+        <span class="kw">let</span> <span class="ident">hunk</span> <span class="op">=</span> <span class="ident">Hunk</span> {
+            <span class="ident">lines</span>: <span class="macro">vec!</span>[(<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="number">0</span>.<span class="ident">into</span>())), (<span class="prelude-val">Some</span>(<span class="number">0</span>.<span class="ident">into</span>()), <span class="prelude-val">None</span>)],
+        };
+
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">opposite_to_lhs</span> <span class="op">=</span> <span class="ident">HashMap::new</span>();
+        <span class="ident">opposite_to_lhs</span>.<span class="ident">insert</span>(<span class="number">0</span>.<span class="ident">into</span>(), <span class="ident">HashSet::from</span>([<span class="number">0</span>.<span class="ident">into</span>()]));
+        <span class="ident">opposite_to_lhs</span>.<span class="ident">insert</span>(<span class="number">1</span>.<span class="ident">into</span>(), <span class="ident">HashSet::from</span>([<span class="number">1</span>.<span class="ident">into</span>()]));
+
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">opposite_to_rhs</span> <span class="op">=</span> <span class="ident">HashMap::new</span>();
+        <span class="ident">opposite_to_rhs</span>.<span class="ident">insert</span>(<span class="number">0</span>.<span class="ident">into</span>(), <span class="ident">HashSet::from</span>([<span class="number">0</span>.<span class="ident">into</span>()]));
+        <span class="ident">opposite_to_rhs</span>.<span class="ident">insert</span>(<span class="number">1</span>.<span class="ident">into</span>(), <span class="ident">HashSet::from</span>([<span class="number">1</span>.<span class="ident">into</span>()]));
+
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">aligned_lines_from_hunk</span>(
+            <span class="kw-2">&amp;</span><span class="ident">hunk</span>,
+            <span class="kw-2">&amp;</span><span class="ident">opposite_to_lhs</span>,
+            <span class="kw-2">&amp;</span><span class="ident">opposite_to_rhs</span>,
+            <span class="number">1</span>.<span class="ident">into</span>(),
+            <span class="number">1</span>.<span class="ident">into</span>(),
+        );
+        <span class="macro">assert_eq!</span>(
+            <span class="ident">res</span>,
+            <span class="macro">vec!</span>[
+                (<span class="prelude-val">Some</span>(<span class="number">0</span>.<span class="ident">into</span>()), <span class="prelude-val">Some</span>(<span class="number">0</span>.<span class="ident">into</span>())),
+                (<span class="prelude-val">Some</span>(<span class="number">1</span>.<span class="ident">into</span>()), <span class="prelude-val">Some</span>(<span class="number">1</span>.<span class="ident">into</span>())),
             ]
         );
     }
