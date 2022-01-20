@@ -799,6 +799,17 @@
 <span id="797">797</span>
 <span id="798">798</span>
 <span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Load and configure parsers written with tree-sitter.</span>
 
@@ -864,6 +875,7 @@
     <span class="kw">fn</span> <span class="ident">tree_sitter_python</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_ruby</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_rust</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
+    <span class="kw">fn</span> <span class="ident">tree_sitter_scala</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_tsx</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_typescript</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
 }
@@ -1179,6 +1191,16 @@
                     <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/rust.scm&quot;</span>),
                 )
                 .<span class="ident">unwrap</span>(),
+            }
+        }
+        <span class="ident">Scala</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="kw">let</span> <span class="ident">language</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">tree_sitter_scala</span>() };
+            <span class="ident">TreeSitterConfig</span> {
+                <span class="ident">name</span>: <span class="string">&quot;Scala&quot;</span>,
+                <span class="ident">language</span>: <span class="kw">unsafe</span> { <span class="ident">tree_sitter_scala</span>() },
+                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>, <span class="string">&quot;template_string&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)]),
+                <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(<span class="ident">language</span>, <span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>(),
             }
         }
         <span class="ident">TypeScript</span> <span class="op">=</span><span class="op">&gt;</span> {
