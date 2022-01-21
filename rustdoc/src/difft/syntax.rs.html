@@ -953,10 +953,6 @@
 <span id="951">951</span>
 <span id="952">952</span>
 <span id="953">953</span>
-<span id="954">954</span>
-<span id="955">955</span>
-<span id="956">956</span>
-<span id="957">957</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Syntax tree definitions with change metadata.</span>
 
@@ -1247,6 +1243,10 @@
             <span class="ident">Atom</span> { <span class="ident">position</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">position</span>,
         };
         <span class="ident">position</span>.<span class="ident">last</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">lp</span><span class="op">|</span> <span class="ident">lp</span>.<span class="ident">line</span>)
+    }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">change</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ChangeKind</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">info</span>().<span class="ident">change</span>.<span class="ident">get</span>()
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_change</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ck</span>: <span class="ident">ChangeKind</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>) {
@@ -1662,7 +1662,7 @@
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">change_positions</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
     <span class="ident">src</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
     <span class="ident">opposite_src</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-    <span class="ident">nodes</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>],
+    <span class="ident">nodes</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>],
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">MatchedPos</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">nl_pos</span> <span class="op">=</span> <span class="ident">NewlinePositions::from</span>(<span class="ident">src</span>);
     <span class="kw">let</span> <span class="ident">opposite_nl_pos</span> <span class="op">=</span> <span class="ident">NewlinePositions::from</span>(<span class="ident">opposite_src</span>);
@@ -1675,14 +1675,12 @@
 <span class="kw">fn</span> <span class="ident">change_positions_</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
     <span class="ident">nl_pos</span>: <span class="kw-2">&amp;</span><span class="ident">NewlinePositions</span>,
     <span class="ident">opposite_nl_pos</span>: <span class="kw-2">&amp;</span><span class="ident">NewlinePositions</span>,
-    <span class="ident">nodes</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>],
+    <span class="ident">nodes</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>],
     <span class="ident">positions</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">MatchedPos</span><span class="op">&gt;</span>,
 ) {
     <span class="kw">for</span> <span class="ident">node</span> <span class="kw">in</span> <span class="ident">nodes</span> {
         <span class="kw">let</span> <span class="ident">change</span> <span class="op">=</span> <span class="ident">node</span>
-            .<span class="ident">info</span>()
-            .<span class="ident">change</span>
-            .<span class="ident">get</span>()
+            .<span class="ident">change</span>()
             .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="macro">panic!</span>(<span class="string">&quot;Should have changes set in all nodes: {:#?}&quot;</span>, <span class="ident">node</span>));
 
         <span class="kw">match</span> <span class="ident">node</span> {
@@ -1773,12 +1771,6 @@
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="ident">pretty_assertions::assert_eq</span>;
-
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">change</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ChangeKind</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">info</span>().<span class="ident">change</span>.<span class="ident">get</span>()
-        }
-    }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_comment_and_atom_differ</span>() {
