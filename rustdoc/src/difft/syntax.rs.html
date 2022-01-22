@@ -953,6 +953,8 @@
 <span id="951">951</span>
 <span id="952">952</span>
 <span id="953">953</span>
+<span id="954">954</span>
+<span id="955">955</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Syntax tree definitions with change metadata.</span>
 
@@ -1019,6 +1021,8 @@
     <span class="doccomment">/// A number that uniquely identifies the content of this syntax</span>
     <span class="doccomment">/// node. This may be the same as nodes on the other side of the</span>
     <span class="doccomment">/// diff, or nodes at different positions.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Values are sequential, not hashes. Collisions never occur.</span>
     <span class="ident">content_id</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
 }
 
