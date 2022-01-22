@@ -450,11 +450,11 @@
 <span class="kw">mod</span> <span class="ident">lines</span>;
 <span class="kw">mod</span> <span class="ident">positions</span>;
 <span class="kw">mod</span> <span class="ident">side_by_side</span>;
+<span class="kw">mod</span> <span class="ident">sliders</span>;
 <span class="kw">mod</span> <span class="ident">style</span>;
 <span class="kw">mod</span> <span class="ident">summary</span>;
 <span class="kw">mod</span> <span class="ident">syntax</span>;
 <span class="kw">mod</span> <span class="ident">tree_sitter_parser</span>;
-<span class="kw">mod</span> <span class="ident">sliders</span>;
 
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">log</span>;
@@ -475,9 +475,9 @@
 
 <span class="kw">use</span> <span class="ident">atty::Stream</span>;
 <span class="kw">use</span> <span class="ident">clap</span>::{<span class="ident">crate_version</span>, <span class="ident">App</span>, <span class="ident">AppSettings</span>, <span class="ident">Arg</span>};
+<span class="kw">use</span> <span class="ident">sliders::fix_all_sliders</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">env</span>, <span class="ident">path::Path</span>};
 <span class="kw">use</span> <span class="ident">summary::DiffResult</span>;
-<span class="kw">use</span> <span class="ident">sliders::fix_all_sliders</span>;
 <span class="kw">use</span> <span class="ident">typed_arena::Arena</span>;
 <span class="kw">use</span> <span class="ident">walkdir::WalkDir</span>;
 
