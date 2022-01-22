@@ -1011,7 +1011,7 @@
     <span class="ident">prev_is_contiguous</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Whether or not this syntax node has changed. This value is set</span>
     <span class="doccomment">/// when computing the diff with another syntax tree.</span>
-    <span class="ident">change</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ChangeKind</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">change</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ChangeKind</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="doccomment">/// The number of nodes that are ancestors of this one.</span>
     <span class="ident">num_ancestors</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="doccomment">/// A number that uniquely identifies this syntax node.</span>
@@ -1221,7 +1221,7 @@
     <span class="doccomment">/// A content ID of this syntax node. Two nodes have the same</span>
     <span class="doccomment">/// content ID if they have the same content, regardless of</span>
     <span class="doccomment">/// position.</span>
-    <span class="kw">fn</span> <span class="ident">content_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">content_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
         <span class="self">self</span>.<span class="ident">info</span>().<span class="ident">content_id</span>.<span class="ident">get</span>()
     }
 
@@ -1295,7 +1295,7 @@
     <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">AtomKind</span><span class="op">&gt;</span>,
 );
 
-<span class="kw">fn</span> <span class="ident">set_content_id</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">nodes</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>], <span class="ident">existing</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">ContentKey</span>, <span class="ident">u32</span><span class="op">&gt;</span>) {
+<span class="kw">fn</span> <span class="ident">set_content_id</span>(<span class="ident">nodes</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">Syntax</span>], <span class="ident">existing</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">ContentKey</span>, <span class="ident">u32</span><span class="op">&gt;</span>) {
     <span class="kw">for</span> <span class="ident">node</span> <span class="kw">in</span> <span class="ident">nodes</span> {
         <span class="kw">let</span> <span class="ident">key</span>: <span class="ident">ContentKey</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">node</span> {
             <span class="ident">List</span> {

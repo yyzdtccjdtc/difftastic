@@ -380,43 +380,6 @@
 <span id="378">378</span>
 <span id="379">379</span>
 <span id="380">380</span>
-<span id="381">381</span>
-<span id="382">382</span>
-<span id="383">383</span>
-<span id="384">384</span>
-<span id="385">385</span>
-<span id="386">386</span>
-<span id="387">387</span>
-<span id="388">388</span>
-<span id="389">389</span>
-<span id="390">390</span>
-<span id="391">391</span>
-<span id="392">392</span>
-<span id="393">393</span>
-<span id="394">394</span>
-<span id="395">395</span>
-<span id="396">396</span>
-<span id="397">397</span>
-<span id="398">398</span>
-<span id="399">399</span>
-<span id="400">400</span>
-<span id="401">401</span>
-<span id="402">402</span>
-<span id="403">403</span>
-<span id="404">404</span>
-<span id="405">405</span>
-<span id="406">406</span>
-<span id="407">407</span>
-<span id="408">408</span>
-<span id="409">409</span>
-<span id="410">410</span>
-<span id="411">411</span>
-<span id="412">412</span>
-<span id="413">413</span>
-<span id="414">414</span>
-<span id="415">415</span>
-<span id="416">416</span>
-<span id="417">417</span>
 </pre><pre class="rust">
 <span class="doccomment">//! A graph representation for computing tree diffs.</span>
 
@@ -461,28 +424,11 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Vertex</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="kw">pub</span> <span class="ident">lhs_syntax</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">rhs_syntax</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// If the previous edge was marking syntax as novel, what line</span>
-    <span class="doccomment">/// was it on?</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// We want to prefer marking syntax nodes as novel if we&#39;ve</span>
-    <span class="doccomment">/// already marked other nodes as novel on the current line. See</span>
-    <span class="doccomment">/// `sample_files/contiguous_after.js`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Unfortunately this is path dependent: the vertex doesn&#39;t care</span>
-    <span class="doccomment">/// how we got here.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// We solve this by distinguishing vertices based on the novel</span>
-    <span class="doccomment">/// state of the previous edge. This increases the search space</span>
-    <span class="doccomment">/// but allows us to keep using a graph traversal.</span>
-    <span class="kw">pub</span> <span class="ident">lhs_prev_is_novel</span>: <span class="ident">bool</span>,
-    <span class="kw">pub</span> <span class="ident">rhs_prev_is_novel</span>: <span class="ident">bool</span>,
 }
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">PartialEq</span> <span class="kw">for</span> <span class="ident">Vertex</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">lhs_syntax</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">node</span><span class="op">|</span> <span class="ident">node</span>.<span class="ident">id</span>()) <span class="op">=</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">lhs_syntax</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">node</span><span class="op">|</span> <span class="ident">node</span>.<span class="ident">id</span>())
             <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">rhs_syntax</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">node</span><span class="op">|</span> <span class="ident">node</span>.<span class="ident">id</span>()) <span class="op">=</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">rhs_syntax</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">node</span><span class="op">|</span> <span class="ident">node</span>.<span class="ident">id</span>())
-            <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">lhs_prev_is_novel</span> <span class="op">=</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">lhs_prev_is_novel</span>
-            <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">rhs_prev_is_novel</span> <span class="op">=</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">rhs_prev_is_novel</span>
     }
 }
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Eq</span> <span class="kw">for</span> <span class="ident">Vertex</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {}
@@ -491,8 +437,6 @@
     <span class="kw">fn</span> <span class="ident">hash</span><span class="op">&lt;</span><span class="ident">H</span>: <span class="ident">Hasher</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">H</span>) {
         <span class="self">self</span>.<span class="ident">lhs_syntax</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">node</span><span class="op">|</span> <span class="ident">node</span>.<span class="ident">id</span>()).<span class="ident">hash</span>(<span class="ident">state</span>);
         <span class="self">self</span>.<span class="ident">rhs_syntax</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">node</span><span class="op">|</span> <span class="ident">node</span>.<span class="ident">id</span>()).<span class="ident">hash</span>(<span class="ident">state</span>);
-        <span class="self">self</span>.<span class="ident">lhs_prev_is_novel</span>.<span class="ident">hash</span>(<span class="ident">state</span>);
-        <span class="self">self</span>.<span class="ident">rhs_prev_is_novel</span>.<span class="ident">hash</span>(<span class="ident">state</span>);
     }
 }
 
@@ -583,11 +527,9 @@
                 <span class="ident">Vertex</span> {
                     <span class="ident">lhs_syntax</span>: <span class="ident">lhs_syntax</span>.<span class="ident">next</span>(),
                     <span class="ident">rhs_syntax</span>: <span class="ident">rhs_syntax</span>.<span class="ident">next</span>(),
-                    <span class="ident">lhs_prev_is_novel</span>: <span class="bool-val">false</span>,
-                    <span class="ident">rhs_prev_is_novel</span>: <span class="bool-val">false</span>,
                 },
             ));
-            <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+            <span class="kw">return</span>;
         }
 
         <span class="kw">if</span> <span class="kw">let</span> (
@@ -627,8 +569,6 @@
                     <span class="ident">Vertex</span> {
                         <span class="ident">lhs_syntax</span>: <span class="ident">lhs_next</span>,
                         <span class="ident">rhs_syntax</span>: <span class="ident">rhs_next</span>,
-                        <span class="ident">lhs_prev_is_novel</span>: <span class="bool-val">false</span>,
-                        <span class="ident">rhs_prev_is_novel</span>: <span class="bool-val">false</span>,
                     },
                 ));
                 <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
@@ -658,8 +598,6 @@
                     <span class="ident">Vertex</span> {
                         <span class="ident">lhs_syntax</span>: <span class="ident">lhs_syntax</span>.<span class="ident">next</span>(),
                         <span class="ident">rhs_syntax</span>: <span class="ident">rhs_syntax</span>.<span class="ident">next</span>(),
-                        <span class="ident">lhs_prev_is_novel</span>: <span class="bool-val">false</span>,
-                        <span class="ident">rhs_prev_is_novel</span>: <span class="bool-val">false</span>,
                     },
                 ));
                 <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
@@ -673,13 +611,11 @@
             <span class="ident">Syntax::Atom</span> { .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">buf</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="prelude-val">Some</span>((
                     <span class="ident">NovelAtomLHS</span> {
-                        <span class="ident">contiguous</span>: <span class="ident">v</span>.<span class="ident">lhs_prev_is_novel</span> <span class="op">&amp;&amp;</span> <span class="ident">lhs_syntax</span>.<span class="ident">prev_is_contiguous</span>(),
+                        <span class="ident">contiguous</span>: <span class="ident">lhs_syntax</span>.<span class="ident">prev_is_contiguous</span>(),
                     },
                     <span class="ident">Vertex</span> {
                         <span class="ident">lhs_syntax</span>: <span class="ident">lhs_syntax</span>.<span class="ident">next</span>(),
                         <span class="ident">rhs_syntax</span>: <span class="ident">v</span>.<span class="ident">rhs_syntax</span>,
-                        <span class="ident">lhs_prev_is_novel</span>: <span class="bool-val">true</span>,
-                        <span class="ident">rhs_prev_is_novel</span>: <span class="ident">v</span>.<span class="ident">rhs_prev_is_novel</span>,
                     },
                 ));
                 <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
@@ -698,13 +634,11 @@
 
                 <span class="ident">buf</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="prelude-val">Some</span>((
                     <span class="ident">NovelDelimiterLHS</span> {
-                        <span class="ident">contiguous</span>: <span class="ident">v</span>.<span class="ident">lhs_prev_is_novel</span> <span class="op">&amp;&amp;</span> <span class="ident">lhs_syntax</span>.<span class="ident">prev_is_contiguous</span>(),
+                        <span class="ident">contiguous</span>: <span class="ident">lhs_syntax</span>.<span class="ident">prev_is_contiguous</span>(),
                     },
                     <span class="ident">Vertex</span> {
                         <span class="ident">lhs_syntax</span>: <span class="ident">lhs_next</span>,
                         <span class="ident">rhs_syntax</span>: <span class="ident">v</span>.<span class="ident">rhs_syntax</span>,
-                        <span class="ident">lhs_prev_is_novel</span>: <span class="bool-val">true</span>,
-                        <span class="ident">rhs_prev_is_novel</span>: <span class="ident">v</span>.<span class="ident">rhs_prev_is_novel</span>,
                     },
                 ));
                 <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
@@ -717,8 +651,6 @@
                         <span class="ident">Vertex</span> {
                             <span class="ident">lhs_syntax</span>: <span class="ident">lhs_syntax</span>.<span class="ident">next</span>(),
                             <span class="ident">rhs_syntax</span>: <span class="ident">v</span>.<span class="ident">rhs_syntax</span>,
-                            <span class="ident">lhs_prev_is_novel</span>: <span class="ident">v</span>.<span class="ident">lhs_prev_is_novel</span>,
-                            <span class="ident">rhs_prev_is_novel</span>: <span class="ident">v</span>.<span class="ident">rhs_prev_is_novel</span>,
                         },
                     ));
                     <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
@@ -733,13 +665,11 @@
             <span class="ident">Syntax::Atom</span> { .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">buf</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="prelude-val">Some</span>((
                     <span class="ident">NovelAtomRHS</span> {
-                        <span class="ident">contiguous</span>: <span class="ident">v</span>.<span class="ident">rhs_prev_is_novel</span> <span class="op">&amp;&amp;</span> <span class="ident">rhs_syntax</span>.<span class="ident">prev_is_contiguous</span>(),
+                        <span class="ident">contiguous</span>: <span class="ident">rhs_syntax</span>.<span class="ident">prev_is_contiguous</span>(),
                     },
                     <span class="ident">Vertex</span> {
                         <span class="ident">lhs_syntax</span>: <span class="ident">v</span>.<span class="ident">lhs_syntax</span>,
                         <span class="ident">rhs_syntax</span>: <span class="ident">rhs_syntax</span>.<span class="ident">next</span>(),
-                        <span class="ident">lhs_prev_is_novel</span>: <span class="ident">v</span>.<span class="ident">lhs_prev_is_novel</span>,
-                        <span class="ident">rhs_prev_is_novel</span>: <span class="bool-val">true</span>,
                     },
                 ));
             }
@@ -757,13 +687,11 @@
 
                 <span class="ident">buf</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="prelude-val">Some</span>((
                     <span class="ident">NovelDelimiterRHS</span> {
-                        <span class="ident">contiguous</span>: <span class="ident">v</span>.<span class="ident">rhs_prev_is_novel</span> <span class="op">&amp;&amp;</span> <span class="ident">rhs_syntax</span>.<span class="ident">prev_is_contiguous</span>(),
+                        <span class="ident">contiguous</span>: <span class="ident">rhs_syntax</span>.<span class="ident">prev_is_contiguous</span>(),
                     },
                     <span class="ident">Vertex</span> {
                         <span class="ident">lhs_syntax</span>: <span class="ident">v</span>.<span class="ident">lhs_syntax</span>,
                         <span class="ident">rhs_syntax</span>: <span class="ident">rhs_next</span>,
-                        <span class="ident">lhs_prev_is_novel</span>: <span class="ident">v</span>.<span class="ident">lhs_prev_is_novel</span>,
-                        <span class="ident">rhs_prev_is_novel</span>: <span class="bool-val">true</span>,
                     },
                 ));
                 <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
@@ -776,8 +704,6 @@
                         <span class="ident">Vertex</span> {
                             <span class="ident">lhs_syntax</span>: <span class="ident">v</span>.<span class="ident">lhs_syntax</span>,
                             <span class="ident">rhs_syntax</span>: <span class="ident">rhs_syntax</span>.<span class="ident">next</span>(),
-                            <span class="ident">lhs_prev_is_novel</span>: <span class="ident">v</span>.<span class="ident">lhs_prev_is_novel</span>,
-                            <span class="ident">rhs_prev_is_novel</span>: <span class="ident">v</span>.<span class="ident">rhs_prev_is_novel</span>,
                         },
                     ));
                 }
