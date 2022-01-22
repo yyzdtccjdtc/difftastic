@@ -175,10 +175,10 @@ file.</p>
           ...
 </code></pre>
 <h3 id="conversion-process"><a class="header" href="#conversion-process">Conversion Process</a></h3>
-<p>The simple representation of difftastic parse tree makes diffing much
-easier. Converting the detailed tree-sitter parse tree is a recursive
-tree walk, treating tree-sitter leaf nodes as atoms. There are two
-exceptions.</p>
+<p>The simple representation of the difftastic parse tree makes diffing
+much easier. Converting the detailed tree-sitter parse tree is a
+recursive tree walk, treating tree-sitter leaf nodes as atoms. There
+are two exceptions.</p>
 <p>(1) Tree-sitter parse trees sometimes include unwanted structure. Some
 grammars consider string literals to be a single token, whereas others
 treat strings as a complex structure where the delimiters are
