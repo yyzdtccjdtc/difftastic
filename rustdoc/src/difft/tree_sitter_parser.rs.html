@@ -809,6 +809,36 @@
 <span id="807">807</span>
 <span id="808">808</span>
 <span id="809">809</span>
+<span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
+<span id="820">820</span>
+<span id="821">821</span>
+<span id="822">822</span>
+<span id="823">823</span>
+<span id="824">824</span>
+<span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
+<span id="830">830</span>
+<span id="831">831</span>
+<span id="832">832</span>
+<span id="833">833</span>
+<span id="834">834</span>
+<span id="835">835</span>
+<span id="836">836</span>
+<span id="837">837</span>
+<span id="838">838</span>
+<span id="839">839</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Load and configure parsers written with tree-sitter.</span>
 
@@ -1236,7 +1266,10 @@
 }
 
 <span class="doccomment">/// Parse `src` with tree-sitter.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parse_to_tree</span>(<span class="ident">src</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">config</span>: <span class="kw-2">&amp;</span><span class="ident">TreeSitterConfig</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">tree_sitter::Tree</span>, <span class="ident">HashSet</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parse_to_tree</span>(
+    <span class="ident">src</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
+    <span class="ident">config</span>: <span class="kw-2">&amp;</span><span class="ident">TreeSitterConfig</span>,
+) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">tree_sitter::Tree</span>, <span class="ident">HashSet</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>, <span class="ident">HashSet</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">parser</span> <span class="op">=</span> <span class="ident">ts::Parser::new</span>();
     <span class="ident">parser</span>
         .<span class="ident">set_language</span>(<span class="ident">config</span>.<span class="ident">language</span>)
@@ -1255,19 +1288,28 @@
         <span class="ident">keyword_ish_capture_ids</span>.<span class="ident">push</span>(<span class="ident">idx</span>);
     }
 
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">string_capture_ids</span> <span class="op">=</span> <span class="macro">vec!</span>[];
+    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <span class="ident">config</span>.<span class="ident">highlight_query</span>.<span class="ident">capture_index_for_name</span>(<span class="string">&quot;string&quot;</span>) {
+        <span class="ident">string_capture_ids</span>.<span class="ident">push</span>(<span class="ident">idx</span>);
+    }
+
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">qc</span> <span class="op">=</span> <span class="ident">ts::QueryCursor::new</span>();
     <span class="kw">let</span> <span class="ident">q_matches</span> <span class="op">=</span> <span class="ident">qc</span>.<span class="ident">matches</span>(<span class="kw-2">&amp;</span><span class="ident">config</span>.<span class="ident">highlight_query</span>, <span class="ident">tree</span>.<span class="ident">root_node</span>(), <span class="ident">src</span>.<span class="ident">as_bytes</span>());
 
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">node_keyword_ids</span> <span class="op">=</span> <span class="ident">HashSet::new</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">keyword_node_ids</span> <span class="op">=</span> <span class="ident">HashSet::new</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">string_node_ids</span> <span class="op">=</span> <span class="ident">HashSet::new</span>();
     <span class="kw">for</span> <span class="ident">m</span> <span class="kw">in</span> <span class="ident">q_matches</span> {
         <span class="kw">for</span> <span class="ident">c</span> <span class="kw">in</span> <span class="ident">m</span>.<span class="ident">captures</span> {
             <span class="kw">if</span> <span class="ident">keyword_ish_capture_ids</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">c</span>.<span class="ident">index</span>) {
-                <span class="ident">node_keyword_ids</span>.<span class="ident">insert</span>(<span class="ident">c</span>.<span class="ident">node</span>.<span class="ident">id</span>());
+                <span class="ident">keyword_node_ids</span>.<span class="ident">insert</span>(<span class="ident">c</span>.<span class="ident">node</span>.<span class="ident">id</span>());
+            }
+            <span class="kw">if</span> <span class="ident">string_capture_ids</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">c</span>.<span class="ident">index</span>) {
+                <span class="ident">string_node_ids</span>.<span class="ident">insert</span>(<span class="ident">c</span>.<span class="ident">node</span>.<span class="ident">id</span>());
             }
         }
     }
 
-    (<span class="ident">tree</span>, <span class="ident">node_keyword_ids</span>)
+    (<span class="ident">tree</span>, <span class="ident">keyword_node_ids</span>, <span class="ident">string_node_ids</span>)
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">print_tree</span>(<span class="ident">src</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">tree</span>: <span class="kw-2">&amp;</span><span class="ident">tree_sitter::Tree</span>) {
@@ -1311,7 +1353,7 @@
         <span class="kw">return</span> <span class="macro">vec!</span>[];
     }
 
-    <span class="kw">let</span> (<span class="ident">tree</span>, <span class="ident">keyword_ids</span>) <span class="op">=</span> <span class="ident">parse_to_tree</span>(<span class="ident">src</span>, <span class="ident">config</span>);
+    <span class="kw">let</span> (<span class="ident">tree</span>, <span class="ident">keyword_ids</span>, <span class="ident">string_ids</span>) <span class="op">=</span> <span class="ident">parse_to_tree</span>(<span class="ident">src</span>, <span class="ident">config</span>);
 
     <span class="kw">let</span> <span class="ident">nl_pos</span> <span class="op">=</span> <span class="ident">NewlinePositions::from</span>(<span class="ident">src</span>);
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cursor</span> <span class="op">=</span> <span class="ident">tree</span>.<span class="ident">walk</span>();
@@ -1320,7 +1362,15 @@
     <span class="comment">// each top level syntax item.</span>
     <span class="ident">cursor</span>.<span class="ident">goto_first_child</span>();
 
-    <span class="ident">all_syntaxes_from_cursor</span>(<span class="ident">arena</span>, <span class="ident">src</span>, <span class="kw-2">&amp;</span><span class="ident">nl_pos</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">cursor</span>, <span class="ident">config</span>, <span class="kw-2">&amp;</span><span class="ident">keyword_ids</span>)
+    <span class="ident">all_syntaxes_from_cursor</span>(
+        <span class="ident">arena</span>,
+        <span class="ident">src</span>,
+        <span class="kw-2">&amp;</span><span class="ident">nl_pos</span>,
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">cursor</span>,
+        <span class="ident">config</span>,
+        <span class="kw-2">&amp;</span><span class="ident">keyword_ids</span>,
+        <span class="kw-2">&amp;</span><span class="ident">string_ids</span>,
+    )
 }
 
 <span class="kw">fn</span> <span class="ident">child_tokens</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">src</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>, <span class="ident">cursor</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ts::TreeCursor</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span> {
@@ -1382,6 +1432,7 @@
     <span class="ident">cursor</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ts::TreeCursor</span>,
     <span class="ident">config</span>: <span class="kw-2">&amp;</span><span class="ident">TreeSitterConfig</span>,
     <span class="ident">keyword_ids</span>: <span class="kw-2">&amp;</span><span class="ident">HashSet</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>,
+    <span class="ident">string_ids</span>: <span class="kw-2">&amp;</span><span class="ident">HashSet</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Syntax</span><span class="op">&gt;</span> <span class="op">=</span> <span class="macro">vec!</span>[];
 
@@ -1393,6 +1444,7 @@
             <span class="ident">cursor</span>,
             <span class="ident">config</span>,
             <span class="ident">keyword_ids</span>,
+            <span class="ident">string_ids</span>,
         ));
 
         <span class="kw">if</span> <span class="op">!</span><span class="ident">cursor</span>.<span class="ident">goto_next_sibling</span>() {
@@ -1412,6 +1464,7 @@
     <span class="ident">cursor</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ts::TreeCursor</span>,
     <span class="ident">config</span>: <span class="kw-2">&amp;</span><span class="ident">TreeSitterConfig</span>,
     <span class="ident">keyword_ids</span>: <span class="kw-2">&amp;</span><span class="ident">HashSet</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>,
+    <span class="ident">string_ids</span>: <span class="kw-2">&amp;</span><span class="ident">HashSet</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">node</span> <span class="op">=</span> <span class="ident">cursor</span>.<span class="ident">node</span>();
 
@@ -1429,11 +1482,11 @@
     <span class="kw">if</span> <span class="ident">config</span>.<span class="ident">atom_nodes</span>.<span class="ident">contains</span>(<span class="ident">node</span>.<span class="ident">kind</span>()) {
         <span class="comment">// Treat nodes like string literals as atoms, regardless</span>
         <span class="comment">// of whether they have children.</span>
-        <span class="ident">atom_from_cursor</span>(<span class="ident">arena</span>, <span class="ident">src</span>, <span class="ident">nl_pos</span>, <span class="ident">cursor</span>, <span class="ident">keyword_ids</span>)
+        <span class="ident">atom_from_cursor</span>(<span class="ident">arena</span>, <span class="ident">src</span>, <span class="ident">nl_pos</span>, <span class="ident">cursor</span>, <span class="ident">keyword_ids</span>, <span class="ident">string_ids</span>)
     } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">node</span>.<span class="ident">child_count</span>() <span class="op">&gt;</span> <span class="number">0</span> {
-        <span class="ident">list_from_cursor</span>(<span class="ident">arena</span>, <span class="ident">src</span>, <span class="ident">nl_pos</span>, <span class="ident">cursor</span>, <span class="ident">config</span>, <span class="ident">keyword_ids</span>)
+        <span class="ident">list_from_cursor</span>(<span class="ident">arena</span>, <span class="ident">src</span>, <span class="ident">nl_pos</span>, <span class="ident">cursor</span>, <span class="ident">config</span>, <span class="ident">keyword_ids</span>, <span class="ident">string_ids</span>)
     } <span class="kw">else</span> {
-        <span class="ident">atom_from_cursor</span>(<span class="ident">arena</span>, <span class="ident">src</span>, <span class="ident">nl_pos</span>, <span class="ident">cursor</span>, <span class="ident">keyword_ids</span>)
+        <span class="ident">atom_from_cursor</span>(<span class="ident">arena</span>, <span class="ident">src</span>, <span class="ident">nl_pos</span>, <span class="ident">cursor</span>, <span class="ident">keyword_ids</span>, <span class="ident">string_ids</span>)
     }
 }
 
@@ -1446,6 +1499,7 @@
     <span class="ident">cursor</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ts::TreeCursor</span>,
     <span class="ident">config</span>: <span class="kw-2">&amp;</span><span class="ident">TreeSitterConfig</span>,
     <span class="ident">keyword_ids</span>: <span class="kw-2">&amp;</span><span class="ident">HashSet</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>,
+    <span class="ident">string_ids</span>: <span class="kw-2">&amp;</span><span class="ident">HashSet</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">root_node</span> <span class="op">=</span> <span class="ident">cursor</span>.<span class="ident">node</span>();
 
@@ -1495,6 +1549,7 @@
                 <span class="ident">cursor</span>,
                 <span class="ident">config</span>,
                 <span class="ident">keyword_ids</span>,
+                <span class="ident">string_ids</span>,
             ));
         } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">node_i</span> <span class="op">=</span><span class="op">=</span> <span class="ident">i</span> {
             <span class="ident">inner_open_content</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">src</span>[<span class="ident">node</span>.<span class="ident">start_byte</span>()..<span class="ident">node</span>.<span class="ident">end_byte</span>()];
@@ -1507,6 +1562,7 @@
                 <span class="ident">cursor</span>,
                 <span class="ident">config</span>,
                 <span class="ident">keyword_ids</span>,
+                <span class="ident">string_ids</span>,
             ));
         } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">node_i</span> <span class="op">=</span><span class="op">=</span> <span class="ident">j</span> {
             <span class="ident">inner_close_content</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">src</span>[<span class="ident">node</span>.<span class="ident">start_byte</span>()..<span class="ident">node</span>.<span class="ident">end_byte</span>()];
@@ -1519,6 +1575,7 @@
                 <span class="ident">cursor</span>,
                 <span class="ident">config</span>,
                 <span class="ident">keyword_ids</span>,
+                <span class="ident">string_ids</span>,
             ));
         }
 
@@ -1570,6 +1627,7 @@
     <span class="ident">nl_pos</span>: <span class="kw-2">&amp;</span><span class="ident">NewlinePositions</span>,
     <span class="ident">cursor</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ts::TreeCursor</span>,
     <span class="ident">keyword_ids</span>: <span class="kw-2">&amp;</span><span class="ident">HashSet</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>,
+    <span class="ident">string_ids</span>: <span class="kw-2">&amp;</span><span class="ident">HashSet</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">node</span> <span class="op">=</span> <span class="ident">cursor</span>.<span class="ident">node</span>();
     <span class="kw">let</span> <span class="ident">position</span> <span class="op">=</span> <span class="ident">nl_pos</span>.<span class="ident">from_offsets</span>(<span class="ident">node</span>.<span class="ident">start_byte</span>(), <span class="ident">node</span>.<span class="ident">end_byte</span>());
@@ -1588,6 +1646,8 @@
         <span class="ident">AtomKind::Comment</span>
     } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">keyword_ids</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">node</span>.<span class="ident">id</span>()) {
         <span class="ident">AtomKind::Keyword</span>
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">string_ids</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">node</span>.<span class="ident">id</span>()) {
+        <span class="ident">AtomKind::String</span>
     } <span class="kw">else</span> {
         <span class="ident">AtomKind::Normal</span>
     };
