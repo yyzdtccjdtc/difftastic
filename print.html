@@ -176,6 +176,11 @@ builds.</p>
 <pre><code>$ difft sample_files/before.js sample_files/after.js
 </code></pre>
 <p>Difftastic uses the file extension to decide which parser to use.</p>
+<h2 id="diffing-directories"><a class="header" href="#diffing-directories">Diffing Directories</a></h2>
+<pre><code>$ difft sample_files/dir_before sample_files/dir_after
+</code></pre>
+<p>Difftastic will recursively walk the two directories, diffing files
+with the same name.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="git"><a class="header" href="#git">Git</a></h1>
 <p>Git <a href="https://git-scm.com/docs/diff-config#Documentation/diff-config.txt-diffexternal">supports external diff
 tools</a>. You
