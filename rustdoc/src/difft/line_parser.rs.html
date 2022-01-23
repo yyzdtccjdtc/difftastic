@@ -201,6 +201,26 @@
 <span id="199">199</span>
 <span id="200">200</span>
 <span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
 </pre><pre class="rust">
 <span class="doccomment">//! A fallback &quot;parser&quot; for plain text.</span>
 
@@ -334,31 +354,35 @@
                 <span class="kw">for</span> <span class="ident">diff_res</span> <span class="kw">in</span> <span class="ident">diff::slice</span>(<span class="kw-2">&amp;</span><span class="ident">split_words</span>(<span class="kw-2">&amp;</span><span class="ident">lhs_part</span>), <span class="kw-2">&amp;</span><span class="ident">split_words</span>(<span class="kw-2">&amp;</span><span class="ident">rhs_part</span>)) {
                     <span class="kw">match</span> <span class="ident">diff_res</span> {
                         <span class="ident">diff::Result::Left</span>(<span class="ident">lhs_word</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                            <span class="kw">let</span> <span class="ident">lhs_pos</span> <span class="op">=</span>
-                                <span class="ident">lhs_nlp</span>.<span class="ident">from_offsets</span>(<span class="ident">lhs_offset</span>, <span class="ident">lhs_offset</span> <span class="op">+</span> <span class="ident">lhs_word</span>.<span class="ident">len</span>());
-                            <span class="ident">res</span>.<span class="ident">push</span>(<span class="ident">MatchedPos</span> {
-                                <span class="comment">// TODO: rename this kind to reflect</span>
-                                <span class="comment">// that it&#39;s used for both code</span>
-                                <span class="comment">// comments and plain text.</span>
-                                <span class="ident">kind</span>: <span class="ident">MatchKind::ChangedCommentPart</span> {},
-                                <span class="ident">pos</span>: <span class="ident">lhs_pos</span>[<span class="number">0</span>],
-                            });
+                            <span class="kw">if</span> <span class="ident">lhs_word</span> <span class="op">!</span><span class="op">=</span> <span class="string">&quot;\n&quot;</span> {
+                                <span class="kw">let</span> <span class="ident">lhs_pos</span> <span class="op">=</span>
+                                    <span class="ident">lhs_nlp</span>.<span class="ident">from_offsets</span>(<span class="ident">lhs_offset</span>, <span class="ident">lhs_offset</span> <span class="op">+</span> <span class="ident">lhs_word</span>.<span class="ident">len</span>());
+                                <span class="ident">res</span>.<span class="ident">push</span>(<span class="ident">MatchedPos</span> {
+                                    <span class="comment">// TODO: rename this kind to reflect</span>
+                                    <span class="comment">// that it&#39;s used for both code</span>
+                                    <span class="comment">// comments and plain text.</span>
+                                    <span class="ident">kind</span>: <span class="ident">MatchKind::ChangedCommentPart</span> {},
+                                    <span class="ident">pos</span>: <span class="ident">lhs_pos</span>[<span class="number">0</span>],
+                                });
+                            }
 
                             <span class="ident">lhs_offset</span> <span class="op">+</span><span class="op">=</span> <span class="ident">lhs_word</span>.<span class="ident">len</span>();
                         }
                         <span class="ident">diff::Result::Both</span>(<span class="ident">lhs_word</span>, <span class="ident">rhs_word</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                            <span class="kw">let</span> <span class="ident">lhs_pos</span> <span class="op">=</span>
-                                <span class="ident">lhs_nlp</span>.<span class="ident">from_offsets</span>(<span class="ident">lhs_offset</span>, <span class="ident">lhs_offset</span> <span class="op">+</span> <span class="ident">lhs_word</span>.<span class="ident">len</span>());
-                            <span class="kw">let</span> <span class="ident">rhs_pos</span> <span class="op">=</span>
-                                <span class="ident">rhs_nlp</span>.<span class="ident">from_offsets</span>(<span class="ident">rhs_offset</span>, <span class="ident">rhs_offset</span> <span class="op">+</span> <span class="ident">rhs_word</span>.<span class="ident">len</span>());
+                            <span class="kw">if</span> <span class="ident">lhs_word</span> <span class="op">!</span><span class="op">=</span> <span class="string">&quot;\n&quot;</span> {
+                                <span class="kw">let</span> <span class="ident">lhs_pos</span> <span class="op">=</span>
+                                    <span class="ident">lhs_nlp</span>.<span class="ident">from_offsets</span>(<span class="ident">lhs_offset</span>, <span class="ident">lhs_offset</span> <span class="op">+</span> <span class="ident">lhs_word</span>.<span class="ident">len</span>());
+                                <span class="kw">let</span> <span class="ident">rhs_pos</span> <span class="op">=</span>
+                                    <span class="ident">rhs_nlp</span>.<span class="ident">from_offsets</span>(<span class="ident">rhs_offset</span>, <span class="ident">rhs_offset</span> <span class="op">+</span> <span class="ident">rhs_word</span>.<span class="ident">len</span>());
 
-                            <span class="ident">res</span>.<span class="ident">push</span>(<span class="ident">MatchedPos</span> {
-                                <span class="ident">kind</span>: <span class="ident">MatchKind::UnchangedCommentPart</span> {
-                                    <span class="ident">self_pos</span>: <span class="ident">lhs_pos</span>[<span class="number">0</span>],
-                                    <span class="ident">opposite_pos</span>: <span class="ident">rhs_pos</span>,
-                                },
-                                <span class="ident">pos</span>: <span class="ident">lhs_pos</span>[<span class="number">0</span>],
-                            });
+                                <span class="ident">res</span>.<span class="ident">push</span>(<span class="ident">MatchedPos</span> {
+                                    <span class="ident">kind</span>: <span class="ident">MatchKind::UnchangedCommentPart</span> {
+                                        <span class="ident">self_pos</span>: <span class="ident">lhs_pos</span>[<span class="number">0</span>],
+                                        <span class="ident">opposite_pos</span>: <span class="ident">rhs_pos</span>,
+                                    },
+                                    <span class="ident">pos</span>: <span class="ident">lhs_pos</span>[<span class="number">0</span>],
+                                });
+                            }
 
                             <span class="ident">lhs_offset</span> <span class="op">+</span><span class="op">=</span> <span class="ident">lhs_word</span>.<span class="ident">len</span>();
                             <span class="ident">rhs_offset</span> <span class="op">+</span><span class="op">=</span> <span class="ident">rhs_word</span>.<span class="ident">len</span>();
@@ -393,6 +417,22 @@
 
         <span class="macro">assert_eq!</span>(<span class="ident">positions</span>.<span class="ident">len</span>(), <span class="number">1</span>);
         <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">positions</span>[<span class="number">0</span>].<span class="ident">kind</span>.<span class="ident">is_change</span>());
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_no_changes_trailing_newlines</span>() {
+        <span class="kw">let</span> <span class="ident">positions</span> <span class="op">=</span> <span class="ident">change_positions</span>(<span class="string">&quot;foo\n&quot;</span>, <span class="string">&quot;foo\n&quot;</span>);
+
+        <span class="macro">assert_eq!</span>(<span class="ident">positions</span>.<span class="ident">len</span>(), <span class="number">1</span>);
+        <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">positions</span>[<span class="number">0</span>].<span class="ident">kind</span>.<span class="ident">is_change</span>());
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_novel_lhs_trailing_newlines</span>() {
+        <span class="kw">let</span> <span class="ident">positions</span> <span class="op">=</span> <span class="ident">change_positions</span>(<span class="string">&quot;foo\n&quot;</span>, <span class="string">&quot;&quot;</span>);
+
+        <span class="macro">assert_eq!</span>(<span class="ident">positions</span>.<span class="ident">len</span>(), <span class="number">1</span>);
+        <span class="macro">assert!</span>(<span class="ident">positions</span>[<span class="number">0</span>].<span class="ident">kind</span>.<span class="ident">is_change</span>());
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
