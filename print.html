@@ -741,6 +741,7 @@ lead to huge memory consumption.</p>
 <p>If timing measurement are noisy, Linux's <code>perf</code> tool will report
 instructions executed, which is more stable.</p>
 <pre><code>$ perf stat ./target/release/difft sample_files/slow_before.rs sample_files/slow_after.rs
+$ perf stat ./target/release/difft sample_files/typing_old.ml sample_files/typing_new.ml
 </code></pre>
 <p>Many more profiling techniques are discussed in the <a href="https://nnethercote.github.io/perf-book/">The Rust
 Performance Book</a>.</p>
