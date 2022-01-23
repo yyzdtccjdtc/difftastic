@@ -276,9 +276,6 @@
 <span id="274">274</span>
 <span id="275">275</span>
 <span id="276">276</span>
-<span id="277">277</span>
-<span id="278">278</span>
-<span id="279">279</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Apply colours and styling to strings.</span>
 
@@ -369,16 +366,13 @@
             }
 
             <span class="kw">if</span> <span class="ident">i</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">prev_length</span> {
-                <span class="comment">// Dim text before the next span.</span>
+                <span class="comment">// Unstyled text before the next span.</span>
                 <span class="kw">if</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">span</span>.<span class="ident">start_col</span> {
-                    <span class="ident">res</span>.<span class="ident">push_str</span>(
-                        <span class="kw-2">&amp;</span><span class="ident">substring_by_codepoint</span>(
-                            <span class="kw-2">&amp;</span><span class="ident">part</span>,
-                            <span class="ident">i</span> <span class="op">-</span> <span class="ident">prev_length</span>,
-                            <span class="ident">span</span>.<span class="ident">start_col</span> <span class="op">-</span> <span class="ident">prev_length</span>,
-                        )
-                        .<span class="ident">dimmed</span>(),
-                    );
+                    <span class="ident">res</span>.<span class="ident">push_str</span>(<span class="ident">substring_by_codepoint</span>(
+                        <span class="kw-2">&amp;</span><span class="ident">part</span>,
+                        <span class="ident">i</span> <span class="op">-</span> <span class="ident">prev_length</span>,
+                        <span class="ident">span</span>.<span class="ident">start_col</span> <span class="op">-</span> <span class="ident">prev_length</span>,
+                    ));
                 }
             }
 
@@ -393,10 +387,10 @@
             }
             <span class="ident">i</span> <span class="op">=</span> <span class="ident">span</span>.<span class="ident">end_col</span>;
         }
-        <span class="comment">// Dim text after the last span.</span>
+        <span class="comment">// Unstyled text after the last span.</span>
         <span class="kw">if</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">prev_length</span> <span class="op">+</span> <span class="ident">codepoint_len</span>(<span class="kw-2">&amp;</span><span class="ident">part</span>) {
             <span class="kw">let</span> <span class="ident">span_s</span> <span class="op">=</span> <span class="ident">substring_by_codepoint</span>(<span class="kw-2">&amp;</span><span class="ident">part</span>, <span class="ident">i</span> <span class="op">-</span> <span class="ident">prev_length</span>, <span class="ident">codepoint_len</span>(<span class="kw-2">&amp;</span><span class="ident">part</span>));
-            <span class="ident">res</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="ident">span_s</span>.<span class="ident">dimmed</span>());
+            <span class="ident">res</span>.<span class="ident">push_str</span>(<span class="ident">span_s</span>);
         }
 
         <span class="ident">styled_parts</span>.<span class="ident">push</span>(<span class="ident">res</span>);
@@ -422,9 +416,9 @@
             <span class="kw">break</span>;
         }
 
-        <span class="comment">// Dim text before the next span.</span>
+        <span class="comment">// Unstyled text before the next span.</span>
         <span class="kw">if</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">span</span>.<span class="ident">start_col</span> {
-            <span class="ident">res</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="ident">substring_by_codepoint</span>(<span class="ident">line</span>, <span class="ident">i</span>, <span class="ident">span</span>.<span class="ident">start_col</span>).<span class="ident">dimmed</span>());
+            <span class="ident">res</span>.<span class="ident">push_str</span>(<span class="ident">substring_by_codepoint</span>(<span class="ident">line</span>, <span class="ident">i</span>, <span class="ident">span</span>.<span class="ident">start_col</span>));
         }
 
         <span class="comment">// Apply style to the substring in this span.</span>
@@ -434,10 +428,10 @@
         <span class="ident">i</span> <span class="op">=</span> <span class="ident">span</span>.<span class="ident">end_col</span>;
     }
 
-    <span class="comment">// Dim text after the last span.</span>
+    <span class="comment">// Unstyled text after the last span.</span>
     <span class="kw">if</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">codepoint_len</span>(<span class="ident">line</span>) {
         <span class="kw">let</span> <span class="ident">span_s</span> <span class="op">=</span> <span class="ident">substring_by_codepoint</span>(<span class="ident">line</span>, <span class="ident">i</span>, <span class="ident">codepoint_len</span>(<span class="ident">line</span>));
-        <span class="ident">res</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="ident">span_s</span>.<span class="ident">dimmed</span>());
+        <span class="ident">res</span>.<span class="ident">push_str</span>(<span class="ident">span_s</span>);
     }
     <span class="ident">res</span>
 }
