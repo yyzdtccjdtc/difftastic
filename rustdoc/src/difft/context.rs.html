@@ -310,6 +310,11 @@
 <span id="308">308</span>
 <span id="309">309</span>
 <span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Calculate which nearby lines should also be displayed.</span>
 
@@ -448,8 +453,13 @@
     <span class="ident">res</span>
 }
 
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">flip_tuple</span><span class="op">&lt;</span><span class="ident">Tx</span>: <span class="ident">Copy</span>, <span class="ident">Ty</span>: <span class="ident">Copy</span><span class="op">&gt;</span>(<span class="ident">pair</span>: (<span class="ident">Tx</span>, <span class="ident">Ty</span>)) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">Ty</span>, <span class="ident">Tx</span>) {
+    <span class="kw">let</span> (<span class="ident">x</span>, <span class="ident">y</span>) <span class="op">=</span> <span class="ident">pair</span>;
+    (<span class="ident">y</span>, <span class="ident">x</span>)
+}
+
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">flip_tuples</span><span class="op">&lt;</span><span class="ident">Tx</span>: <span class="ident">Copy</span>, <span class="ident">Ty</span>: <span class="ident">Copy</span><span class="op">&gt;</span>(<span class="ident">items</span>: <span class="kw-2">&amp;</span>[(<span class="ident">Tx</span>, <span class="ident">Ty</span>)]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">Ty</span>, <span class="ident">Tx</span>)<span class="op">&gt;</span> {
-    <span class="ident">items</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">x</span>, <span class="ident">y</span>)<span class="op">|</span> (<span class="kw-2">*</span><span class="ident">y</span>, <span class="kw-2">*</span><span class="ident">x</span>)).<span class="ident">collect</span>()
+    <span class="ident">items</span>.<span class="ident">iter</span>().<span class="ident">copied</span>().<span class="ident">map</span>(<span class="ident">flip_tuple</span>).<span class="ident">collect</span>()
 }
 
 <span class="doccomment">/// Before:</span>
