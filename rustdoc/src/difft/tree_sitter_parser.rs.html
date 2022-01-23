@@ -809,7 +809,6 @@
 <span id="807">807</span>
 <span id="808">808</span>
 <span id="809">809</span>
-<span id="810">810</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Load and configure parsers written with tree-sitter.</span>
 
@@ -1245,25 +1244,24 @@
 
     <span class="kw">let</span> <span class="ident">tree</span> <span class="op">=</span> <span class="ident">parser</span>.<span class="ident">parse</span>(<span class="ident">src</span>, <span class="prelude-val">None</span>).<span class="ident">unwrap</span>();
 
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">node_keyword_ids</span> <span class="op">=</span> <span class="ident">HashSet::new</span>();
-
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">keyword_ish_ids</span> <span class="op">=</span> <span class="macro">vec!</span>[];
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">keyword_ish_capture_ids</span> <span class="op">=</span> <span class="macro">vec!</span>[];
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <span class="ident">config</span>.<span class="ident">highlight_query</span>.<span class="ident">capture_index_for_name</span>(<span class="string">&quot;keyword&quot;</span>) {
-        <span class="ident">keyword_ish_ids</span>.<span class="ident">push</span>(<span class="ident">idx</span>);
+        <span class="ident">keyword_ish_capture_ids</span>.<span class="ident">push</span>(<span class="ident">idx</span>);
     }
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <span class="ident">config</span>.<span class="ident">highlight_query</span>.<span class="ident">capture_index_for_name</span>(<span class="string">&quot;operator&quot;</span>) {
-        <span class="ident">keyword_ish_ids</span>.<span class="ident">push</span>(<span class="ident">idx</span>);
+        <span class="ident">keyword_ish_capture_ids</span>.<span class="ident">push</span>(<span class="ident">idx</span>);
     }
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <span class="ident">config</span>.<span class="ident">highlight_query</span>.<span class="ident">capture_index_for_name</span>(<span class="string">&quot;constant&quot;</span>) {
-        <span class="ident">keyword_ish_ids</span>.<span class="ident">push</span>(<span class="ident">idx</span>);
+        <span class="ident">keyword_ish_capture_ids</span>.<span class="ident">push</span>(<span class="ident">idx</span>);
     }
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">qc</span> <span class="op">=</span> <span class="ident">ts::QueryCursor::new</span>();
     <span class="kw">let</span> <span class="ident">q_matches</span> <span class="op">=</span> <span class="ident">qc</span>.<span class="ident">matches</span>(<span class="kw-2">&amp;</span><span class="ident">config</span>.<span class="ident">highlight_query</span>, <span class="ident">tree</span>.<span class="ident">root_node</span>(), <span class="ident">src</span>.<span class="ident">as_bytes</span>());
 
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">node_keyword_ids</span> <span class="op">=</span> <span class="ident">HashSet::new</span>();
     <span class="kw">for</span> <span class="ident">m</span> <span class="kw">in</span> <span class="ident">q_matches</span> {
         <span class="kw">for</span> <span class="ident">c</span> <span class="kw">in</span> <span class="ident">m</span>.<span class="ident">captures</span> {
-            <span class="kw">if</span> <span class="ident">keyword_ish_ids</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">c</span>.<span class="ident">index</span>) {
+            <span class="kw">if</span> <span class="ident">keyword_ish_capture_ids</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">c</span>.<span class="ident">index</span>) {
                 <span class="ident">node_keyword_ids</span>.<span class="ident">insert</span>(<span class="ident">c</span>.<span class="ident">node</span>.<span class="ident">id</span>());
             }
         }
