@@ -221,6 +221,16 @@ following to your <code>.gitconfig</code> to use difftastic as your difftool.</p
 <p>You can then run <code>git difftool</code> to see current changes with difftastic.</p>
 <pre><code>$ git difftool
 </code></pre>
+<p>We also recommend the following settings to get the best difftool
+experience.</p>
+<pre><code class="language-ini"># Use a pager for large output, just like other git commands.
+[pager]
+        difftool = true
+
+# `git dft` is less to type than `git difftool`.
+[alias]
+        dft = difftool
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="mercurial"><a class="header" href="#mercurial">Mercurial</a></h1>
 <p>Mercurial <a href="https://www.mercurial-scm.org/wiki/ExtdiffExtension">supports external diff
 tools</a> with the
