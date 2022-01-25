@@ -474,8 +474,8 @@
         <span class="kw">let</span> <span class="ident">style</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">pos</span>.<span class="ident">kind</span> {
             <span class="ident">MatchKind::Unchanged</span> { <span class="ident">highlight</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Style</span> {
                 <span class="ident">foreground</span>: <span class="kw">match</span> <span class="ident">highlight</span> {
-                    <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::String</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Color::Cyan</span>,
-                    <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Comment</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Color::Blue</span>,
+                    <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::String</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Color::Magenta</span>,
+                    <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Comment</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Color::Cyan</span>,
                     <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Color::White</span>,
                 },
                 <span class="ident">background</span>: <span class="prelude-val">None</span>,
