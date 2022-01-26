@@ -775,7 +775,7 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::syntax</span>::{<span class="ident">init_info</span>, <span class="ident">AtomKind</span>};
+    <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::syntax</span>::{<span class="ident">init_all_info</span>, <span class="ident">AtomKind</span>};
     <span class="kw">use</span> <span class="ident">pretty_assertions::assert_eq</span>;
     <span class="kw">use</span> <span class="ident">typed_arena::Arena</span>;
 
@@ -814,7 +814,7 @@
         }];
         <span class="kw">let</span> <span class="ident">rhs</span> <span class="op">=</span> [<span class="ident">Syntax::new_atom</span>(<span class="kw-2">&amp;</span><span class="ident">arena</span>, <span class="ident">pos</span>, <span class="string">&quot;a&quot;</span>, <span class="ident">AtomKind::Comment</span>)];
 
-        <span class="ident">init_info</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>);
+        <span class="ident">init_all_info</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>);
 
         <span class="ident">lhs</span>[<span class="number">0</span>].<span class="ident">set_change</span>(<span class="ident">Unchanged</span>(<span class="ident">rhs</span>[<span class="number">0</span>]));
         <span class="ident">lhs</span>[<span class="number">1</span>].<span class="ident">set_change</span>(<span class="ident">Novel</span>);
@@ -861,7 +861,7 @@
         }];
         <span class="kw">let</span> <span class="ident">rhs</span> <span class="op">=</span> [<span class="ident">Syntax::new_atom</span>(<span class="kw-2">&amp;</span><span class="ident">arena</span>, <span class="ident">pos</span>, <span class="string">&quot;a&quot;</span>, <span class="ident">AtomKind::Comment</span>)];
 
-        <span class="ident">init_info</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>);
+        <span class="ident">init_all_info</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>);
 
         <span class="ident">lhs</span>[<span class="number">0</span>].<span class="ident">set_change</span>(<span class="ident">Novel</span>);
         <span class="ident">lhs</span>[<span class="number">1</span>].<span class="ident">set_change</span>(<span class="ident">Novel</span>);
