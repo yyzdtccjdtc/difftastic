@@ -839,8 +839,6 @@
     }
 
     <span class="kw">if</span> <span class="ident">env::var</span>(<span class="string">&quot;INLINE&quot;</span>).<span class="ident">is_ok</span>() {
-        <span class="macro">println!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">style::header</span>(<span class="kw-2">&amp;</span><span class="ident">summary</span>.<span class="ident">path</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="kw-2">&amp;</span><span class="ident">lang_name</span>));
-
         <span class="macro">println!</span>(
             <span class="string">&quot;{}&quot;</span>,
             <span class="ident">inline::display</span>(
@@ -848,7 +846,9 @@
                 <span class="kw-2">&amp;</span><span class="ident">summary</span>.<span class="ident">rhs_src</span>,
                 <span class="kw-2">&amp;</span><span class="ident">summary</span>.<span class="ident">lhs_positions</span>,
                 <span class="kw-2">&amp;</span><span class="ident">summary</span>.<span class="ident">rhs_positions</span>,
-                <span class="kw-2">&amp;</span><span class="ident">hunks</span>
+                <span class="kw-2">&amp;</span><span class="ident">hunks</span>,
+                <span class="kw-2">&amp;</span><span class="ident">summary</span>.<span class="ident">path</span>,
+                <span class="kw-2">&amp;</span><span class="ident">lang_name</span>,
             )
         );
     } <span class="kw">else</span> {
