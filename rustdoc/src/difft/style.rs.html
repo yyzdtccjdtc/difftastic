@@ -272,14 +272,6 @@
 <span id="270">270</span>
 <span id="271">271</span>
 <span id="272">272</span>
-<span id="273">273</span>
-<span id="274">274</span>
-<span id="275">275</span>
-<span id="276">276</span>
-<span id="277">277</span>
-<span id="278">278</span>
-<span id="279">279</span>
-<span id="280">280</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Apply colours and styling to strings.</span>
 
@@ -495,11 +487,7 @@
                 <span class="ident">dimmed</span>: <span class="bool-val">false</span>,
             },
             <span class="ident">MatchKind::Novel</span> { <span class="ident">highlight</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Style</span> {
-                <span class="ident">foreground</span>: <span class="prelude-val">Some</span>(<span class="kw">if</span> <span class="ident">is_lhs</span> {
-                    <span class="ident">Color::BrightRed</span>
-                } <span class="kw">else</span> {
-                    <span class="ident">Color::BrightGreen</span>
-                }),
+                <span class="ident">foreground</span>: <span class="prelude-val">Some</span>(<span class="kw">if</span> <span class="ident">is_lhs</span> { <span class="ident">Color::Red</span> } <span class="kw">else</span> { <span class="ident">Color::Green</span> }),
                 <span class="ident">background</span>: <span class="prelude-val">None</span>,
                 <span class="ident">bold</span>: <span class="kw">match</span> <span class="ident">highlight</span> {
                     <span class="ident">TokenKind::Delimiter</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
@@ -510,11 +498,7 @@
                 <span class="ident">dimmed</span>: <span class="bool-val">false</span>,
             },
             <span class="ident">MatchKind::ChangedCommentPart</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Style</span> {
-                <span class="ident">foreground</span>: <span class="prelude-val">Some</span>(<span class="kw">if</span> <span class="ident">is_lhs</span> {
-                    <span class="ident">Color::BrightRed</span>
-                } <span class="kw">else</span> {
-                    <span class="ident">Color::BrightGreen</span>
-                }),
+                <span class="ident">foreground</span>: <span class="prelude-val">Some</span>(<span class="kw">if</span> <span class="ident">is_lhs</span> { <span class="ident">Color::Red</span> } <span class="kw">else</span> { <span class="ident">Color::Green</span> }),
                 <span class="ident">background</span>: <span class="prelude-val">None</span>,
                 <span class="ident">bold</span>: <span class="bool-val">true</span>,
                 <span class="ident">dimmed</span>: <span class="bool-val">false</span>,
