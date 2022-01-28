@@ -520,6 +520,8 @@
 <span id="518">518</span>
 <span id="519">519</span>
 <span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Side-by-side (two column) display of diffs.</span>
 
@@ -577,6 +579,8 @@
         <span class="string">&quot;.&quot;</span>.<span class="ident">repeat</span>(<span class="ident">num_digits</span>),
         <span class="ident">width</span> <span class="op">=</span> <span class="ident">column_width</span> <span class="op">-</span> <span class="number">1</span>
     )
+    .<span class="ident">dimmed</span>()
+    .<span class="ident">to_string</span>()
 }
 
 <span class="doccomment">/// Display `src` in a single column (e.g. a file removal or addition).</span>
