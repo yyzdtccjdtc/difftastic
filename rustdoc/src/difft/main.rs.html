@@ -565,7 +565,7 @@
 <span class="kw">static</span> <span class="ident">GLOBAL</span>: <span class="ident">MiMalloc</span> <span class="op">=</span> <span class="ident">MiMalloc</span>;
 
 <span class="kw">use</span> <span class="ident">atty::Stream</span>;
-<span class="kw">use</span> <span class="ident">clap</span>::{<span class="ident">crate_version</span>, <span class="ident">App</span>, <span class="ident">AppSettings</span>, <span class="ident">Arg</span>};
+<span class="kw">use</span> <span class="ident">clap</span>::{<span class="ident">crate_authors</span>, <span class="ident">crate_description</span>, <span class="ident">crate_version</span>, <span class="ident">App</span>, <span class="ident">AppSettings</span>, <span class="ident">Arg</span>};
 <span class="kw">use</span> <span class="ident">sliders::fix_all_sliders</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">env</span>, <span class="ident">path::Path</span>};
 <span class="kw">use</span> <span class="ident">summary::DiffResult</span>;
@@ -599,7 +599,7 @@
             <span class="comment">// TODO: consider following the env parsing logic in git_config_bool</span>
             <span class="comment">// in config.c.</span>
             <span class="ident">atty::is</span>(<span class="ident">Stream::Stdout</span>) <span class="op">|</span><span class="op">|</span> <span class="ident">env::var</span>(<span class="string">&quot;GIT_PAGER_IN_USE&quot;</span>).<span class="ident">is_ok</span>()
-        },
+        }
         <span class="ident">ColorOutput::Never</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
     };
 
@@ -631,14 +631,14 @@
 <span class="kw">fn</span> <span class="ident">app</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">clap::App</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span> {
     <span class="ident">App::new</span>(<span class="string">&quot;Difftastic&quot;</span>)
         .<span class="ident">version</span>(<span class="macro">crate_version!</span>())
-        .<span class="ident">about</span>(<span class="string">&quot;A syntax aware diff.&quot;</span>)
-        .<span class="ident">author</span>(<span class="string">&quot;Wilfred Hughes&quot;</span>)
+        .<span class="ident">about</span>(<span class="macro">crate_description!</span>())
+        .<span class="ident">author</span>(<span class="macro">crate_authors!</span>())
         .<span class="ident">arg</span>(
             <span class="ident">Arg::new</span>(<span class="string">&quot;dump-syntax&quot;</span>)
                 .<span class="ident">long</span>(<span class="string">&quot;dump-syntax&quot;</span>)
                 .<span class="ident">takes_value</span>(<span class="bool-val">true</span>)
                 .<span class="ident">value_name</span>(<span class="string">&quot;PATH&quot;</span>)
-                .<span class="ident">help</span>(
+                .<span class="ident">long_help</span>(
                     <span class="string">&quot;[DEBUG] Parse a single file with tree-sitter and display the difftastic syntax tree.&quot;</span>,
                 ),
         )
@@ -647,7 +647,7 @@
                 .<span class="ident">long</span>(<span class="string">&quot;dump-ts&quot;</span>)
                 .<span class="ident">takes_value</span>(<span class="bool-val">true</span>)
                 .<span class="ident">value_name</span>(<span class="string">&quot;PATH&quot;</span>)
-                .<span class="ident">help</span>(
+                .<span class="ident">long_help</span>(
                     <span class="string">&quot;[DEBUG] Parse a single file with tree-sitter and display the tree-sitter parse tree.&quot;</span>,
                 ),
         )
@@ -656,7 +656,7 @@
                 .<span class="ident">long</span>(<span class="string">&quot;width&quot;</span>)
                 .<span class="ident">takes_value</span>(<span class="bool-val">true</span>)
                 .<span class="ident">value_name</span>(<span class="string">&quot;COLUMNS&quot;</span>)
-                .<span class="ident">help</span>(<span class="string">&quot;Use this many columns when calculating line wrapping. Overrides $DFT_WIDTH if present. If not specified, difftastic will detect the terminal width.&quot;</span>)
+                .<span class="ident">long_help</span>(<span class="string">&quot;Use this many columns when calculating line wrapping. Overrides $DFT_WIDTH if present. If not specified, difftastic will detect the terminal width.&quot;</span>)
                 .<span class="ident">validator</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>())
                 .<span class="ident">required</span>(<span class="bool-val">false</span>),
         )
