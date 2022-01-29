@@ -444,6 +444,17 @@
 <span id="442">442</span>
 <span id="443">443</span>
 <span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Difftastic is a syntactic diff tool.</span>
 <span class="doccomment">//!</span>
@@ -535,26 +546,32 @@
     },
 }
 
+<span class="kw">fn</span> <span class="ident">app</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">clap::App</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span> {
+    <span class="ident">App::new</span>(<span class="string">&quot;Difftastic&quot;</span>)
+        .<span class="ident">version</span>(<span class="macro">crate_version!</span>())
+        .<span class="ident">about</span>(<span class="string">&quot;A syntax aware diff.&quot;</span>)
+        .<span class="ident">author</span>(<span class="string">&quot;Wilfred Hughes&quot;</span>)
+        .<span class="ident">arg</span>(
+            <span class="ident">Arg::new</span>(<span class="string">&quot;dump-syntax&quot;</span>).<span class="ident">long</span>(<span class="string">&quot;dump-syntax&quot;</span>).<span class="ident">help</span>(
+                <span class="string">&quot;Parse a single file with tree-sitter and display the difftastic syntax tree.&quot;</span>,
+            ),
+        )
+        .<span class="ident">arg</span>(
+            <span class="ident">Arg::new</span>(<span class="string">&quot;dump-ts&quot;</span>).<span class="ident">long</span>(<span class="string">&quot;dump-ts&quot;</span>).<span class="ident">help</span>(
+                <span class="string">&quot;Parse a single file with tree-sitter and display the tree-sitter parse tree.&quot;</span>,
+            ),
+        )
+        .<span class="ident">arg</span>(
+            <span class="ident">Arg::new</span>(<span class="string">&quot;paths&quot;</span>)
+                .<span class="ident">multiple_values</span>(<span class="bool-val">true</span>)
+                .<span class="ident">allow_invalid_utf8</span>(<span class="bool-val">true</span>),
+        )
+        .<span class="ident">setting</span>(<span class="ident">AppSettings::ArgRequiredElseHelp</span>)
+}
+
 <span class="doccomment">/// Parse CLI arguments passed to the binary.</span>
 <span class="kw">fn</span> <span class="ident">parse_args</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Mode</span> {
-    <span class="kw">let</span> <span class="ident">matches</span> <span class="op">=</span>
-        <span class="ident">App::new</span>(<span class="string">&quot;Difftastic&quot;</span>)
-            .<span class="ident">version</span>(<span class="macro">crate_version!</span>())
-            .<span class="ident">about</span>(<span class="string">&quot;A syntax aware diff.&quot;</span>)
-            .<span class="ident">author</span>(<span class="string">&quot;Wilfred Hughes&quot;</span>)
-            .<span class="ident">arg</span>(<span class="ident">Arg::new</span>(<span class="string">&quot;dump-syntax&quot;</span>).<span class="ident">long</span>(<span class="string">&quot;dump-syntax&quot;</span>).<span class="ident">help</span>(
-                <span class="string">&quot;Parse a single file with tree-sitter and display the difftastic syntax tree.&quot;</span>,
-            ))
-            .<span class="ident">arg</span>(<span class="ident">Arg::new</span>(<span class="string">&quot;dump-ts&quot;</span>).<span class="ident">long</span>(<span class="string">&quot;dump-ts&quot;</span>).<span class="ident">help</span>(
-                <span class="string">&quot;Parse a single file with tree-sitter and display the tree-sitter parse tree.&quot;</span>,
-            ))
-            .<span class="ident">arg</span>(
-                <span class="ident">Arg::new</span>(<span class="string">&quot;paths&quot;</span>)
-                    .<span class="ident">multiple_values</span>(<span class="bool-val">true</span>)
-                    .<span class="ident">allow_invalid_utf8</span>(<span class="bool-val">true</span>),
-            )
-            .<span class="ident">setting</span>(<span class="ident">AppSettings::ArgRequiredElseHelp</span>)
-            .<span class="ident">get_matches</span>();
+    <span class="kw">let</span> <span class="ident">matches</span> <span class="op">=</span> <span class="ident">app</span>().<span class="ident">get_matches</span>();
 
     <span class="kw">let</span> <span class="ident">args</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">matches</span>.<span class="ident">values_of_lossy</span>(<span class="string">&quot;paths&quot;</span>).<span class="ident">unwrap</span>();
     <span class="macro">info!</span>(<span class="string">&quot;CLI arguments: {:?}&quot;</span>, <span class="ident">args</span>);
@@ -887,6 +904,11 @@
         <span class="macro">assert_eq!</span>(<span class="ident">res</span>.<span class="ident">lhs_positions</span>, <span class="macro">vec!</span>[]);
         <span class="macro">assert_eq!</span>(<span class="ident">res</span>.<span class="ident">rhs_positions</span>, <span class="macro">vec!</span>[]);
         <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">res</span>.<span class="ident">binary</span>);
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_app</span>() {
+        <span class="ident">app</span>().<span class="ident">debug_assert</span>();
     }
 }
 </pre></div>
