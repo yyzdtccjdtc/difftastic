@@ -440,6 +440,10 @@
 <span id="438">438</span>
 <span id="439">439</span>
 <span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Difftastic is a syntactic diff tool.</span>
 <span class="doccomment">//!</span>
@@ -538,13 +542,17 @@
             .<span class="ident">version</span>(<span class="macro">crate_version!</span>())
             .<span class="ident">about</span>(<span class="string">&quot;A syntax aware diff.&quot;</span>)
             .<span class="ident">author</span>(<span class="string">&quot;Wilfred Hughes&quot;</span>)
-            .<span class="ident">arg</span>(<span class="ident">Arg::with_name</span>(<span class="string">&quot;dump-syntax&quot;</span>).<span class="ident">long</span>(<span class="string">&quot;dump-syntax&quot;</span>).<span class="ident">help</span>(
+            .<span class="ident">arg</span>(<span class="ident">Arg::new</span>(<span class="string">&quot;dump-syntax&quot;</span>).<span class="ident">long</span>(<span class="string">&quot;dump-syntax&quot;</span>).<span class="ident">help</span>(
                 <span class="string">&quot;Parse a single file with tree-sitter and display the difftastic syntax tree.&quot;</span>,
             ))
-            .<span class="ident">arg</span>(<span class="ident">Arg::with_name</span>(<span class="string">&quot;dump-ts&quot;</span>).<span class="ident">long</span>(<span class="string">&quot;dump-ts&quot;</span>).<span class="ident">help</span>(
+            .<span class="ident">arg</span>(<span class="ident">Arg::new</span>(<span class="string">&quot;dump-ts&quot;</span>).<span class="ident">long</span>(<span class="string">&quot;dump-ts&quot;</span>).<span class="ident">help</span>(
                 <span class="string">&quot;Parse a single file with tree-sitter and display the tree-sitter parse tree.&quot;</span>,
             ))
-            .<span class="ident">arg</span>(<span class="ident">Arg::with_name</span>(<span class="string">&quot;paths&quot;</span>).<span class="ident">multiple</span>(<span class="bool-val">true</span>))
+            .<span class="ident">arg</span>(
+                <span class="ident">Arg::new</span>(<span class="string">&quot;paths&quot;</span>)
+                    .<span class="ident">multiple_values</span>(<span class="bool-val">true</span>)
+                    .<span class="ident">allow_invalid_utf8</span>(<span class="bool-val">true</span>),
+            )
             .<span class="ident">setting</span>(<span class="ident">AppSettings::ArgRequiredElseHelp</span>)
             .<span class="ident">get_matches</span>();
 
