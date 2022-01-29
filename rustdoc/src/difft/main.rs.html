@@ -544,11 +544,11 @@
             .<span class="ident">arg</span>(<span class="ident">Arg::with_name</span>(<span class="string">&quot;dump-ts&quot;</span>).<span class="ident">long</span>(<span class="string">&quot;dump-ts&quot;</span>).<span class="ident">help</span>(
                 <span class="string">&quot;Parse a single file with tree-sitter and display the tree-sitter parse tree.&quot;</span>,
             ))
-            .<span class="ident">arg</span>(<span class="ident">Arg::with_name</span>(<span class="string">&quot;positional_args&quot;</span>).<span class="ident">multiple</span>(<span class="bool-val">true</span>))
+            .<span class="ident">arg</span>(<span class="ident">Arg::with_name</span>(<span class="string">&quot;paths&quot;</span>).<span class="ident">multiple</span>(<span class="bool-val">true</span>))
             .<span class="ident">setting</span>(<span class="ident">AppSettings::ArgRequiredElseHelp</span>)
             .<span class="ident">get_matches</span>();
 
-    <span class="kw">let</span> <span class="ident">args</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">matches</span>.<span class="ident">values_of_lossy</span>(<span class="string">&quot;positional_args&quot;</span>).<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">args</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">matches</span>.<span class="ident">values_of_lossy</span>(<span class="string">&quot;paths&quot;</span>).<span class="ident">unwrap</span>();
     <span class="macro">info!</span>(<span class="string">&quot;CLI arguments: {:?}&quot;</span>, <span class="ident">args</span>);
 
     <span class="kw">if</span> <span class="ident">matches</span>.<span class="ident">is_present</span>(<span class="string">&quot;dump-syntax&quot;</span>) {
