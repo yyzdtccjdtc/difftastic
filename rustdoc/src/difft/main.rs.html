@@ -590,6 +590,10 @@
 <span id="588">588</span>
 <span id="589">589</span>
 <span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Difftastic is a syntactic diff tool.</span>
 <span class="doccomment">//!</span>
@@ -709,10 +713,14 @@
         .<span class="ident">about</span>(<span class="macro">crate_description!</span>())
         .<span class="ident">author</span>(<span class="macro">crate_authors!</span>())
         .<span class="ident">after_long_help</span>(<span class="macro">concat!</span>(
-            <span class="string">&quot;Typical difftastic usage compares two files.\n\n&quot;</span>,
-            <span class="string">&quot;$ difft old.js new.js\n\n&quot;</span>,
-            <span class="string">&quot;Difftastic can also compare two directories. This will walk both directories and compare files with matching names.\n\n&quot;</span>,
-            <span class="string">&quot;$ difft old/ new/\n\n&quot;</span>,
+            <span class="string">&quot;You can compare two files with difftastic by specifying them as arguments.\n\n&quot;</span>,
+            <span class="string">&quot;$ &quot;</span>,
+            <span class="macro">env!</span>(<span class="string">&quot;CARGO_BIN_NAME&quot;</span>),
+            <span class="string">&quot; old.js new.js\n\n&quot;</span>,
+            <span class="string">&quot;You can also use directories as arguments. Difftastic will walk both directories and compare files with matching names.\n\n&quot;</span>,
+            <span class="string">&quot;$ &quot;</span>,
+            <span class="macro">env!</span>(<span class="string">&quot;CARGO_BIN_NAME&quot;</span>),
+            <span class="string">&quot; old/ new/\n\n&quot;</span>,
             <span class="string">&quot;Difftastic can also be invoked with 7 arguments in the format that GIT_EXTERNAL_DIFF expects.\n\n&quot;</span>,
             <span class="string">&quot;See the full manual at: https://difftastic.wilfred.me.uk/&quot;</span>)
         )
