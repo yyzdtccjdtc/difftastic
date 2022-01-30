@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["detach",""],["skip_pair",""],["skip_unchanged_at_ends",""]]});
+initSidebarItems({"fn":[["skip_pair",""],["skip_unchanged_at_ends",""]]});
