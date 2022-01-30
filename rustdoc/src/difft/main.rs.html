@@ -553,6 +553,15 @@
 <span id="551">551</span>
 <span id="552">552</span>
 <span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Difftastic is a syntactic diff tool.</span>
 <span class="doccomment">//!</span>
@@ -670,6 +679,14 @@
         .<span class="ident">version</span>(<span class="macro">crate_version!</span>())
         .<span class="ident">about</span>(<span class="macro">crate_description!</span>())
         .<span class="ident">author</span>(<span class="macro">crate_authors!</span>())
+        .<span class="ident">after_long_help</span>(<span class="macro">concat!</span>(
+            <span class="string">&quot;Typical difftastic usage compares two files.\n\n&quot;</span>,
+            <span class="string">&quot;$ difft old.js new.js\n\n&quot;</span>,
+            <span class="string">&quot;Difftastic can also compare two directories. This will walk both directories and compare files with matching names.\n\n&quot;</span>,
+            <span class="string">&quot;$ difft old/ new/\n\n&quot;</span>,
+            <span class="string">&quot;Difftastic can also be invoked with 7 arguments in the format that GIT_EXTERNAL_DIFF expects.\n\n&quot;</span>,
+            <span class="string">&quot;See the full manual at: https://difftastic.wilfred.me.uk/&quot;</span>)
+        )
         .<span class="ident">arg</span>(
             <span class="ident">Arg::new</span>(<span class="string">&quot;dump-syntax&quot;</span>)
                 .<span class="ident">long</span>(<span class="string">&quot;dump-syntax&quot;</span>)
@@ -710,6 +727,7 @@
         )
         .<span class="ident">arg</span>(
             <span class="ident">Arg::new</span>(<span class="string">&quot;paths&quot;</span>)
+                .<span class="ident">value_name</span>(<span class="string">&quot;PATHS&quot;</span>)
                 .<span class="ident">multiple_values</span>(<span class="bool-val">true</span>)
                 .<span class="ident">allow_invalid_utf8</span>(<span class="bool-val">true</span>),
         )
