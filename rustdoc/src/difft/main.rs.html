@@ -593,6 +593,7 @@
 <span id="591">591</span>
 <span id="592">592</span>
 <span id="593">593</span>
+<span id="594">594</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Difftastic is a syntactic diff tool.</span>
 <span class="doccomment">//!</span>
@@ -758,6 +759,7 @@
         )
         .<span class="ident">arg</span>(
             <span class="ident">Arg::new</span>(<span class="string">&quot;background&quot;</span>).<span class="ident">long</span>(<span class="string">&quot;background&quot;</span>)
+                .<span class="ident">value_name</span>(<span class="string">&quot;BACKGROUND&quot;</span>)
                 .<span class="ident">possible_values</span>([<span class="string">&quot;dark&quot;</span>, <span class="string">&quot;light&quot;</span>])
                 .<span class="ident">help</span>(<span class="string">&quot;Set the background color. Overrides $DFT_BACKGROUND if present. Difftastic will prefer brighter colours on dark backgrounds.&quot;</span>)
         )
