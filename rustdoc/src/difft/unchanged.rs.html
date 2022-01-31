@@ -265,13 +265,13 @@
     <span class="ident">rhs_nodes</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>],
 ) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>) {
     <span class="kw">if</span> <span class="kw">let</span> (
-        [<span class="ident">lhs_node</span> @ <span class="ident">Syntax::List</span> {
+        [<span class="ident">Syntax::List</span> {
             <span class="ident">open_content</span>: <span class="ident">lhs_open</span>,
             <span class="ident">children</span>: <span class="ident">lhs_children</span>,
             <span class="ident">close_content</span>: <span class="ident">lhs_close</span>,
             ..
         }],
-        [<span class="ident">rhs_node</span> @ <span class="ident">Syntax::List</span> {
+        [<span class="ident">Syntax::List</span> {
             <span class="ident">open_content</span>: <span class="ident">rhs_open</span>,
             <span class="ident">children</span>: <span class="ident">rhs_children</span>,
             <span class="ident">close_content</span>: <span class="ident">rhs_close</span>,
@@ -280,8 +280,8 @@
     ) <span class="op">=</span> (<span class="ident">lhs_nodes</span>, <span class="ident">rhs_nodes</span>)
     {
         <span class="kw">if</span> <span class="ident">lhs_open</span> <span class="op">=</span><span class="op">=</span> <span class="ident">rhs_open</span> <span class="op">&amp;&amp;</span> <span class="ident">lhs_close</span> <span class="op">=</span><span class="op">=</span> <span class="ident">rhs_close</span> {
-            <span class="ident">lhs_node</span>.<span class="ident">set_change</span>(<span class="ident">ChangeKind::Unchanged</span>(<span class="ident">rhs_node</span>));
-            <span class="ident">rhs_node</span>.<span class="ident">set_change</span>(<span class="ident">ChangeKind::Unchanged</span>(<span class="ident">lhs_node</span>));
+            <span class="ident">lhs_nodes</span>[<span class="number">0</span>].<span class="ident">set_change</span>(<span class="ident">ChangeKind::Unchanged</span>(<span class="ident">rhs_nodes</span>[<span class="number">0</span>]));
+            <span class="ident">rhs_nodes</span>[<span class="number">0</span>].<span class="ident">set_change</span>(<span class="ident">ChangeKind::Unchanged</span>(<span class="ident">lhs_nodes</span>[<span class="number">0</span>]));
 
             <span class="kw">return</span> (<span class="ident">lhs_children</span>.<span class="ident">to_vec</span>(), <span class="ident">rhs_children</span>.<span class="ident">to_vec</span>());
         }
