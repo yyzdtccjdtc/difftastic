@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["skip_pair",""],["skip_unchanged_at_ends",""]]});
+initSidebarItems({"fn":[["skip_unchanged","Discard nodes that are obviously unchanged, so we have a smaller number of nodes to run the full diffing algorithm on."],["skip_unchanged_at_ends","Skip syntax nodes at the beginning or end that are obviously unchanged."],["skip_unchanged_delimiters","If we’re comparing two lists that have the same delimiters, mark the delimiters as unchanged and return the children."]]});

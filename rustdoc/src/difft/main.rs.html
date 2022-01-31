@@ -649,7 +649,7 @@
 <span class="kw">use</span> <span class="ident">summary::DiffResult</span>;
 <span class="kw">use</span> <span class="ident">syntax::init_next_prev</span>;
 <span class="kw">use</span> <span class="ident">typed_arena::Arena</span>;
-<span class="kw">use</span> <span class="ident">unchanged::skip_unchanged_at_ends</span>;
+<span class="kw">use</span> <span class="ident">unchanged::skip_unchanged</span>;
 <span class="kw">use</span> <span class="ident">walkdir::WalkDir</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
@@ -1033,7 +1033,7 @@
 
             <span class="ident">init_all_info</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>);
 
-            <span class="kw">let</span> (<span class="ident">possibly_changed_lhs</span>, <span class="ident">possibly_changed_rhs</span>) <span class="op">=</span> <span class="ident">skip_unchanged_at_ends</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>);
+            <span class="kw">let</span> (<span class="ident">possibly_changed_lhs</span>, <span class="ident">possibly_changed_rhs</span>) <span class="op">=</span> <span class="ident">skip_unchanged</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>);
             <span class="ident">init_next_prev</span>(<span class="kw-2">&amp;</span><span class="ident">possibly_changed_lhs</span>);
             <span class="ident">init_next_prev</span>(<span class="kw-2">&amp;</span><span class="ident">possibly_changed_rhs</span>);
 
