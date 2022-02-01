@@ -843,6 +843,7 @@
 <span id="841">841</span>
 <span id="842">842</span>
 <span id="843">843</span>
+<span id="844">844</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Load and configure parsers written with tree-sitter.</span>
 
@@ -914,9 +915,10 @@
 }
 
 <span class="comment">// TODO: begin/end and object/end.</span>
-<span class="kw">const</span> <span class="ident">OCAML_ATOM_NODES</span>: [<span class="kw-2">&amp;</span><span class="ident">str</span>; <span class="number">5</span>] <span class="op">=</span> [
+<span class="kw">const</span> <span class="ident">OCAML_ATOM_NODES</span>: [<span class="kw-2">&amp;</span><span class="ident">str</span>; <span class="number">6</span>] <span class="op">=</span> [
     <span class="string">&quot;character&quot;</span>,
     <span class="string">&quot;string&quot;</span>,
+    <span class="string">&quot;quoted_string&quot;</span>,
     <span class="string">&quot;tag&quot;</span>,
     <span class="string">&quot;type_variable&quot;</span>,
     <span class="string">&quot;attribute_id&quot;</span>,
