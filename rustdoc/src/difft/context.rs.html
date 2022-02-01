@@ -495,7 +495,7 @@
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span>)<span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">matched_lines</span> <span class="op">=</span> <span class="ident">all_matched_lines</span>(<span class="ident">lhs_mps</span>, <span class="ident">rhs_mps</span>);
 
-    <span class="ident">compact_gaps</span>(<span class="ident">ensure_contiguous</span>(<span class="kw-2">&amp;</span><span class="ident">matched_lines</span>))
+    <span class="ident">compact_gaps</span>(<span class="kw-2">&amp;</span><span class="ident">ensure_contiguous</span>(<span class="kw-2">&amp;</span><span class="ident">matched_lines</span>))
 }
 
 <span class="kw">fn</span> <span class="ident">all_matched_lines</span>(
