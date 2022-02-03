@@ -855,6 +855,10 @@
 <span id="853">853</span>
 <span id="854">854</span>
 <span id="855">855</span>
+<span id="856">856</span>
+<span id="857">857</span>
+<span id="858">858</span>
+<span id="859">859</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Load and configure parsers written with tree-sitter.</span>
 
@@ -1099,13 +1103,17 @@
             }
         }
         <span class="ident">Hack</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="comment">// TODO: upstream</span>
+            <span class="comment">// TODO: upstream doesn&#39;t support the `readonly` keyword yet.</span>
+            <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="string">&quot;(comment) @comment\n(string) @string\n(heredoc) @string\n\n[\n  \&quot;class\&quot;\n  \&quot;public\&quot;\n  \&quot;protected\&quot;\n  \&quot;private\&quot;\n  \&quot;static\&quot;\n  \&quot;async\&quot;\n  \&quot;function\&quot;\n  \&quot;return\&quot;\n  \&quot;if\&quot;\n  \&quot;else\&quot;\n  \&quot;elseif\&quot;\n  \&quot;while\&quot;\n  \&quot;for\&quot;\n  \&quot;foreach\&quot;\n  \&quot;break\&quot;\n  \&quot;continue\&quot;\n  \&quot;type\&quot;\n  \&quot;new\&quot;\n] @keyword\n\n(type_specifier) @type&quot;</span>;
+
             <span class="kw">let</span> <span class="ident">language</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">tree_sitter_hack</span>() };
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;Hack&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;prefixed_stirng&quot;</span>, <span class="string">&quot;heredoc&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
                 <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>)]),
-                <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(<span class="ident">language</span>, <span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>(),
+                <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(<span class="ident">language</span>, <span class="ident">query</span>).<span class="ident">unwrap</span>(),
             }
         }
         <span class="ident">Haskell</span> <span class="op">=</span><span class="op">&gt;</span> {
