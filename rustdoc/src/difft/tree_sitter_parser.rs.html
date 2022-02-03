@@ -859,6 +859,12 @@
 <span id="857">857</span>
 <span id="858">858</span>
 <span id="859">859</span>
+<span id="860">860</span>
+<span id="861">861</span>
+<span id="862">862</span>
+<span id="863">863</span>
+<span id="864">864</span>
+<span id="865">865</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Load and configure parsers written with tree-sitter.</span>
 
@@ -1105,7 +1111,7 @@
         <span class="ident">Hack</span> <span class="op">=</span><span class="op">&gt;</span> {
             <span class="comment">// TODO: upstream</span>
             <span class="comment">// TODO: upstream doesn&#39;t support the `readonly` keyword yet.</span>
-            <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="string">&quot;(comment) @comment\n(string) @string\n(heredoc) @string\n\n[\n  \&quot;class\&quot;\n  \&quot;public\&quot;\n  \&quot;protected\&quot;\n  \&quot;private\&quot;\n  \&quot;static\&quot;\n  \&quot;async\&quot;\n  \&quot;function\&quot;\n  \&quot;return\&quot;\n  \&quot;if\&quot;\n  \&quot;else\&quot;\n  \&quot;elseif\&quot;\n  \&quot;while\&quot;\n  \&quot;for\&quot;\n  \&quot;foreach\&quot;\n  \&quot;break\&quot;\n  \&quot;continue\&quot;\n  \&quot;type\&quot;\n  \&quot;new\&quot;\n] @keyword\n\n(type_specifier) @type&quot;</span>;
+            <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="string">&quot;(comment) @comment\n\n(string) @string\n(heredoc) @string\n(prefixed_string) @string\n\n[\n  \&quot;class\&quot;\n  \&quot;interface\&quot;\n  \&quot;trait\&quot;\n  \&quot;public\&quot;\n  \&quot;protected\&quot;\n  \&quot;private\&quot;\n  \&quot;static\&quot;\n  \&quot;async\&quot;\n  \&quot;function\&quot;\n  \&quot;return\&quot;\n  \&quot;if\&quot;\n  \&quot;else\&quot;\n  \&quot;elseif\&quot;\n  \&quot;while\&quot;\n  \&quot;for\&quot;\n  \&quot;foreach\&quot;\n  \&quot;break\&quot;\n  \&quot;continue\&quot;\n  \&quot;type\&quot;\n  \&quot;new\&quot;\n  \&quot;throw\&quot;\n] @keyword\n\n(type_specifier) @type\n&quot;</span>;
 
             <span class="kw">let</span> <span class="ident">language</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">tree_sitter_hack</span>() };
             <span class="ident">TreeSitterConfig</span> {
@@ -1327,6 +1333,12 @@
         <span class="ident">keyword_ish_capture_ids</span>.<span class="ident">push</span>(<span class="ident">idx</span>);
     }
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <span class="ident">config</span>.<span class="ident">highlight_query</span>.<span class="ident">capture_index_for_name</span>(<span class="string">&quot;constant&quot;</span>) {
+        <span class="ident">keyword_ish_capture_ids</span>.<span class="ident">push</span>(<span class="ident">idx</span>);
+    }
+    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <span class="ident">config</span>
+        .<span class="ident">highlight_query</span>
+        .<span class="ident">capture_index_for_name</span>(<span class="string">&quot;constant.builtin&quot;</span>)
+    {
         <span class="ident">keyword_ish_capture_ids</span>.<span class="ident">push</span>(<span class="ident">idx</span>);
     }
 
