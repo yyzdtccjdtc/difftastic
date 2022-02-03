@@ -184,6 +184,14 @@
 <span id="182">182</span>
 <span id="183">183</span>
 <span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Guess which programming language a file is written in.</span>
 <span class="doccomment">//!</span>
@@ -215,6 +223,7 @@
     <span class="ident">Elixir</span>,
     <span class="ident">EmacsLisp</span>,
     <span class="ident">Go</span>,
+    <span class="ident">Hack</span>,
     <span class="ident">Haskell</span>,
     <span class="ident">Java</span>,
     <span class="ident">JavaScript</span>,
@@ -263,6 +272,7 @@
                     <span class="string">&quot;lisp&quot;</span> <span class="op">|</span> <span class="string">&quot;sbc&quot;</span> <span class="op">|</span> <span class="string">&quot;ccl&quot;</span> <span class="op">|</span> <span class="string">&quot;clisp&quot;</span> <span class="op">|</span> <span class="string">&quot;ecl&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">CommonLisp</span>),
                     <span class="string">&quot;elixir&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">Elixir</span>),
                     <span class="string">&quot;runghc&quot;</span> <span class="op">|</span> <span class="string">&quot;runhaskell&quot;</span> <span class="op">|</span> <span class="string">&quot;runhugs&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">Haskell</span>),
+                    <span class="string">&quot;hhvm&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">Hack</span>),
                     <span class="string">&quot;chakra&quot;</span> <span class="op">|</span> <span class="string">&quot;d8&quot;</span> <span class="op">|</span> <span class="string">&quot;gjs&quot;</span> <span class="op">|</span> <span class="string">&quot;js&quot;</span> <span class="op">|</span> <span class="string">&quot;node&quot;</span> <span class="op">|</span> <span class="string">&quot;nodejs&quot;</span> <span class="op">|</span> <span class="string">&quot;qjs&quot;</span> <span class="op">|</span> <span class="string">&quot;rhino&quot;</span> <span class="op">|</span> <span class="string">&quot;v8&quot;</span>
                     <span class="op">|</span> <span class="string">&quot;v8-shell&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">JavaScript</span>),
                     <span class="string">&quot;ocaml&quot;</span> <span class="op">|</span> <span class="string">&quot;ocamlrun&quot;</span> <span class="op">|</span> <span class="string">&quot;ocamlscript&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">OCaml</span>),
@@ -272,7 +282,12 @@
                     <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {}
                 }
             }
-        };
+        }
+
+        <span class="comment">// Hack can use &lt;?hh in files with a .php extension.</span>
+        <span class="kw">if</span> <span class="ident">first_line</span>.<span class="ident">starts_with</span>(<span class="string">&quot;&lt;?hh&quot;</span>) {
+            <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">Hack</span>);
+        }
     }
 
     <span class="prelude-val">None</span>
@@ -317,6 +332,7 @@
         <span class="string">&quot;el&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">EmacsLisp</span>),
         <span class="string">&quot;ex&quot;</span> <span class="op">|</span> <span class="string">&quot;exs&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Elixir</span>),
         <span class="string">&quot;go&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Go</span>),
+        <span class="string">&quot;hack&quot;</span> <span class="op">|</span> <span class="string">&quot;hck&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Hack</span>),
         <span class="string">&quot;hs&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Haskell</span>),
         <span class="string">&quot;java&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Java</span>),
         <span class="string">&quot;cjs&quot;</span> <span class="op">|</span> <span class="string">&quot;js&quot;</span> <span class="op">|</span> <span class="string">&quot;mjs&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">JavaScript</span>),
