@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["DiffResult",""]]});
+initSidebarItems({"enum":[["FileContent",""]],"struct":[["DiffResult",""]]});
