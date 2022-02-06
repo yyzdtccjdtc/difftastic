@@ -313,6 +313,14 @@
 <span id="311">311</span>
 <span id="312">312</span>
 <span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Apply colours and styling to strings.</span>
 
@@ -339,6 +347,7 @@
     <span class="ident">background</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>,
     <span class="ident">bold</span>: <span class="ident">bool</span>,
     <span class="ident">dimmed</span>: <span class="ident">bool</span>,
+    <span class="ident">italic</span>: <span class="ident">bool</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Style</span> {
@@ -353,6 +362,9 @@
         }
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">dimmed</span> {
             <span class="ident">res</span> <span class="op">=</span> <span class="ident">res</span>.<span class="ident">dimmed</span>();
+        }
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">italic</span> {
+            <span class="ident">res</span> <span class="op">=</span> <span class="ident">res</span>.<span class="ident">italic</span>();
         }
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">background</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">background</span> {
             <span class="ident">res</span> <span class="op">=</span> <span class="ident">res</span>.<span class="ident">on_color</span>(<span class="ident">background</span>);
@@ -552,6 +564,7 @@
                     <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
                 },
                 <span class="ident">dimmed</span>: <span class="bool-val">false</span>,
+                <span class="ident">italic</span>: <span class="macro">matches!</span>(<span class="ident">highlight</span>, <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Comment</span>)),
             },
             <span class="ident">MatchKind::Novel</span> { <span class="ident">highlight</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Style</span> {
                 <span class="ident">foreground</span>: <span class="prelude-val">Some</span>(<span class="ident">novel_color</span>),
@@ -563,18 +576,21 @@
                     <span class="ident">TokenKind::Atom</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
                 },
                 <span class="ident">dimmed</span>: <span class="bool-val">false</span>,
+                <span class="ident">italic</span>: <span class="macro">matches!</span>(<span class="ident">highlight</span>, <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Comment</span>)),
             },
             <span class="ident">MatchKind::ChangedCommentPart</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Style</span> {
                 <span class="ident">foreground</span>: <span class="prelude-val">Some</span>(<span class="ident">novel_color</span>),
                 <span class="ident">background</span>: <span class="prelude-val">None</span>,
                 <span class="ident">bold</span>: <span class="bool-val">true</span>,
                 <span class="ident">dimmed</span>: <span class="bool-val">false</span>,
+                <span class="ident">italic</span>: <span class="bool-val">true</span>,
             },
             <span class="ident">MatchKind::UnchangedCommentPart</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Style</span> {
                 <span class="ident">foreground</span>: <span class="prelude-val">Some</span>(<span class="ident">novel_color</span>),
                 <span class="ident">background</span>: <span class="prelude-val">None</span>,
                 <span class="ident">bold</span>: <span class="bool-val">false</span>,
                 <span class="ident">dimmed</span>: <span class="bool-val">false</span>,
+                <span class="ident">italic</span>: <span class="bool-val">true</span>,
             },
         };
         <span class="ident">styles</span>.<span class="ident">push</span>((<span class="ident">line_pos</span>, <span class="ident">style</span>));
