@@ -746,7 +746,7 @@ documentation</a> for full details.</p>
 <p>If you have a file that's particularly slow, you can use
 <a href="https://github.com/flamegraph-rs/flamegraph">cargo-flamegraph</a> to see
 which functions are slow.</p>
-<pre><code>$ cargo flamegraph --bin difft sample_files/slow_before.rs sample_files/slow_after.rs
+<pre><code>$ CARGO_PROFILE_RELEASE_DEBUG=true cargo flamegraph --bin difft sample_files/slow_before.rs sample_files/slow_after.rs
 </code></pre>
 <p>It's also worth looking at memory usage, as graph traversal bugs can
 lead to huge memory consumption.</p>
