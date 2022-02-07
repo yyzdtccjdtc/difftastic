@@ -626,6 +626,79 @@
 <span id="624">624</span>
 <span id="625">625</span>
 <span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
+<span id="688">688</span>
+<span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
+<span id="695">695</span>
+<span id="696">696</span>
+<span id="697">697</span>
+<span id="698">698</span>
+<span id="699">699</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Difftastic is a syntactic diff tool.</span>
 <span class="doccomment">//!</span>
@@ -659,6 +732,7 @@
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">log</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::hunks</span>::{<span class="ident">matched_pos_to_hunks</span>, <span class="ident">merge_adjacent</span>};
+<span class="kw">use</span> <span class="ident">const_format::formatcp</span>;
 <span class="kw">use</span> <span class="ident">context::opposite_positions</span>;
 <span class="kw">use</span> <span class="ident">files::read_files_or_die</span>;
 <span class="kw">use</span> <span class="ident">guess_language::guess</span>;
@@ -693,6 +767,8 @@
 
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">pretty_env_logger</span>;
 
+<span class="kw">const</span> <span class="ident">DEFAULT_NODE_LIMIT</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">50_000</span>;
+
 <span class="doccomment">/// Choose the display width: try to autodetect, or fall back to a</span>
 <span class="doccomment">/// sensible default.</span>
 <span class="kw">fn</span> <span class="ident">detect_display_width</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
@@ -722,6 +798,7 @@
 
 <span class="kw">enum</span> <span class="ident">Mode</span> {
     <span class="ident">Diff</span> {
+        <span class="ident">node_limit</span>: <span class="ident">u32</span>,
         <span class="ident">print_unchanged</span>: <span class="ident">bool</span>,
         <span class="ident">missing_as_empty</span>: <span class="ident">bool</span>,
         <span class="ident">background_color</span>: <span class="ident">BackgroundColor</span>,
@@ -802,6 +879,15 @@
         .<span class="ident">arg</span>(
             <span class="ident">Arg::new</span>(<span class="string">&quot;missing-as-empty&quot;</span>).<span class="ident">long</span>(<span class="string">&quot;missing-as-empty&quot;</span>)
                 .<span class="ident">help</span>(<span class="string">&quot;Treat paths that don&#39;t exist as equivalent to an empty file.&quot;</span>)
+        )
+        .<span class="ident">arg</span>(
+            <span class="ident">Arg::new</span>(<span class="string">&quot;node-limit&quot;</span>).<span class="ident">long</span>(<span class="string">&quot;node-limit&quot;</span>)
+                .<span class="ident">takes_value</span>(<span class="bool-val">true</span>)
+                .<span class="ident">value_name</span>(<span class="string">&quot;LIMIT&quot;</span>)
+                .<span class="ident">help</span>(<span class="macro">concat!</span>(<span class="string">&quot;Use a text diff if the number of syntax nodes exceeds this number. Overrides $DFT_NODE_LIMIT if present.&quot;</span>))
+                .<span class="ident">default_value</span>(<span class="macro">formatcp!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">DEFAULT_NODE_LIMIT</span>))
+                .<span class="ident">validator</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>())
+                .<span class="ident">required</span>(<span class="bool-val">false</span>),
         )
         .<span class="ident">arg</span>(
             <span class="ident">Arg::new</span>(<span class="string">&quot;paths&quot;</span>)
@@ -906,10 +992,25 @@
         }
     };
 
+    <span class="kw">let</span> <span class="ident">node_limit</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">matches</span>.<span class="ident">occurrences_of</span>(<span class="string">&quot;node-limit&quot;</span>) <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">env_width</span>) <span class="op">=</span> <span class="ident">env::var</span>(<span class="string">&quot;DFT_NODE_LIMIT&quot;</span>) {
+            <span class="ident">env_width</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>().<span class="ident">ok</span>().<span class="ident">unwrap_or</span>(<span class="ident">DEFAULT_NODE_LIMIT</span>)
+        } <span class="kw">else</span> {
+            <span class="ident">DEFAULT_NODE_LIMIT</span>
+        }
+    } <span class="kw">else</span> {
+        <span class="ident">matches</span>
+            .<span class="ident">value_of</span>(<span class="string">&quot;node-limit&quot;</span>)
+            .<span class="ident">expect</span>(<span class="string">&quot;Always present as we&#39;ve given clap a default&quot;</span>)
+            .<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>()
+            .<span class="ident">expect</span>(<span class="string">&quot;Value already validated by clap&quot;</span>)
+    };
+
     <span class="kw">let</span> <span class="ident">print_unchanged</span> <span class="op">=</span> <span class="op">!</span><span class="ident">matches</span>.<span class="ident">is_present</span>(<span class="string">&quot;skip-unchanged&quot;</span>);
     <span class="kw">let</span> <span class="ident">missing_as_empty</span> <span class="op">=</span> <span class="ident">matches</span>.<span class="ident">is_present</span>(<span class="string">&quot;missing-as-empty&quot;</span>);
 
     <span class="ident">Mode::Diff</span> {
+        <span class="ident">node_limit</span>,
         <span class="ident">print_unchanged</span>,
         <span class="ident">missing_as_empty</span>,
         <span class="ident">background_color</span>,
@@ -974,6 +1075,7 @@
             }
         }
         <span class="ident">Mode::Diff</span> {
+            <span class="ident">node_limit</span>,
             <span class="ident">print_unchanged</span>,
             <span class="ident">missing_as_empty</span>,
             <span class="ident">background_color</span>,
@@ -990,7 +1092,9 @@
             <span class="kw">let</span> <span class="ident">rhs_path</span> <span class="op">=</span> <span class="ident">Path::new</span>(<span class="kw-2">&amp;</span><span class="ident">rhs_path</span>);
 
             <span class="kw">if</span> <span class="ident">lhs_path</span>.<span class="ident">is_dir</span>() <span class="op">&amp;&amp;</span> <span class="ident">rhs_path</span>.<span class="ident">is_dir</span>() {
-                <span class="kw">for</span> <span class="ident">diff_result</span> <span class="kw">in</span> <span class="ident">diff_directories</span>(<span class="ident">lhs_path</span>, <span class="ident">rhs_path</span>, <span class="ident">missing_as_empty</span>) {
+                <span class="kw">for</span> <span class="ident">diff_result</span> <span class="kw">in</span>
+                    <span class="ident">diff_directories</span>(<span class="ident">lhs_path</span>, <span class="ident">rhs_path</span>, <span class="ident">missing_as_empty</span>, <span class="ident">node_limit</span>)
+                {
                     <span class="ident">print_diff_result</span>(
                         <span class="ident">display_width</span>,
                         <span class="ident">background_color</span>,
@@ -999,7 +1103,13 @@
                     );
                 }
             } <span class="kw">else</span> {
-                <span class="kw">let</span> <span class="ident">diff_result</span> <span class="op">=</span> <span class="ident">diff_file</span>(<span class="kw-2">&amp;</span><span class="ident">display_path</span>, <span class="ident">lhs_path</span>, <span class="ident">rhs_path</span>, <span class="ident">missing_as_empty</span>);
+                <span class="kw">let</span> <span class="ident">diff_result</span> <span class="op">=</span> <span class="ident">diff_file</span>(
+                    <span class="kw-2">&amp;</span><span class="ident">display_path</span>,
+                    <span class="ident">lhs_path</span>,
+                    <span class="ident">rhs_path</span>,
+                    <span class="ident">missing_as_empty</span>,
+                    <span class="ident">node_limit</span>,
+                );
                 <span class="ident">print_diff_result</span>(
                     <span class="ident">display_width</span>,
                     <span class="ident">background_color</span>,
@@ -1017,12 +1127,18 @@
     <span class="ident">lhs_path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>,
     <span class="ident">rhs_path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>,
     <span class="ident">missing_as_empty</span>: <span class="ident">bool</span>,
+    <span class="ident">node_limit</span>: <span class="ident">u32</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DiffResult</span> {
     <span class="kw">let</span> (<span class="ident">lhs_bytes</span>, <span class="ident">rhs_bytes</span>) <span class="op">=</span> <span class="ident">read_files_or_die</span>(<span class="ident">lhs_path</span>, <span class="ident">rhs_path</span>, <span class="ident">missing_as_empty</span>);
-    <span class="ident">diff_file_content</span>(<span class="ident">display_path</span>, <span class="kw-2">&amp;</span><span class="ident">lhs_bytes</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_bytes</span>)
+    <span class="ident">diff_file_content</span>(<span class="ident">display_path</span>, <span class="kw-2">&amp;</span><span class="ident">lhs_bytes</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_bytes</span>, <span class="ident">node_limit</span>)
 }
 
-<span class="kw">fn</span> <span class="ident">diff_file_content</span>(<span class="ident">display_path</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">lhs_bytes</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">rhs_bytes</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DiffResult</span> {
+<span class="kw">fn</span> <span class="ident">diff_file_content</span>(
+    <span class="ident">display_path</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
+    <span class="ident">lhs_bytes</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
+    <span class="ident">rhs_bytes</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
+    <span class="ident">node_limit</span>: <span class="ident">u32</span>,
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DiffResult</span> {
     <span class="kw">if</span> <span class="ident">is_probably_binary</span>(<span class="ident">lhs_bytes</span>) <span class="op">|</span><span class="op">|</span> <span class="ident">is_probably_binary</span>(<span class="ident">rhs_bytes</span>) {
         <span class="kw">return</span> <span class="ident">DiffResult</span> {
             <span class="ident">path</span>: <span class="ident">display_path</span>.<span class="ident">into</span>(),
@@ -1077,20 +1193,29 @@
             <span class="ident">init_all_info</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>);
 
             <span class="kw">let</span> (<span class="ident">possibly_changed_lhs</span>, <span class="ident">possibly_changed_rhs</span>) <span class="op">=</span> <span class="ident">skip_unchanged</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>);
-            <span class="ident">init_next_prev</span>(<span class="kw-2">&amp;</span><span class="ident">possibly_changed_lhs</span>);
-            <span class="ident">init_next_prev</span>(<span class="kw-2">&amp;</span><span class="ident">possibly_changed_rhs</span>);
 
-            <span class="ident">mark_syntax</span>(
-                <span class="ident">possibly_changed_lhs</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>(),
-                <span class="ident">possibly_changed_rhs</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>(),
-            );
+            <span class="kw">let</span> <span class="ident">possibly_changed_num</span> <span class="op">=</span>
+                <span class="ident">num_nodes</span>(<span class="kw-2">&amp;</span><span class="ident">possibly_changed_lhs</span>) <span class="op">+</span> <span class="ident">num_nodes</span>(<span class="kw-2">&amp;</span><span class="ident">possibly_changed_rhs</span>);
+            <span class="kw">if</span> <span class="ident">possibly_changed_num</span> <span class="op">&gt;</span> <span class="ident">node_limit</span> {
+                <span class="kw">let</span> <span class="ident">lhs_positions</span> <span class="op">=</span> <span class="ident">line_parser::change_positions</span>(<span class="kw-2">&amp;</span><span class="ident">lhs_src</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_src</span>);
+                <span class="kw">let</span> <span class="ident">rhs_positions</span> <span class="op">=</span> <span class="ident">line_parser::change_positions</span>(<span class="kw-2">&amp;</span><span class="ident">rhs_src</span>, <span class="kw-2">&amp;</span><span class="ident">lhs_src</span>);
+                (<span class="prelude-val">Some</span>(<span class="string">&quot;hit limit&quot;</span>.<span class="ident">into</span>()), <span class="ident">lhs_positions</span>, <span class="ident">rhs_positions</span>)
+            } <span class="kw">else</span> {
+                <span class="ident">init_next_prev</span>(<span class="kw-2">&amp;</span><span class="ident">possibly_changed_lhs</span>);
+                <span class="ident">init_next_prev</span>(<span class="kw-2">&amp;</span><span class="ident">possibly_changed_rhs</span>);
 
-            <span class="ident">fix_all_sliders</span>(<span class="kw-2">&amp;</span><span class="ident">possibly_changed_lhs</span>);
-            <span class="ident">fix_all_sliders</span>(<span class="kw-2">&amp;</span><span class="ident">possibly_changed_rhs</span>);
+                <span class="ident">mark_syntax</span>(
+                    <span class="ident">possibly_changed_lhs</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>(),
+                    <span class="ident">possibly_changed_rhs</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>(),
+                );
 
-            <span class="kw">let</span> <span class="ident">lhs_positions</span> <span class="op">=</span> <span class="ident">syntax::change_positions</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>);
-            <span class="kw">let</span> <span class="ident">rhs_positions</span> <span class="op">=</span> <span class="ident">syntax::change_positions</span>(<span class="kw-2">&amp;</span><span class="ident">rhs</span>);
-            (<span class="prelude-val">Some</span>(<span class="ident">ts_lang</span>.<span class="ident">name</span>.<span class="ident">into</span>()), <span class="ident">lhs_positions</span>, <span class="ident">rhs_positions</span>)
+                <span class="ident">fix_all_sliders</span>(<span class="kw-2">&amp;</span><span class="ident">possibly_changed_lhs</span>);
+                <span class="ident">fix_all_sliders</span>(<span class="kw-2">&amp;</span><span class="ident">possibly_changed_rhs</span>);
+
+                <span class="kw">let</span> <span class="ident">lhs_positions</span> <span class="op">=</span> <span class="ident">syntax::change_positions</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>);
+                <span class="kw">let</span> <span class="ident">rhs_positions</span> <span class="op">=</span> <span class="ident">syntax::change_positions</span>(<span class="kw-2">&amp;</span><span class="ident">rhs</span>);
+                (<span class="prelude-val">Some</span>(<span class="ident">ts_lang</span>.<span class="ident">name</span>.<span class="ident">into</span>()), <span class="ident">lhs_positions</span>, <span class="ident">rhs_positions</span>)
+            }
         }
         <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
             <span class="kw">let</span> <span class="ident">lhs_positions</span> <span class="op">=</span> <span class="ident">line_parser::change_positions</span>(<span class="kw-2">&amp;</span><span class="ident">lhs_src</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_src</span>);
@@ -1114,7 +1239,12 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// When more than one file is modified, the hg extdiff extension passes directory</span>
 <span class="doccomment">/// paths with the all the modified files.</span>
-<span class="kw">fn</span> <span class="ident">diff_directories</span>(<span class="ident">lhs_dir</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">rhs_dir</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">missing_as_empty</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">DiffResult</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">diff_directories</span>(
+    <span class="ident">lhs_dir</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>,
+    <span class="ident">rhs_dir</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>,
+    <span class="ident">missing_as_empty</span>: <span class="ident">bool</span>,
+    <span class="ident">node_limit</span>: <span class="ident">u32</span>,
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">DiffResult</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">vec!</span>[];
     <span class="kw">for</span> <span class="ident">entry</span> <span class="kw">in</span> <span class="ident">WalkDir::new</span>(<span class="ident">lhs_dir</span>).<span class="ident">into_iter</span>().<span class="ident">filter_map</span>(<span class="ident">Result::ok</span>) {
         <span class="kw">let</span> <span class="ident">lhs_path</span> <span class="op">=</span> <span class="ident">entry</span>.<span class="ident">path</span>();
@@ -1132,6 +1262,7 @@
             <span class="ident">lhs_path</span>,
             <span class="kw-2">&amp;</span><span class="ident">rhs_path</span>,
             <span class="ident">missing_as_empty</span>,
+            <span class="ident">node_limit</span>,
         ));
     }
     <span class="ident">res</span>
@@ -1229,6 +1360,21 @@
     }
 }
 
+<span class="doccomment">/// What is the total number of nodes in `roots`?</span>
+<span class="kw">fn</span> <span class="ident">num_nodes</span>(<span class="ident">roots</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">syntax::Syntax</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
+    <span class="ident">roots</span>
+        .<span class="ident">iter</span>()
+        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">n</span><span class="op">|</span> {
+            <span class="number">1</span> <span class="op">+</span> <span class="kw">match</span> <span class="ident">n</span> {
+                <span class="ident">syntax::Syntax::List</span> {
+                    <span class="ident">num_descendants</span>, ..
+                } <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="ident">num_descendants</span>,
+                <span class="ident">syntax::Syntax::Atom</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="number">0</span>,
+            }
+        })
+        .<span class="ident">sum</span>()
+}
+
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
@@ -1236,7 +1382,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_diff_identical_content</span>() {
         <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="string">&quot;foo&quot;</span>;
-        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">diff_file_content</span>(<span class="string">&quot;foo.el&quot;</span>, <span class="ident">s</span>.<span class="ident">as_bytes</span>(), <span class="ident">s</span>.<span class="ident">as_bytes</span>());
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">diff_file_content</span>(<span class="string">&quot;foo.el&quot;</span>, <span class="ident">s</span>.<span class="ident">as_bytes</span>(), <span class="ident">s</span>.<span class="ident">as_bytes</span>(), <span class="ident">DEFAULT_NODE_LIMIT</span>);
 
         <span class="macro">assert_eq!</span>(<span class="ident">res</span>.<span class="ident">lhs_positions</span>, <span class="macro">vec!</span>[]);
         <span class="macro">assert_eq!</span>(<span class="ident">res</span>.<span class="ident">rhs_positions</span>, <span class="macro">vec!</span>[]);
