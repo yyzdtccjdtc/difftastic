@@ -221,6 +221,9 @@
 <span id="219">219</span>
 <span id="220">220</span>
 <span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
 </pre><pre class="rust">
 <span class="doccomment">//! A fallback &quot;parser&quot; for plain text.</span>
 
@@ -361,7 +364,9 @@
                                     <span class="comment">// TODO: rename this kind to reflect</span>
                                     <span class="comment">// that it&#39;s used for both code</span>
                                     <span class="comment">// comments and plain text.</span>
-                                    <span class="ident">kind</span>: <span class="ident">MatchKind::ChangedCommentPart</span> {},
+                                    <span class="ident">kind</span>: <span class="ident">MatchKind::ChangedCommentPart</span> {
+                                        <span class="ident">highlight</span>: <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Normal</span>),
+                                    },
                                     <span class="ident">pos</span>: <span class="ident">lhs_pos</span>[<span class="number">0</span>],
                                 });
                             }
@@ -377,6 +382,7 @@
 
                                 <span class="ident">res</span>.<span class="ident">push</span>(<span class="ident">MatchedPos</span> {
                                     <span class="ident">kind</span>: <span class="ident">MatchKind::UnchangedCommentPart</span> {
+                                        <span class="ident">highlight</span>: <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Normal</span>),
                                         <span class="ident">self_pos</span>: <span class="ident">lhs_pos</span>[<span class="number">0</span>],
                                         <span class="ident">opposite_pos</span>: <span class="ident">rhs_pos</span>,
                                     },

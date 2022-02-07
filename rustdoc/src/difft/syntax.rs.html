@@ -954,6 +954,15 @@
 <span id="952">952</span>
 <span id="953">953</span>
 <span id="954">954</span>
+<span id="955">955</span>
+<span id="956">956</span>
+<span id="957">957</span>
+<span id="958">958</span>
+<span id="959">959</span>
+<span id="960">960</span>
+<span id="961">961</span>
+<span id="962">962</span>
+<span id="963">963</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Syntax tree definitions with change metadata.</span>
 
@@ -1488,6 +1497,7 @@
 <span class="doccomment">/// A matched token (an atom, a delimiter, or a comment word).</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">MatchKind</span> {
+    <span class="comment">// TODO: Prefer UnchangedToken and UnchangedLine.</span>
     <span class="ident">Unchanged</span> {
         <span class="ident">highlight</span>: <span class="ident">TokenKind</span>,
         <span class="ident">self_pos</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">SingleLineSpan</span><span class="op">&gt;</span>,
@@ -1497,10 +1507,13 @@
         <span class="ident">highlight</span>: <span class="ident">TokenKind</span>,
     },
     <span class="ident">UnchangedCommentPart</span> {
+        <span class="ident">highlight</span>: <span class="ident">TokenKind</span>,
         <span class="ident">self_pos</span>: <span class="ident">SingleLineSpan</span>,
         <span class="ident">opposite_pos</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">SingleLineSpan</span><span class="op">&gt;</span>,
     },
-    <span class="ident">ChangedCommentPart</span> {},
+    <span class="ident">ChangedCommentPart</span> {
+        <span class="ident">highlight</span>: <span class="ident">TokenKind</span>,
+    },
 }
 
 <span class="kw">impl</span> <span class="ident">MatchKind</span> {
@@ -1509,14 +1522,14 @@
             <span class="ident">MatchKind::Unchanged</span> { <span class="ident">opposite_pos</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">opposite_pos</span>.<span class="ident">first</span>().<span class="ident">copied</span>(),
             <span class="ident">MatchKind::UnchangedCommentPart</span> { <span class="ident">opposite_pos</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">opposite_pos</span>.<span class="ident">first</span>().<span class="ident">copied</span>(),
             <span class="ident">MatchKind::Novel</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
-            <span class="ident">MatchKind::ChangedCommentPart</span> {} <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+            <span class="ident">MatchKind::ChangedCommentPart</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
         }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_change</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="macro">matches!</span>(
             <span class="self">self</span>,
-            <span class="ident">MatchKind::Novel</span> { .. } <span class="op">|</span> <span class="ident">MatchKind::ChangedCommentPart</span> {}
+            <span class="ident">MatchKind::Novel</span> { .. } <span class="op">|</span> <span class="ident">MatchKind::ChangedCommentPart</span> { .. }
         )
     }
 }
@@ -1559,7 +1572,9 @@
             <span class="ident">diff::Result::Left</span>(<span class="ident">word</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="comment">// This word is novel to this side.</span>
                 <span class="ident">res</span>.<span class="ident">push</span>(<span class="ident">MatchedPos</span> {
-                    <span class="ident">kind</span>: <span class="ident">MatchKind::ChangedCommentPart</span> {},
+                    <span class="ident">kind</span>: <span class="ident">MatchKind::ChangedCommentPart</span> {
+                        <span class="ident">highlight</span>: <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Comment</span>),
+                    },
                     <span class="ident">pos</span>: <span class="ident">content_newlines</span>.<span class="ident">from_offsets_relative_to</span>(
                         <span class="ident">pos</span>,
                         <span class="ident">offset</span>,
@@ -1580,6 +1595,7 @@
 
                 <span class="ident">res</span>.<span class="ident">push</span>(<span class="ident">MatchedPos</span> {
                     <span class="ident">kind</span>: <span class="ident">MatchKind::UnchangedCommentPart</span> {
+                        <span class="ident">highlight</span>: <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Comment</span>),
                         <span class="ident">self_pos</span>: <span class="ident">word_pos</span>,
                         <span class="ident">opposite_pos</span>: <span class="ident">opposite_word_pos</span>,
                     },
@@ -1878,7 +1894,9 @@
         <span class="macro">assert_eq!</span>(
             <span class="ident">res</span>,
             <span class="macro">vec!</span>[<span class="ident">MatchedPos</span> {
-                <span class="ident">kind</span>: <span class="ident">MatchKind::ChangedCommentPart</span> {},
+                <span class="ident">kind</span>: <span class="ident">MatchKind::ChangedCommentPart</span> {
+                    <span class="ident">highlight</span>: <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Comment</span>),
+                },
                 <span class="ident">pos</span>: <span class="ident">SingleLineSpan</span> {
                     <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
                     <span class="ident">start_col</span>: <span class="number">0</span>,
