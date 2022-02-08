@@ -275,6 +275,15 @@
 <span id="273">273</span>
 <span id="274">274</span>
 <span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
 </pre><pre class="rust">
 <span class="doccomment">//! A fallback &quot;parser&quot; for plain text.</span>
 
@@ -525,6 +534,15 @@
 
         <span class="macro">assert_eq!</span>(<span class="ident">positions</span>.<span class="ident">len</span>(), <span class="number">1</span>);
         <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">positions</span>[<span class="number">0</span>].<span class="ident">kind</span>.<span class="ident">is_change</span>());
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_positions_whitespace_is_change</span>() {
+        <span class="comment">// Even though the word exists on both sides, it should still</span>
+        <span class="comment">// be treated as a change. We&#39;re doing a line-based diff and</span>
+        <span class="comment">// the lines are different.</span>
+        <span class="kw">let</span> <span class="ident">positions</span> <span class="op">=</span> <span class="ident">change_positions</span>(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot; foo&quot;</span>);
+        <span class="macro">assert!</span>(<span class="ident">positions</span>[<span class="number">0</span>].<span class="ident">kind</span>.<span class="ident">is_change</span>());
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
