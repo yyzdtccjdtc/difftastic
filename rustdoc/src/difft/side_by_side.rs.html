@@ -557,7 +557,6 @@
 <span id="555">555</span>
 <span id="556">556</span>
 <span id="557">557</span>
-<span id="558">558</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Side-by-side (two column) display of diffs.</span>
 
@@ -810,7 +809,7 @@
     <span class="bool-val">false</span>
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">display_hunks</span>(
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">print</span>(
     <span class="ident">hunks</span>: <span class="kw-2">&amp;</span>[<span class="ident">Hunk</span>],
     <span class="ident">display_width</span>: <span class="ident">usize</span>,
     <span class="ident">background</span>: <span class="ident">BackgroundColor</span>,
@@ -820,15 +819,21 @@
     <span class="ident">rhs_src</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
     <span class="ident">lhs_mps</span>: <span class="kw-2">&amp;</span>[<span class="ident">MatchedPos</span>],
     <span class="ident">rhs_mps</span>: <span class="kw-2">&amp;</span>[<span class="ident">MatchedPos</span>],
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+) {
     <span class="kw">let</span> <span class="ident">lhs_colored_src</span> <span class="op">=</span> <span class="ident">apply_colors</span>(<span class="ident">lhs_src</span>, <span class="bool-val">true</span>, <span class="ident">background</span>, <span class="ident">lhs_mps</span>);
     <span class="kw">let</span> <span class="ident">rhs_colored_src</span> <span class="op">=</span> <span class="ident">apply_colors</span>(<span class="ident">rhs_src</span>, <span class="bool-val">false</span>, <span class="ident">background</span>, <span class="ident">rhs_mps</span>);
 
     <span class="kw">if</span> <span class="ident">lhs_src</span>.<span class="ident">is_empty</span>() {
-        <span class="kw">return</span> <span class="ident">display_single_column</span>(<span class="ident">display_path</span>, <span class="ident">lang_name</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_colored_src</span>, <span class="bool-val">false</span>, <span class="ident">background</span>);
+        <span class="macro">println!</span>(
+            <span class="string">&quot;{}&quot;</span>,
+            <span class="ident">display_single_column</span>(<span class="ident">display_path</span>, <span class="ident">lang_name</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_colored_src</span>, <span class="bool-val">false</span>, <span class="ident">background</span>)
+        );
     }
     <span class="kw">if</span> <span class="ident">rhs_src</span>.<span class="ident">is_empty</span>() {
-        <span class="kw">return</span> <span class="ident">display_single_column</span>(<span class="ident">display_path</span>, <span class="ident">lang_name</span>, <span class="kw-2">&amp;</span><span class="ident">lhs_colored_src</span>, <span class="bool-val">true</span>, <span class="ident">background</span>);
+        <span class="macro">println!</span>(
+            <span class="string">&quot;{}&quot;</span>,
+            <span class="ident">display_single_column</span>(<span class="ident">display_path</span>, <span class="ident">lang_name</span>, <span class="kw-2">&amp;</span><span class="ident">lhs_colored_src</span>, <span class="bool-val">true</span>, <span class="ident">background</span>)
+        );
     }
 
     <span class="comment">// TODO: this is largely duplicating the `apply_colors` logic.</span>
@@ -845,16 +850,11 @@
 
     <span class="kw">let</span> <span class="ident">matched_lines</span> <span class="op">=</span> <span class="ident">all_matched_lines_filled</span>(<span class="ident">lhs_mps</span>, <span class="ident">rhs_mps</span>);
 
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out_lines</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="macro">vec!</span>[];
-
     <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">hunk</span>) <span class="kw">in</span> <span class="ident">hunks</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
-        <span class="ident">out_lines</span>.<span class="ident">push</span>(<span class="ident">style::header</span>(
-            <span class="ident">display_path</span>,
-            <span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>,
-            <span class="ident">hunks</span>.<span class="ident">len</span>(),
-            <span class="ident">lang_name</span>,
-            <span class="ident">background</span>,
-        ));
+        <span class="macro">println!</span>(
+            <span class="string">&quot;{}&quot;</span>,
+            <span class="ident">style::header</span>(<span class="ident">display_path</span>, <span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">hunks</span>.<span class="ident">len</span>(), <span class="ident">lang_name</span>, <span class="ident">background</span>)
+        );
 
         <span class="kw">let</span> <span class="ident">aligned_lines</span> <span class="op">=</span> <span class="ident">matched_lines_for_hunk</span>(<span class="kw-2">&amp;</span><span class="ident">matched_lines</span>, <span class="ident">hunk</span>);
         <span class="kw">let</span> <span class="ident">no_lhs_changes</span> <span class="op">=</span> <span class="ident">hunk</span>.<span class="ident">novel_lhs</span>.<span class="ident">is_empty</span>();
@@ -892,19 +892,19 @@
                     <span class="prelude-val">Some</span>(<span class="ident">rhs_line_num</span>) <span class="op">=</span><span class="op">&gt;</span> {
                         <span class="kw">let</span> <span class="ident">rhs_line</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">rhs_colored_lines</span>[<span class="ident">rhs_line_num</span>.<span class="number">0</span>];
                         <span class="kw">if</span> <span class="ident">same_lines</span> {
-                            <span class="ident">out_lines</span>.<span class="ident">push</span>(<span class="macro">format!</span>(<span class="string">&quot;{}{}&quot;</span>, <span class="ident">display_rhs_line_num</span>, <span class="ident">rhs_line</span>));
+                            <span class="macro">println!</span>(<span class="string">&quot;{}{}&quot;</span>, <span class="ident">display_rhs_line_num</span>, <span class="ident">rhs_line</span>);
                         } <span class="kw">else</span> {
-                            <span class="ident">out_lines</span>.<span class="ident">push</span>(<span class="macro">format!</span>(
+                            <span class="macro">println!</span>(
                                 <span class="string">&quot;{}{}{}&quot;</span>,
                                 <span class="ident">display_lhs_line_num</span>, <span class="ident">display_rhs_line_num</span>, <span class="ident">rhs_line</span>
-                            ));
+                            );
                         }
                     }
                     <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
                         <span class="comment">// We didn&#39;t have any changed RHS lines in the</span>
                         <span class="comment">// hunk, but we had some contextual lines that</span>
                         <span class="comment">// only occurred on the LHS (e.g. extra newlines).</span>
-                        <span class="ident">out_lines</span>.<span class="ident">push</span>(<span class="macro">format!</span>(<span class="string">&quot;{}{}&quot;</span>, <span class="ident">display_rhs_line_num</span>, <span class="ident">display_rhs_line_num</span>));
+                        <span class="macro">println!</span>(<span class="string">&quot;{}{}&quot;</span>, <span class="ident">display_rhs_line_num</span>, <span class="ident">display_rhs_line_num</span>);
                     }
                 }
             } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">no_rhs_changes</span> {
@@ -912,16 +912,16 @@
                     <span class="prelude-val">Some</span>(<span class="ident">lhs_line_num</span>) <span class="op">=</span><span class="op">&gt;</span> {
                         <span class="kw">let</span> <span class="ident">lhs_line</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">lhs_colored_lines</span>[<span class="ident">lhs_line_num</span>.<span class="number">0</span>];
                         <span class="kw">if</span> <span class="ident">same_lines</span> {
-                            <span class="ident">out_lines</span>.<span class="ident">push</span>(<span class="macro">format!</span>(<span class="string">&quot;{}{}&quot;</span>, <span class="ident">display_lhs_line_num</span>, <span class="ident">lhs_line</span>));
+                            <span class="macro">println!</span>(<span class="string">&quot;{}{}&quot;</span>, <span class="ident">display_lhs_line_num</span>, <span class="ident">lhs_line</span>);
                         } <span class="kw">else</span> {
-                            <span class="ident">out_lines</span>.<span class="ident">push</span>(<span class="macro">format!</span>(
+                            <span class="macro">println!</span>(
                                 <span class="string">&quot;{}{}{}&quot;</span>,
                                 <span class="ident">display_lhs_line_num</span>, <span class="ident">display_rhs_line_num</span>, <span class="ident">lhs_line</span>
-                            ));
+                            );
                         }
                     }
                     <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
-                        <span class="ident">out_lines</span>.<span class="ident">push</span>(<span class="macro">format!</span>(<span class="string">&quot;{}{}&quot;</span>, <span class="ident">display_lhs_line_num</span>, <span class="ident">display_rhs_line_num</span>));
+                        <span class="macro">println!</span>(<span class="string">&quot;{}{}&quot;</span>, <span class="ident">display_lhs_line_num</span>, <span class="ident">display_rhs_line_num</span>);
                     }
                 }
             } <span class="kw">else</span> {
@@ -987,10 +987,10 @@
                         <span class="ident">s</span>
                     };
 
-                    <span class="ident">out_lines</span>.<span class="ident">push</span>(<span class="macro">format!</span>(
+                    <span class="macro">println!</span>(
                         <span class="string">&quot;{}{}{}{}{}&quot;</span>,
                         <span class="ident">lhs_num</span>, <span class="ident">lhs_line</span>, <span class="ident">SPACER</span>, <span class="ident">rhs_num</span>, <span class="ident">rhs_line</span>
-                    ));
+                    );
                 }
             }
 
@@ -1001,10 +1001,8 @@
                 <span class="ident">prev_rhs_line_num</span> <span class="op">=</span> <span class="ident">rhs_line_num</span>;
             }
         }
-        <span class="ident">out_lines</span>.<span class="ident">push</span>(<span class="string">&quot;&quot;</span>.<span class="ident">into</span>());
+        <span class="macro">println!</span>();
     }
-
-    <span class="ident">out_lines</span>.<span class="ident">join</span>(<span class="string">&quot;\n&quot;</span>)
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
@@ -1104,7 +1102,7 @@
         }];
 
         <span class="comment">// Simple smoke test.</span>
-        <span class="ident">display_hunks</span>(
+        <span class="ident">print</span>(
             <span class="kw-2">&amp;</span><span class="ident">hunks</span>,
             <span class="number">80</span>,
             <span class="ident">BackgroundColor::Dark</span>,

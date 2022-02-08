@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["display",""]]});
+initSidebarItems({"fn":[["print",""]]});
