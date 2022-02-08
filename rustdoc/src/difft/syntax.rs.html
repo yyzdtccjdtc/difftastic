@@ -1504,12 +1504,12 @@
     <span class="ident">Novel</span> {
         <span class="ident">highlight</span>: <span class="ident">TokenKind</span>,
     },
-    <span class="ident">UnchangedLinePart</span> {
+    <span class="ident">NovelLinePart</span> {
         <span class="ident">highlight</span>: <span class="ident">TokenKind</span>,
         <span class="ident">self_pos</span>: <span class="ident">SingleLineSpan</span>,
         <span class="ident">opposite_pos</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">SingleLineSpan</span><span class="op">&gt;</span>,
     },
-    <span class="ident">NovelLinePart</span> {
+    <span class="ident">NovelWord</span> {
         <span class="ident">highlight</span>: <span class="ident">TokenKind</span>,
     },
 }
@@ -1518,16 +1518,16 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">first_opposite_span</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SingleLineSpan</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span> {
             <span class="ident">MatchKind::UnchangedToken</span> { <span class="ident">opposite_pos</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">opposite_pos</span>.<span class="ident">first</span>().<span class="ident">copied</span>(),
-            <span class="ident">MatchKind::UnchangedLinePart</span> { <span class="ident">opposite_pos</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">opposite_pos</span>.<span class="ident">first</span>().<span class="ident">copied</span>(),
+            <span class="ident">MatchKind::NovelLinePart</span> { <span class="ident">opposite_pos</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">opposite_pos</span>.<span class="ident">first</span>().<span class="ident">copied</span>(),
             <span class="ident">MatchKind::Novel</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
-            <span class="ident">MatchKind::NovelLinePart</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+            <span class="ident">MatchKind::NovelWord</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
         }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_change</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="macro">matches!</span>(
             <span class="self">self</span>,
-            <span class="ident">MatchKind::Novel</span> { .. } <span class="op">|</span> <span class="ident">MatchKind::NovelLinePart</span> { .. }
+            <span class="ident">MatchKind::Novel</span> { .. } <span class="op">|</span> <span class="ident">MatchKind::NovelWord</span> { .. }
         )
     }
 }
@@ -1570,7 +1570,7 @@
             <span class="ident">diff::Result::Left</span>(<span class="ident">word</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="comment">// This word is novel to this side.</span>
                 <span class="ident">res</span>.<span class="ident">push</span>(<span class="ident">MatchedPos</span> {
-                    <span class="ident">kind</span>: <span class="ident">MatchKind::NovelLinePart</span> {
+                    <span class="ident">kind</span>: <span class="ident">MatchKind::NovelWord</span> {
                         <span class="ident">highlight</span>: <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Comment</span>),
                     },
                     <span class="ident">pos</span>: <span class="ident">content_newlines</span>.<span class="ident">from_offsets_relative_to</span>(
@@ -1592,7 +1592,7 @@
                 );
 
                 <span class="ident">res</span>.<span class="ident">push</span>(<span class="ident">MatchedPos</span> {
-                    <span class="ident">kind</span>: <span class="ident">MatchKind::UnchangedLinePart</span> {
+                    <span class="ident">kind</span>: <span class="ident">MatchKind::NovelLinePart</span> {
                         <span class="ident">highlight</span>: <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Comment</span>),
                         <span class="ident">self_pos</span>: <span class="ident">word_pos</span>,
                         <span class="ident">opposite_pos</span>: <span class="ident">opposite_word_pos</span>,
@@ -1892,7 +1892,7 @@
         <span class="macro">assert_eq!</span>(
             <span class="ident">res</span>,
             <span class="macro">vec!</span>[<span class="ident">MatchedPos</span> {
-                <span class="ident">kind</span>: <span class="ident">MatchKind::NovelLinePart</span> {
+                <span class="ident">kind</span>: <span class="ident">MatchKind::NovelWord</span> {
                     <span class="ident">highlight</span>: <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Comment</span>),
                 },
                 <span class="ident">pos</span>: <span class="ident">SingleLineSpan</span> {

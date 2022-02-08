@@ -578,14 +578,14 @@
                 <span class="ident">dimmed</span>: <span class="bool-val">false</span>,
                 <span class="ident">italic</span>: <span class="macro">matches!</span>(<span class="ident">highlight</span>, <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Comment</span>)),
             },
-            <span class="ident">MatchKind::NovelLinePart</span> { <span class="ident">highlight</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Style</span> {
+            <span class="ident">MatchKind::NovelWord</span> { <span class="ident">highlight</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Style</span> {
                 <span class="ident">foreground</span>: <span class="prelude-val">Some</span>(<span class="ident">novel_color</span>),
                 <span class="ident">background</span>: <span class="prelude-val">None</span>,
                 <span class="ident">bold</span>: <span class="bool-val">true</span>,
                 <span class="ident">dimmed</span>: <span class="bool-val">false</span>,
                 <span class="ident">italic</span>: <span class="macro">matches!</span>(<span class="ident">highlight</span>, <span class="ident">TokenKind::Atom</span>(<span class="ident">AtomKind::Comment</span>)),
             },
-            <span class="ident">MatchKind::UnchangedLinePart</span> { <span class="ident">highlight</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Style</span> {
+            <span class="ident">MatchKind::NovelLinePart</span> { <span class="ident">highlight</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Style</span> {
                 <span class="ident">foreground</span>: <span class="prelude-val">Some</span>(<span class="ident">novel_color</span>),
                 <span class="ident">background</span>: <span class="prelude-val">None</span>,
                 <span class="ident">bold</span>: <span class="bool-val">false</span>,
