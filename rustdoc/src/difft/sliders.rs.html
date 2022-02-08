@@ -436,6 +436,37 @@
 <span id="434">434</span>
 <span id="435">435</span>
 <span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Prefer contiguous novel nodes on the same line.</span>
 <span class="doccomment">//!</span>
@@ -475,6 +506,12 @@
 <span class="kw">use</span> <span class="ident">Syntax</span>::<span class="kw-2">*</span>;
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fix_all_sliders</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">nodes</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>]) {
+    <span class="comment">// TODO: fix sliders that require more than two steps.</span>
+    <span class="ident">fix_all_sliders_one_step</span>(<span class="ident">nodes</span>);
+    <span class="ident">fix_all_sliders_one_step</span>(<span class="ident">nodes</span>);
+}
+
+<span class="kw">fn</span> <span class="ident">fix_all_sliders_one_step</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">nodes</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>]) {
     <span class="kw">for</span> <span class="ident">node</span> <span class="kw">in</span> <span class="ident">nodes</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="ident">List</span> { <span class="ident">children</span>, .. } <span class="op">=</span> <span class="ident">node</span> {
             <span class="ident">fix_all_sliders</span>(<span class="ident">children</span>);
@@ -635,7 +672,7 @@
     <span class="kw">let</span> <span class="ident">distance_to_before_start</span> <span class="op">=</span> <span class="ident">distance_between</span>(<span class="ident">before_start_node</span>, <span class="ident">start_node</span>);
     <span class="kw">let</span> <span class="ident">distance_to_last</span> <span class="op">=</span> <span class="ident">distance_between</span>(<span class="ident">before_last_node</span>, <span class="ident">last_node</span>);
 
-    <span class="kw">if</span> <span class="ident">distance_to_before_start</span> <span class="op">&lt;</span> <span class="ident">distance_to_last</span> {
+    <span class="kw">if</span> <span class="ident">distance_to_before_start</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">distance_to_last</span> {
         <span class="comment">// Deep checks walk the whole tree, so do these last.</span>
         <span class="kw">if</span> <span class="op">!</span><span class="ident">is_unchanged_deep</span>(<span class="ident">before_start_node</span>) {
             <span class="kw">return</span>;
@@ -775,7 +812,11 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::syntax</span>::{<span class="ident">init_all_info</span>, <span class="ident">AtomKind</span>};
+    <span class="kw">use</span> <span class="kw">crate</span>::{
+        <span class="ident">guess_language</span>,
+        <span class="ident">syntax</span>::{<span class="ident">init_all_info</span>, <span class="ident">AtomKind</span>},
+        <span class="ident">tree_sitter_parser</span>::{<span class="ident">from_language</span>, <span class="ident">parse</span>},
+    };
     <span class="kw">use</span> <span class="ident">pretty_assertions::assert_eq</span>;
     <span class="kw">use</span> <span class="ident">typed_arena::Arena</span>;
 
@@ -871,6 +912,27 @@
         <span class="macro">assert_eq!</span>(<span class="ident">lhs</span>[<span class="number">0</span>].<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">Unchanged</span>(<span class="ident">rhs</span>[<span class="number">0</span>])));
         <span class="macro">assert_eq!</span>(<span class="ident">lhs</span>[<span class="number">1</span>].<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">Novel</span>));
         <span class="macro">assert_eq!</span>(<span class="ident">lhs</span>[<span class="number">2</span>].<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">Novel</span>));
+    }
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_slider_two_steps</span>() {
+        <span class="kw">let</span> <span class="ident">arena</span> <span class="op">=</span> <span class="ident">Arena::new</span>();
+        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">from_language</span>(<span class="ident">guess_language::Language::EmacsLisp</span>);
+
+        <span class="kw">let</span> <span class="ident">lhs</span> <span class="op">=</span> <span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">arena</span>, <span class="string">&quot;A B&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">config</span>);
+        <span class="kw">let</span> <span class="ident">rhs</span> <span class="op">=</span> <span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">arena</span>, <span class="string">&quot;A B X\n A B&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">config</span>);
+        <span class="ident">init_all_info</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>);
+
+        <span class="ident">rhs</span>[<span class="number">0</span>].<span class="ident">set_change</span>(<span class="ident">Unchanged</span>(<span class="ident">lhs</span>[<span class="number">0</span>]));
+        <span class="ident">rhs</span>[<span class="number">1</span>].<span class="ident">set_change</span>(<span class="ident">Unchanged</span>(<span class="ident">lhs</span>[<span class="number">1</span>]));
+        <span class="ident">rhs</span>[<span class="number">2</span>].<span class="ident">set_change</span>(<span class="ident">Novel</span>);
+        <span class="ident">rhs</span>[<span class="number">3</span>].<span class="ident">set_change</span>(<span class="ident">Novel</span>);
+        <span class="ident">rhs</span>[<span class="number">4</span>].<span class="ident">set_change</span>(<span class="ident">Novel</span>);
+
+        <span class="ident">fix_all_sliders</span>(<span class="kw-2">&amp;</span><span class="ident">rhs</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">rhs</span>[<span class="number">0</span>].<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">Novel</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">rhs</span>[<span class="number">1</span>].<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">Novel</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">rhs</span>[<span class="number">2</span>].<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">Novel</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">rhs</span>[<span class="number">3</span>].<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">Unchanged</span>(<span class="ident">rhs</span>[<span class="number">0</span>])));
     }
 }
 </pre></div>
