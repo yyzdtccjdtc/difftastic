@@ -856,21 +856,6 @@
 <span id="854">854</span>
 <span id="855">855</span>
 <span id="856">856</span>
-<span id="857">857</span>
-<span id="858">858</span>
-<span id="859">859</span>
-<span id="860">860</span>
-<span id="861">861</span>
-<span id="862">862</span>
-<span id="863">863</span>
-<span id="864">864</span>
-<span id="865">865</span>
-<span id="866">866</span>
-<span id="867">867</span>
-<span id="868">868</span>
-<span id="869">869</span>
-<span id="870">870</span>
-<span id="871">871</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Load and configure parsers written with tree-sitter.</span>
 
@@ -927,7 +912,6 @@
     <span class="kw">fn</span> <span class="ident">tree_sitter_elisp</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_elixir</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_go</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
-    <span class="kw">fn</span> <span class="ident">tree_sitter_hack</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_haskell</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_java</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_javascript</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
@@ -1112,20 +1096,6 @@
                     <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/go.scm&quot;</span>),
                 )
                 .<span class="ident">unwrap</span>(),
-            }
-        }
-        <span class="ident">Hack</span> <span class="op">=</span><span class="op">&gt;</span> {
-            <span class="comment">// TODO: upstream</span>
-            <span class="comment">// TODO: upstream doesn&#39;t support the `readonly` keyword yet.</span>
-            <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="string">&quot;(comment) @comment\n\n(string) @string\n(heredoc) @string\n(prefixed_string) @string\n\n[\n  \&quot;class\&quot;\n  \&quot;interface\&quot;\n  \&quot;trait\&quot;\n  \&quot;public\&quot;\n  \&quot;protected\&quot;\n  \&quot;private\&quot;\n  \&quot;static\&quot;\n  \&quot;async\&quot;\n  \&quot;function\&quot;\n  \&quot;return\&quot;\n  \&quot;if\&quot;\n  \&quot;else\&quot;\n  \&quot;elseif\&quot;\n  \&quot;while\&quot;\n  \&quot;for\&quot;\n  \&quot;foreach\&quot;\n  \&quot;break\&quot;\n  \&quot;continue\&quot;\n  \&quot;type\&quot;\n  \&quot;new\&quot;\n  \&quot;throw\&quot;\n] @keyword\n\n(type_specifier) @type\n&quot;</span>;
-
-            <span class="kw">let</span> <span class="ident">language</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">tree_sitter_hack</span>() };
-            <span class="ident">TreeSitterConfig</span> {
-                <span class="ident">name</span>: <span class="string">&quot;Hack&quot;</span>,
-                <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;prefixed_stirng&quot;</span>, <span class="string">&quot;heredoc&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>)]),
-                <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(<span class="ident">language</span>, <span class="ident">query</span>).<span class="ident">unwrap</span>(),
             }
         }
         <span class="ident">Haskell</span> <span class="op">=</span><span class="op">&gt;</span> {
