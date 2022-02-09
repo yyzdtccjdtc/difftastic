@@ -278,6 +278,35 @@
 <span id="276">276</span>
 <span id="277">277</span>
 <span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">std::env</span>;
 
@@ -288,6 +317,7 @@
 <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::style::BackgroundColor</span>;
 
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">DEFAULT_NODE_LIMIT</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">50_000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">DEFAULT_BYTE_LIMIT</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">1_000_000</span>;
 
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ColorOutput</span> {
     <span class="ident">Always</span>,
@@ -369,6 +399,15 @@
                 .<span class="ident">required</span>(<span class="bool-val">false</span>),
         )
         .<span class="ident">arg</span>(
+            <span class="ident">Arg::new</span>(<span class="string">&quot;byte-limit&quot;</span>).<span class="ident">long</span>(<span class="string">&quot;byte-limit&quot;</span>)
+                .<span class="ident">takes_value</span>(<span class="bool-val">true</span>)
+                .<span class="ident">value_name</span>(<span class="string">&quot;LIMIT&quot;</span>)
+                .<span class="ident">help</span>(<span class="macro">concat!</span>(<span class="string">&quot;Use a text diff if either input file exceeds this size. Overrides $DFT_BYTE_LIMIT if present.&quot;</span>))
+                .<span class="ident">default_value</span>(<span class="macro">formatcp!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">DEFAULT_BYTE_LIMIT</span>))
+                .<span class="ident">validator</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>())
+                .<span class="ident">required</span>(<span class="bool-val">false</span>),
+        )
+        .<span class="ident">arg</span>(
             <span class="ident">Arg::new</span>(<span class="string">&quot;paths&quot;</span>)
                 .<span class="ident">value_name</span>(<span class="string">&quot;PATHS&quot;</span>)
                 .<span class="ident">multiple_values</span>(<span class="bool-val">true</span>)
@@ -380,6 +419,7 @@
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Mode</span> {
     <span class="ident">Diff</span> {
         <span class="ident">node_limit</span>: <span class="ident">u32</span>,
+        <span class="ident">byte_limit</span>: <span class="ident">usize</span>,
         <span class="ident">print_unchanged</span>: <span class="ident">bool</span>,
         <span class="ident">missing_as_empty</span>: <span class="ident">bool</span>,
         <span class="ident">background_color</span>: <span class="ident">BackgroundColor</span>,
@@ -505,11 +545,29 @@
             .<span class="ident">expect</span>(<span class="string">&quot;Value already validated by clap&quot;</span>)
     };
 
+    <span class="kw">let</span> <span class="ident">byte_limit</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">matches</span>.<span class="ident">occurrences_of</span>(<span class="string">&quot;byte-limit&quot;</span>) <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">env_width</span>) <span class="op">=</span> <span class="ident">env::var</span>(<span class="string">&quot;DFT_BYTE_LIMIT&quot;</span>) {
+            <span class="ident">env_width</span>
+                .<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>()
+                .<span class="ident">ok</span>()
+                .<span class="ident">unwrap_or</span>(<span class="ident">DEFAULT_BYTE_LIMIT</span>)
+        } <span class="kw">else</span> {
+            <span class="ident">DEFAULT_BYTE_LIMIT</span>
+        }
+    } <span class="kw">else</span> {
+        <span class="ident">matches</span>
+            .<span class="ident">value_of</span>(<span class="string">&quot;byte-limit&quot;</span>)
+            .<span class="ident">expect</span>(<span class="string">&quot;Always present as we&#39;ve given clap a default&quot;</span>)
+            .<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>()
+            .<span class="ident">expect</span>(<span class="string">&quot;Value already validated by clap&quot;</span>)
+    };
+
     <span class="kw">let</span> <span class="ident">print_unchanged</span> <span class="op">=</span> <span class="op">!</span><span class="ident">matches</span>.<span class="ident">is_present</span>(<span class="string">&quot;skip-unchanged&quot;</span>);
     <span class="kw">let</span> <span class="ident">missing_as_empty</span> <span class="op">=</span> <span class="ident">matches</span>.<span class="ident">is_present</span>(<span class="string">&quot;missing-as-empty&quot;</span>);
 
     <span class="ident">Mode::Diff</span> {
         <span class="ident">node_limit</span>,
+        <span class="ident">byte_limit</span>,
         <span class="ident">print_unchanged</span>,
         <span class="ident">missing_as_empty</span>,
         <span class="ident">background_color</span>,
