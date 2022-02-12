@@ -886,6 +886,10 @@
 <span id="884">884</span>
 <span id="885">885</span>
 <span id="886">886</span>
+<span id="887">887</span>
+<span id="888">888</span>
+<span id="889">889</span>
+<span id="890">890</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Calculating which modified lines should be displayed together.</span>
 
@@ -907,8 +911,12 @@
 <span class="doccomment">/// together.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Hunk</span> {
+    <span class="doccomment">/// The LHS line numbers that contain novel content.</span>
     <span class="kw">pub</span> <span class="ident">novel_lhs</span>: <span class="ident">HashSet</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The RHS line numbers that contain novel content.</span>
     <span class="kw">pub</span> <span class="ident">novel_rhs</span>: <span class="ident">HashSet</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Line pairs that contain modified lines. This does not include</span>
+    <span class="doccomment">/// padding, so at least one of the two lines has novel content.</span>
     <span class="kw">pub</span> <span class="ident">lines</span>: <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span>)<span class="op">&gt;</span>,
 }
 
