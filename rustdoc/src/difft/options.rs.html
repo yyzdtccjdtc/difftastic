@@ -307,6 +307,7 @@
 <span id="305">305</span>
 <span id="306">306</span>
 <span id="307">307</span>
+<span id="308">308</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">std::env</span>;
 
@@ -453,7 +454,8 @@
         };
     }
 
-    <span class="kw">let</span> <span class="ident">args</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">matches</span>.<span class="ident">values_of_lossy</span>(<span class="string">&quot;paths&quot;</span>).<span class="ident">unwrap</span>();
+    <span class="comment">// TODO: Use OsString rather than forcing paths to be valid UTF-8.</span>
+    <span class="kw">let</span> <span class="ident">args</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">matches</span>.<span class="ident">values_of_lossy</span>(<span class="string">&quot;paths&quot;</span>).<span class="ident">unwrap_or_default</span>();
     <span class="macro">info!</span>(<span class="string">&quot;CLI arguments: {:?}&quot;</span>, <span class="ident">args</span>);
 
     <span class="comment">// TODO: document these different ways of calling difftastic.</span>
