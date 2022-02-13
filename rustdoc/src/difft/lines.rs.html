@@ -262,20 +262,6 @@
 <span id="260">260</span>
 <span id="261">261</span>
 <span id="262">262</span>
-<span id="263">263</span>
-<span id="264">264</span>
-<span id="265">265</span>
-<span id="266">266</span>
-<span id="267">267</span>
-<span id="268">268</span>
-<span id="269">269</span>
-<span id="270">270</span>
-<span id="271">271</span>
-<span id="272">272</span>
-<span id="273">273</span>
-<span id="274">274</span>
-<span id="275">275</span>
-<span id="276">276</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Manipulate lines of text and groups of lines.</span>
 
@@ -428,20 +414,6 @@
 <span class="doccomment">/// finding character boundaries for slicing without errors.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">codepoint_len</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
     <span class="ident">s</span>.<span class="ident">chars</span>().<span class="ident">count</span>()
-}
-
-<span class="doccomment">/// Slice `s` from `start` to `end` by codepoint. This is safer than</span>
-<span class="doccomment">/// slicing by bytes, which panics if the byte isn&#39;t on a codepoint</span>
-<span class="doccomment">/// boundary.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">substring_by_codepoint</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">start</span>: <span class="ident">usize</span>, <span class="ident">end</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
-    <span class="macro">assert!</span>(<span class="ident">end</span> <span class="op">&gt;</span> <span class="ident">start</span>);
-
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">char_idx_iter</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">char_indices</span>();
-    <span class="kw">let</span> <span class="ident">byte_start</span> <span class="op">=</span> <span class="ident">char_idx_iter</span>.<span class="ident">nth</span>(<span class="ident">start</span>).<span class="ident">expect</span>(<span class="string">&quot;Expected a codepoint index inside `s`.&quot;</span>).<span class="number">0</span>;
-    <span class="kw">match</span> <span class="ident">char_idx_iter</span>.<span class="ident">nth</span>(<span class="ident">end</span> <span class="op">-</span> <span class="number">1</span> <span class="op">-</span> <span class="ident">start</span>) {
-        <span class="prelude-val">Some</span>(<span class="ident">byte_end</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="ident">byte_start</span>..<span class="ident">byte_end</span>.<span class="number">0</span>],
-        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="ident">byte_start</span>..],
-    }
 }
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">MaxLine</span> {
