@@ -320,6 +320,23 @@
 <span id="318">318</span>
 <span id="319">319</span>
 <span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Apply colours and styling to strings.</span>
 
@@ -341,15 +358,22 @@
     <span class="ident">Light</span>,
 }
 
-<span class="doccomment">/// Slice `s` from `start` to `end` by codepoint. This is safer than</span>
+<span class="doccomment">/// Slice `s` from `start` inclusive to `end` exclusive by codepoint. This is safer than</span>
 <span class="doccomment">/// slicing by bytes, which panics if the byte isn&#39;t on a codepoint</span>
 <span class="doccomment">/// boundary.</span>
 <span class="kw">fn</span> <span class="ident">substring_by_codepoint</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">start</span>: <span class="ident">usize</span>, <span class="ident">end</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
+    <span class="kw">if</span> <span class="ident">start</span> <span class="op">=</span><span class="op">=</span> <span class="ident">end</span> {
+        <span class="kw">return</span> <span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="number">0</span>..<span class="number">0</span>];
+    }
+
     <span class="macro">assert!</span>(<span class="ident">end</span> <span class="op">&gt;</span> <span class="ident">start</span>);
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">char_idx_iter</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">char_indices</span>();
-    <span class="kw">let</span> <span class="ident">byte_start</span> <span class="op">=</span> <span class="ident">char_idx_iter</span>.<span class="ident">nth</span>(<span class="ident">start</span>).<span class="ident">expect</span>(<span class="string">&quot;Expected a codepoint index inside `s`.&quot;</span>).<span class="number">0</span>;
-    <span class="kw">match</span> <span class="ident">char_idx_iter</span>.<span class="ident">nth</span>(<span class="ident">end</span> <span class="op">-</span> <span class="number">1</span> <span class="op">-</span> <span class="ident">start</span>) {
+    <span class="kw">let</span> <span class="ident">byte_start</span> <span class="op">=</span> <span class="ident">char_idx_iter</span>
+        .<span class="ident">nth</span>(<span class="ident">start</span>)
+        .<span class="ident">expect</span>(<span class="string">&quot;Expected a codepoint index inside `s`.&quot;</span>)
+        .<span class="number">0</span>;
+    <span class="kw">match</span> <span class="ident">char_idx_iter</span>.<span class="ident">nth</span>(<span class="ident">end</span> <span class="op">-</span> <span class="ident">start</span> <span class="op">-</span> <span class="number">1</span>) {
         <span class="prelude-val">Some</span>(<span class="ident">byte_end</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="ident">byte_start</span>..<span class="ident">byte_end</span>.<span class="number">0</span>],
         <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="ident">byte_start</span>..],
     }
@@ -630,6 +654,16 @@
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="ident">pretty_assertions::assert_eq</span>;
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_substring_by_codepoint</span>() {
+        <span class="macro">assert_eq!</span>(<span class="ident">substring_by_codepoint</span>(<span class="string">&quot;abcd&quot;</span>, <span class="number">0</span>, <span class="number">2</span>), <span class="string">&quot;ab&quot;</span>);
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_substring_by_codepoint_empty</span>() {
+        <span class="macro">assert_eq!</span>(<span class="ident">substring_by_codepoint</span>(<span class="string">&quot;abcd&quot;</span>, <span class="number">0</span>, <span class="number">0</span>), <span class="string">&quot;&quot;</span>);
+    }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">split_string_simple</span>() {
