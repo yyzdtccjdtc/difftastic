@@ -319,8 +319,6 @@
 <span id="317">317</span>
 <span id="318">318</span>
 <span id="319">319</span>
-<span id="320">320</span>
-<span id="321">321</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">std::env</span>;
 
@@ -613,8 +611,8 @@
     <span class="ident">term_size::dimensions</span>().<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">w</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="ident">w</span>).<span class="ident">unwrap_or</span>(<span class="number">80</span>)
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">configure_color</span>(<span class="ident">color_output</span>: <span class="ident">ColorOutput</span>) {
-    <span class="kw">let</span> <span class="ident">enable_color</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">color_output</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">should_use_color</span>(<span class="ident">color_output</span>: <span class="ident">ColorOutput</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">match</span> <span class="ident">color_output</span> {
         <span class="ident">ColorOutput::Always</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
         <span class="ident">ColorOutput::Auto</span> <span class="op">=</span><span class="op">&gt;</span> {
             <span class="comment">// Always enable colour if stdout is a TTY or if the git pager is active.</span>
@@ -623,9 +621,7 @@
             <span class="ident">atty::is</span>(<span class="ident">Stream::Stdout</span>) <span class="op">|</span><span class="op">|</span> <span class="ident">env::var</span>(<span class="string">&quot;GIT_PAGER_IN_USE&quot;</span>).<span class="ident">is_ok</span>()
         }
         <span class="ident">ColorOutput::Never</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
-    };
-
-    <span class="ident">owo_colors::set_override</span>(<span class="ident">enable_color</span>);
+    }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
