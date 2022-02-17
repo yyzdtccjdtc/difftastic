@@ -347,7 +347,6 @@
 <span id="345">345</span>
 <span id="346">346</span>
 <span id="347">347</span>
-<span id="348">348</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Apply colours and styling to strings.</span>
 
@@ -362,11 +361,16 @@
     <span class="ident">collections::HashMap</span>,
 };
 
-<span class="comment">// TODO: Define an is_dark helper rather than verbose matching.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">BackgroundColor</span> {
     <span class="ident">Dark</span>,
     <span class="ident">Light</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">BackgroundColor</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_dark</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+        <span class="macro">matches!</span>(<span class="self">self</span>, <span class="ident">BackgroundColor::Dark</span>)
+    }
 }
 
 <span class="doccomment">/// Slice `s` from `start` inclusive to `end` exclusive by codepoint. This is safer than</span>
@@ -551,20 +555,17 @@
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">novel_style</span>(<span class="ident">style</span>: <span class="ident">Style</span>, <span class="ident">is_lhs</span>: <span class="ident">bool</span>, <span class="ident">background</span>: <span class="ident">BackgroundColor</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Style</span> {
-    <span class="kw">match</span> <span class="ident">background</span> {
-        <span class="ident">BackgroundColor::Dark</span> <span class="op">=</span><span class="op">&gt;</span> {
-            <span class="kw">if</span> <span class="ident">is_lhs</span> {
-                <span class="ident">style</span>.<span class="ident">bright_red</span>()
-            } <span class="kw">else</span> {
-                <span class="ident">style</span>.<span class="ident">bright_green</span>()
-            }
+    <span class="kw">if</span> <span class="ident">background</span>.<span class="ident">is_dark</span>() {
+        <span class="kw">if</span> <span class="ident">is_lhs</span> {
+            <span class="ident">style</span>.<span class="ident">bright_red</span>()
+        } <span class="kw">else</span> {
+            <span class="ident">style</span>.<span class="ident">bright_green</span>()
         }
-        <span class="ident">BackgroundColor::Light</span> <span class="op">=</span><span class="op">&gt;</span> {
-            <span class="kw">if</span> <span class="ident">is_lhs</span> {
-                <span class="ident">style</span>.<span class="ident">red</span>()
-            } <span class="kw">else</span> {
-                <span class="ident">style</span>.<span class="ident">green</span>()
-            }
+    } <span class="kw">else</span> {
+        <span class="kw">if</span> <span class="ident">is_lhs</span> {
+            <span class="ident">style</span>.<span class="ident">red</span>()
+        } <span class="kw">else</span> {
+            <span class="ident">style</span>.<span class="ident">green</span>()
         }
     }
 }
@@ -580,24 +581,20 @@
         <span class="kw">match</span> <span class="ident">pos</span>.<span class="ident">kind</span> {
             <span class="ident">MatchKind::UnchangedToken</span> { <span class="ident">highlight</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">highlight</span> {
                 <span class="ident">TokenKind::Atom</span>(<span class="ident">atom_kind</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">atom_kind</span> {
-                    <span class="ident">AtomKind::String</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">background</span> {
-                        <span class="ident">BackgroundColor::Dark</span> <span class="op">=</span><span class="op">&gt;</span> {
-                            <span class="ident">style</span> <span class="op">=</span> <span class="ident">style</span>.<span class="ident">bright_magenta</span>();
-                        }
-                        <span class="ident">BackgroundColor::Light</span> <span class="op">=</span><span class="op">&gt;</span> {
-                            <span class="ident">style</span> <span class="op">=</span> <span class="ident">style</span>.<span class="ident">magenta</span>();
-                        }
-                    },
+                    <span class="ident">AtomKind::String</span> <span class="op">=</span><span class="op">&gt;</span> {
+                        <span class="ident">style</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">background</span>.<span class="ident">is_dark</span>() {
+                            <span class="ident">style</span>.<span class="ident">bright_magenta</span>()
+                        } <span class="kw">else</span> {
+                            <span class="ident">style</span>.<span class="ident">magenta</span>()
+                        };
+                    }
                     <span class="ident">AtomKind::Comment</span> <span class="op">=</span><span class="op">&gt;</span> {
                         <span class="ident">style</span> <span class="op">=</span> <span class="ident">style</span>.<span class="ident">italic</span>();
-                        <span class="kw">match</span> <span class="ident">background</span> {
-                            <span class="ident">BackgroundColor::Dark</span> <span class="op">=</span><span class="op">&gt;</span> {
-                                <span class="ident">style</span> <span class="op">=</span> <span class="ident">style</span>.<span class="ident">bright_blue</span>();
-                            }
-                            <span class="ident">BackgroundColor::Light</span> <span class="op">=</span><span class="op">&gt;</span> {
-                                <span class="ident">style</span> <span class="op">=</span> <span class="ident">style</span>.<span class="ident">blue</span>();
-                            }
-                        }
+                        <span class="ident">style</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">background</span>.<span class="ident">is_dark</span>() {
+                            <span class="ident">style</span>.<span class="ident">bright_blue</span>()
+                        } <span class="kw">else</span> {
+                            <span class="ident">style</span>.<span class="ident">blue</span>()
+                        };
                     }
                     <span class="ident">AtomKind::Keyword</span> <span class="op">|</span> <span class="ident">AtomKind::Type</span> <span class="op">=</span><span class="op">&gt;</span> {
                         <span class="ident">style</span> <span class="op">=</span> <span class="ident">style</span>.<span class="ident">bold</span>();
@@ -657,9 +654,10 @@
     <span class="ident">background</span>: <span class="ident">BackgroundColor</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
     <span class="kw">let</span> <span class="ident">file_name_pretty</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">use_color</span> {
-        <span class="kw">match</span> <span class="ident">background</span> {
-            <span class="ident">BackgroundColor::Dark</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">file_name</span>.<span class="ident">bright_yellow</span>().<span class="ident">to_string</span>(),
-            <span class="ident">BackgroundColor::Light</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">file_name</span>.<span class="ident">yellow</span>().<span class="ident">to_string</span>(),
+        <span class="kw">if</span> <span class="ident">background</span>.<span class="ident">is_dark</span>() {
+            <span class="ident">file_name</span>.<span class="ident">bright_yellow</span>().<span class="ident">to_string</span>()
+        } <span class="kw">else</span> {
+            <span class="ident">file_name</span>.<span class="ident">yellow</span>().<span class="ident">to_string</span>()
         }
         .<span class="ident">bold</span>()
         .<span class="ident">to_string</span>()
