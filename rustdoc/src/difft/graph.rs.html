@@ -381,6 +381,8 @@
 <span id="379">379</span>
 <span id="380">380</span>
 <span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
 </pre><pre class="rust">
 <span class="doccomment">//! A graph representation for computing tree diffs.</span>
 
@@ -673,6 +675,7 @@
                         <span class="ident">rhs_syntax</span>: <span class="ident">rhs_syntax</span>.<span class="ident">next</span>(),
                     },
                 ));
+                <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
             }
             <span class="comment">// Step into this partially/fully novel list.</span>
             <span class="ident">Syntax::List</span> {
@@ -707,6 +710,7 @@
                             <span class="ident">rhs_syntax</span>: <span class="ident">rhs_syntax</span>.<span class="ident">next</span>(),
                         },
                     ));
+                    <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
                 }
             }
         }
