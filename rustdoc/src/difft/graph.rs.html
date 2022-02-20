@@ -749,8 +749,8 @@
                 <span class="ident">buf</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="prelude-val">Some</span>((
                     <span class="ident">ExitDelimiterBoth</span>,
                     <span class="ident">Vertex</span> {
-                        <span class="ident">lhs_syntax</span>: <span class="ident">lhs_parent</span>.<span class="ident">next_if_same_layer</span>(),
-                        <span class="ident">rhs_syntax</span>: <span class="ident">rhs_parent</span>.<span class="ident">next_if_same_layer</span>(),
+                        <span class="ident">lhs_syntax</span>: <span class="ident">lhs_parent</span>.<span class="ident">next_sibling</span>(),
+                        <span class="ident">rhs_syntax</span>: <span class="ident">rhs_parent</span>.<span class="ident">next_sibling</span>(),
                         <span class="ident">parents</span>: <span class="ident">next_parents</span>,
                         <span class="ident">parents_hash</span>,
                     },
@@ -767,7 +767,7 @@
                 <span class="ident">buf</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="prelude-val">Some</span>((
                     <span class="ident">ExitDelimiterLHS</span>,
                     <span class="ident">Vertex</span> {
-                        <span class="ident">lhs_syntax</span>: <span class="ident">lhs_parent</span>.<span class="ident">next_if_same_layer</span>(),
+                        <span class="ident">lhs_syntax</span>: <span class="ident">lhs_parent</span>.<span class="ident">next_sibling</span>(),
                         <span class="ident">rhs_syntax</span>: <span class="ident">v</span>.<span class="ident">rhs_syntax</span>,
                         <span class="ident">parents</span>: <span class="ident">next_parents</span>,
                         <span class="ident">parents_hash</span>,
@@ -786,7 +786,7 @@
                     <span class="ident">ExitDelimiterRHS</span>,
                     <span class="ident">Vertex</span> {
                         <span class="ident">lhs_syntax</span>: <span class="ident">v</span>.<span class="ident">lhs_syntax</span>,
-                        <span class="ident">rhs_syntax</span>: <span class="ident">rhs_parent</span>.<span class="ident">next_if_same_layer</span>(),
+                        <span class="ident">rhs_syntax</span>: <span class="ident">rhs_parent</span>.<span class="ident">next_sibling</span>(),
                         <span class="ident">parents</span>: <span class="ident">next_parents</span>,
                         <span class="ident">parents_hash</span>,
                     },
@@ -803,8 +803,8 @@
             <span class="ident">buf</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="prelude-val">Some</span>((
                 <span class="ident">UnchangedNode</span>,
                 <span class="ident">Vertex</span> {
-                    <span class="ident">lhs_syntax</span>: <span class="ident">lhs_syntax</span>.<span class="ident">next_if_same_layer</span>(),
-                    <span class="ident">rhs_syntax</span>: <span class="ident">rhs_syntax</span>.<span class="ident">next_if_same_layer</span>(),
+                    <span class="ident">lhs_syntax</span>: <span class="ident">lhs_syntax</span>.<span class="ident">next_sibling</span>(),
+                    <span class="ident">rhs_syntax</span>: <span class="ident">rhs_syntax</span>.<span class="ident">next_sibling</span>(),
                     <span class="ident">parents</span>: <span class="ident">v</span>.<span class="ident">parents</span>.<span class="ident">clone</span>(),
                     <span class="ident">parents_hash</span>: <span class="ident">v</span>.<span class="ident">parents_hash</span>,
                 },
@@ -871,8 +871,8 @@
                 <span class="ident">buf</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="prelude-val">Some</span>((
                     <span class="ident">ReplacedComment</span> { <span class="ident">levenshtein_pct</span> },
                     <span class="ident">Vertex</span> {
-                        <span class="ident">lhs_syntax</span>: <span class="ident">lhs_syntax</span>.<span class="ident">next_if_same_layer</span>(),
-                        <span class="ident">rhs_syntax</span>: <span class="ident">rhs_syntax</span>.<span class="ident">next_if_same_layer</span>(),
+                        <span class="ident">lhs_syntax</span>: <span class="ident">lhs_syntax</span>.<span class="ident">next_sibling</span>(),
+                        <span class="ident">rhs_syntax</span>: <span class="ident">rhs_syntax</span>.<span class="ident">next_sibling</span>(),
                         <span class="ident">parents</span>: <span class="ident">v</span>.<span class="ident">parents</span>.<span class="ident">clone</span>(),
                         <span class="ident">parents_hash</span>: <span class="ident">v</span>.<span class="ident">parents_hash</span>,
                     },
@@ -893,7 +893,7 @@
                         <span class="ident">contiguous</span>: <span class="ident">lhs_syntax</span>.<span class="ident">prev_is_contiguous</span>(),
                     },
                     <span class="ident">Vertex</span> {
-                        <span class="ident">lhs_syntax</span>: <span class="ident">lhs_syntax</span>.<span class="ident">next_if_same_layer</span>(),
+                        <span class="ident">lhs_syntax</span>: <span class="ident">lhs_syntax</span>.<span class="ident">next_sibling</span>(),
                         <span class="ident">rhs_syntax</span>: <span class="ident">v</span>.<span class="ident">rhs_syntax</span>,
                         <span class="ident">parents</span>: <span class="ident">v</span>.<span class="ident">parents</span>.<span class="ident">clone</span>(),
                         <span class="ident">parents_hash</span>: <span class="ident">v</span>.<span class="ident">parents_hash</span>,
@@ -932,7 +932,7 @@
                             <span class="ident">num_descendants</span>: <span class="kw-2">*</span><span class="ident">num_descendants</span>,
                         },
                         <span class="ident">Vertex</span> {
-                            <span class="ident">lhs_syntax</span>: <span class="ident">lhs_syntax</span>.<span class="ident">next_if_same_layer</span>(),
+                            <span class="ident">lhs_syntax</span>: <span class="ident">lhs_syntax</span>.<span class="ident">next_sibling</span>(),
                             <span class="ident">rhs_syntax</span>: <span class="ident">v</span>.<span class="ident">rhs_syntax</span>,
                             <span class="ident">parents</span>: <span class="ident">v</span>.<span class="ident">parents</span>.<span class="ident">clone</span>(),
                             <span class="ident">parents_hash</span>: <span class="ident">v</span>.<span class="ident">parents_hash</span>,
@@ -954,7 +954,7 @@
                     },
                     <span class="ident">Vertex</span> {
                         <span class="ident">lhs_syntax</span>: <span class="ident">v</span>.<span class="ident">lhs_syntax</span>,
-                        <span class="ident">rhs_syntax</span>: <span class="ident">rhs_syntax</span>.<span class="ident">next_if_same_layer</span>(),
+                        <span class="ident">rhs_syntax</span>: <span class="ident">rhs_syntax</span>.<span class="ident">next_sibling</span>(),
                         <span class="ident">parents</span>: <span class="ident">v</span>.<span class="ident">parents</span>.<span class="ident">clone</span>(),
                         <span class="ident">parents_hash</span>: <span class="ident">v</span>.<span class="ident">parents_hash</span>,
                     },
@@ -993,7 +993,7 @@
                         },
                         <span class="ident">Vertex</span> {
                             <span class="ident">lhs_syntax</span>: <span class="ident">v</span>.<span class="ident">lhs_syntax</span>,
-                            <span class="ident">rhs_syntax</span>: <span class="ident">rhs_syntax</span>.<span class="ident">next_if_same_layer</span>(),
+                            <span class="ident">rhs_syntax</span>: <span class="ident">rhs_syntax</span>.<span class="ident">next_sibling</span>(),
                             <span class="ident">parents</span>: <span class="ident">v</span>.<span class="ident">parents</span>.<span class="ident">clone</span>(),
                             <span class="ident">parents_hash</span>: <span class="ident">v</span>.<span class="ident">parents_hash</span>,
                         },
