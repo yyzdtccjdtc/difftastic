@@ -590,21 +590,6 @@
 <span id="588">588</span>
 <span id="589">589</span>
 <span id="590">590</span>
-<span id="591">591</span>
-<span id="592">592</span>
-<span id="593">593</span>
-<span id="594">594</span>
-<span id="595">595</span>
-<span id="596">596</span>
-<span id="597">597</span>
-<span id="598">598</span>
-<span id="599">599</span>
-<span id="600">600</span>
-<span id="601">601</span>
-<span id="602">602</span>
-<span id="603">603</span>
-<span id="604">604</span>
-<span id="605">605</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Implements Dijkstra&#39;s algorithm for shortest path, to find an</span>
 <span class="doccomment">//! optimal and readable diff between two ASTs.</span>
@@ -745,12 +730,7 @@
         <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>);
 
         <span class="kw">let</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">route</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">action</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="kw-2">*</span><span class="ident">action</span>).<span class="ident">collect_vec</span>();
-        <span class="macro">assert_eq!</span>(
-            <span class="ident">actions</span>,
-            <span class="macro">vec!</span>[<span class="ident">UnchangedNode</span> {
-                <span class="ident">depth_difference</span>: <span class="number">0</span>
-            }]
-        );
+        <span class="macro">assert_eq!</span>(<span class="ident">actions</span>, <span class="macro">vec!</span>[<span class="ident">UnchangedNode</span>]);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -788,9 +768,7 @@
         <span class="macro">assert_eq!</span>(
             <span class="ident">actions</span>,
             <span class="macro">vec!</span>[
-                <span class="ident">UnchangedDelimiter</span> {
-                    <span class="ident">depth_difference</span>: <span class="number">0</span>
-                },
+                <span class="ident">UnchangedDelimiter</span>,
                 <span class="ident">NovelAtomLHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> },
                 <span class="ident">MoveParentBoth</span>,
             ]
@@ -830,9 +808,7 @@
         <span class="macro">assert_eq!</span>(
             <span class="ident">actions</span>,
             <span class="macro">vec!</span>[
-                <span class="ident">UnchangedDelimiter</span> {
-                    <span class="ident">depth_difference</span>: <span class="number">0</span>
-                },
+                <span class="ident">UnchangedDelimiter</span>,
                 <span class="ident">NovelAtomRHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> },
                 <span class="ident">NovelAtomRHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> },
                 <span class="ident">MoveParentBoth</span>,
@@ -878,12 +854,8 @@
             <span class="macro">vec!</span>[
                 <span class="ident">NovelDelimiterRHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> },
                 <span class="ident">NovelDelimiterLHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> },
-                <span class="ident">UnchangedNode</span> {
-                    <span class="ident">depth_difference</span>: <span class="number">0</span>
-                },
-                <span class="ident">UnchangedNode</span> {
-                    <span class="ident">depth_difference</span>: <span class="number">0</span>
-                },
+                <span class="ident">UnchangedNode</span>,
+                <span class="ident">UnchangedNode</span>,
                 <span class="ident">MoveParentLHS</span>,
                 <span class="ident">MoveParentRHS</span>,
             ],
@@ -915,9 +887,7 @@
         <span class="macro">assert_eq!</span>(
             <span class="ident">actions</span>,
             <span class="macro">vec!</span>[
-                <span class="ident">UnchangedNode</span> {
-                    <span class="ident">depth_difference</span>: <span class="number">0</span>
-                },
+                <span class="ident">UnchangedNode</span>,
                 <span class="ident">NovelAtomLHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> },
                 <span class="ident">NovelAtomLHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">true</span> },
             ]
