@@ -532,6 +532,10 @@
 <span id="530">530</span>
 <span id="531">531</span>
 <span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Calculate which nearby lines should also be displayed.</span>
 
@@ -749,7 +753,9 @@
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">vec!</span>[];
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">current</span> <span class="op">=</span> <span class="ident">ln</span>;
-    <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">MAX_PADDING</span> {
+    <span class="comment">// Use one more line than MAX_PADDING so we merge immediately</span>
+    <span class="comment">// adjacent hunks.</span>
+    <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">MAX_PADDING</span> <span class="op">+</span> <span class="number">1</span> {
         <span class="kw">if</span> <span class="ident">current</span>.<span class="number">0</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
             <span class="kw">break</span>;
         }
@@ -766,7 +772,9 @@
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">vec!</span>[];
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">current</span> <span class="op">=</span> <span class="ident">ln</span>;
-    <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">MAX_PADDING</span> {
+    <span class="comment">// Use one more line than MAX_PADDING so we merge immediately</span>
+    <span class="comment">// adjacent hunks.</span>
+    <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">MAX_PADDING</span> <span class="op">+</span> <span class="number">1</span> {
         <span class="kw">if</span> <span class="ident">current</span> <span class="op">=</span><span class="op">=</span> <span class="ident">max_line</span> {
             <span class="kw">break</span>;
         }
