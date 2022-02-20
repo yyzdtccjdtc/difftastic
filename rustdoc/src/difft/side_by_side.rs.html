@@ -1067,7 +1067,7 @@
                 <span class="ident">prev_rhs_line_num</span>,
             );
 
-            <span class="kw">if</span> <span class="ident">no_lhs_changes</span> {
+            <span class="kw">if</span> <span class="ident">no_lhs_changes</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">std::env::var</span>(<span class="string">&quot;DFT_SHOW_BOTH&quot;</span>).<span class="ident">is_ok</span>() {
                 <span class="kw">match</span> <span class="ident">rhs_line_num</span> {
                     <span class="prelude-val">Some</span>(<span class="ident">rhs_line_num</span>) <span class="op">=</span><span class="op">&gt;</span> {
                         <span class="kw">let</span> <span class="ident">rhs_line</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">rhs_colored_lines</span>[<span class="ident">rhs_line_num</span>.<span class="number">0</span>];
@@ -1087,7 +1087,7 @@
                         <span class="macro">println!</span>(<span class="string">&quot;{}{}&quot;</span>, <span class="ident">display_rhs_line_num</span>, <span class="ident">display_rhs_line_num</span>);
                     }
                 }
-            } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">no_rhs_changes</span> {
+            } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">no_rhs_changes</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">std::env::var</span>(<span class="string">&quot;DFT_SHOW_BOTH&quot;</span>).<span class="ident">is_ok</span>() {
                 <span class="kw">match</span> <span class="ident">lhs_line_num</span> {
                     <span class="prelude-val">Some</span>(<span class="ident">lhs_line_num</span>) <span class="op">=</span><span class="op">&gt;</span> {
                         <span class="kw">let</span> <span class="ident">lhs_line</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">lhs_colored_lines</span>[<span class="ident">lhs_line_num</span>.<span class="number">0</span>];
