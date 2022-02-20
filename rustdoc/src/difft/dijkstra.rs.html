@@ -768,9 +768,9 @@
         <span class="macro">assert_eq!</span>(
             <span class="ident">actions</span>,
             <span class="macro">vec!</span>[
-                <span class="ident">UnchangedDelimiter</span>,
+                <span class="ident">EnterUnchangedDelimiter</span>,
                 <span class="ident">NovelAtomLHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> },
-                <span class="ident">MoveParentBoth</span>,
+                <span class="ident">ExitDelimiterBoth</span>,
             ]
         );
     }
@@ -808,10 +808,10 @@
         <span class="macro">assert_eq!</span>(
             <span class="ident">actions</span>,
             <span class="macro">vec!</span>[
-                <span class="ident">UnchangedDelimiter</span>,
+                <span class="ident">EnterUnchangedDelimiter</span>,
                 <span class="ident">NovelAtomRHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> },
                 <span class="ident">NovelAtomRHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> },
-                <span class="ident">MoveParentBoth</span>,
+                <span class="ident">ExitDelimiterBoth</span>,
             ]
         );
     }
@@ -852,12 +852,12 @@
         <span class="macro">assert_eq!</span>(
             <span class="ident">actions</span>,
             <span class="macro">vec!</span>[
-                <span class="ident">NovelDelimiterRHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> },
-                <span class="ident">NovelDelimiterLHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> },
+                <span class="ident">EnterNovelDelimiterRHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> },
+                <span class="ident">EnterNovelDelimiterLHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> },
                 <span class="ident">UnchangedNode</span>,
                 <span class="ident">UnchangedNode</span>,
-                <span class="ident">MoveParentLHS</span>,
-                <span class="ident">MoveParentRHS</span>,
+                <span class="ident">ExitDelimiterLHS</span>,
+                <span class="ident">ExitDelimiterRHS</span>,
             ],
         );
     }
@@ -922,9 +922,9 @@
         <span class="macro">assert_eq!</span>(
             <span class="ident">actions</span>,
             <span class="macro">vec!</span>[
-                <span class="ident">NovelDelimiterLHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> },
+                <span class="ident">EnterNovelDelimiterLHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> },
                 <span class="ident">NovelAtomLHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">true</span> },
-                <span class="ident">MoveParentLHS</span>,
+                <span class="ident">ExitDelimiterLHS</span>,
             ]
         );
     }
@@ -960,9 +960,9 @@
         <span class="macro">assert_eq!</span>(
             <span class="ident">actions</span>,
             <span class="macro">vec!</span>[
-                <span class="ident">NovelDelimiterLHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> },
+                <span class="ident">EnterNovelDelimiterLHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> },
                 <span class="ident">NovelAtomLHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">true</span> },
-                <span class="ident">MoveParentLHS</span>,
+                <span class="ident">ExitDelimiterLHS</span>,
                 <span class="ident">NovelAtomLHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">true</span> },
             ]
         );
