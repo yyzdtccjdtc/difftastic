@@ -199,11 +199,9 @@ $ perf stat ./target/release/difft sample_files/typing_old.ml sample_files/typin
 <p>Many more profiling techniques are discussed in the <a href="https://nnethercote.github.io/perf-book/">The Rust
 Performance Book</a>.</p>
 <h2 id="releasing"><a class="header" href="#releasing">Releasing</a></h2>
-<p>Use Cargo to create a new release, and tag it in git.</p>
-<pre><code>$ cargo publish
-$ VERSION=$(cargo metadata | jq -r '.packages | .[] | select(.name == &quot;difftastic&quot;) | .version')
-$ git tag $VERSION
-$ git push --tags
+<p>Use Cargo to create a new release, and tag it in git. Difftastic has a
+helper script for this:</p>
+<pre><code>$ ./scripts/release.sh
 </code></pre>
 <p>You can now increment the version in Cargo.toml and add a new entry to
 CHANGELOG.md.</p>
