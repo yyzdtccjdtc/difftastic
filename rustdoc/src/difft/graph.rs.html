@@ -530,6 +530,15 @@
 <span id="528">528</span>
 <span id="529">529</span>
 <span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
 </pre><pre class="rust">
 <span class="doccomment">//! A graph representation for computing tree diffs.</span>
 
@@ -626,6 +635,15 @@
     }
 
     <span class="kw">fn</span> <span class="ident">eq_parents_each_side</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+        <span class="comment">// Compare LHS and RHS parents separately. This ensures that</span>
+        <span class="comment">// the following are considered equal:</span>
+        <span class="comment">//</span>
+        <span class="comment">// [EnterNovelDelimiterLHS, EnterNovelDelimiterRHS]</span>
+        <span class="comment">// [EnterNovelDelimiterRHS, EnterNovelDelimiterLHS]</span>
+        <span class="comment">//</span>
+        <span class="comment">// Otherwise we would construct a much bigger graph and</span>
+        <span class="comment">// difftastic wouldn&#39;t scale to medium size programs such as</span>
+        <span class="comment">// sample_files/nest_after.rs.</span>
         <span class="kw">let</span> <span class="ident">self_lhs_parents</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">parents</span>.<span class="ident">iter</span>().<span class="ident">filter_map</span>(<span class="op">|</span>(<span class="ident">lhs</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="kw-2">*</span><span class="ident">lhs</span>);
         <span class="kw">let</span> <span class="ident">other_lhs_parents</span> <span class="op">=</span> <span class="ident">other</span>.<span class="ident">parents</span>.<span class="ident">iter</span>().<span class="ident">filter_map</span>(<span class="op">|</span>(<span class="ident">lhs</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="kw-2">*</span><span class="ident">lhs</span>);
         <span class="kw">for</span> (<span class="ident">self_lhs_parent</span>, <span class="ident">other_lhs_parent</span>) <span class="kw">in</span> <span class="ident">self_lhs_parents</span>.<span class="ident">zip</span>(<span class="ident">other_lhs_parents</span>) {
