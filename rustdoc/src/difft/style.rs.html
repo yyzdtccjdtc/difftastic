@@ -415,6 +415,37 @@
 <span id="413">413</span>
 <span id="414">414</span>
 <span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Apply colours and styling to strings.</span>
 
@@ -523,11 +554,13 @@
                 <span class="kw">break</span>;
             }
 
-            <span class="comment">// Unstyled text before the next span.</span>
-            <span class="kw">if</span> <span class="ident">prev_style_end</span> <span class="op">&lt;</span> <span class="ident">span</span>.<span class="ident">start_col</span> {
+            <span class="comment">// If there&#39;s an unstyled gap before the next span.</span>
+            <span class="kw">if</span> <span class="ident">span</span>.<span class="ident">start_col</span> <span class="op">&gt;</span> <span class="ident">part_start</span> <span class="op">&amp;&amp;</span> <span class="ident">prev_style_end</span> <span class="op">&lt;</span> <span class="ident">span</span>.<span class="ident">start_col</span> {
+                <span class="comment">// Then append that text without styling.</span>
+                <span class="kw">let</span> <span class="ident">unstyled_start</span> <span class="op">=</span> <span class="ident">max</span>(<span class="ident">prev_style_end</span>, <span class="ident">part_start</span>);
                 <span class="ident">res</span>.<span class="ident">push_str</span>(<span class="ident">substring_by_codepoint</span>(
                     <span class="kw-2">&amp;</span><span class="ident">part</span>,
-                    <span class="ident">prev_style_end</span> <span class="op">-</span> <span class="ident">part_start</span>,
+                    <span class="ident">unstyled_start</span> <span class="op">-</span> <span class="ident">part_start</span>,
                     <span class="ident">span</span>.<span class="ident">start_col</span> <span class="op">-</span> <span class="ident">part_start</span>,
                 ));
             }
@@ -544,7 +577,8 @@
             <span class="ident">prev_style_end</span> <span class="op">=</span> <span class="ident">span</span>.<span class="ident">end_col</span>;
         }
 
-        <span class="comment">// Ensure that i is at least at the start of this part.</span>
+        <span class="comment">// Ensure that prev_style_end is at least at the start of this</span>
+        <span class="comment">// part.</span>
         <span class="kw">if</span> <span class="ident">prev_style_end</span> <span class="op">&lt;</span> <span class="ident">part_start</span> {
             <span class="ident">prev_style_end</span> <span class="op">=</span> <span class="ident">part_start</span>;
         }
@@ -811,6 +845,34 @@
             )],
         );
         <span class="macro">assert_eq!</span>(<span class="ident">res</span>, <span class="macro">vec!</span>[<span class="string">&quot;foobar&quot;</span>])
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_split_and_apply_gap_between_styles_on_wrap_boundary</span>() {
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">split_and_apply</span>(
+            <span class="string">&quot;foobar&quot;</span>,
+            <span class="number">3</span>,
+            <span class="bool-val">true</span>,
+            <span class="kw-2">&amp;</span>[
+                (
+                    <span class="ident">SingleLineSpan</span> {
+                        <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
+                        <span class="ident">start_col</span>: <span class="number">0</span>,
+                        <span class="ident">end_col</span>: <span class="number">2</span>,
+                    },
+                    <span class="ident">Style::new</span>(),
+                ),
+                (
+                    <span class="ident">SingleLineSpan</span> {
+                        <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
+                        <span class="ident">start_col</span>: <span class="number">4</span>,
+                        <span class="ident">end_col</span>: <span class="number">6</span>,
+                    },
+                    <span class="ident">Style::new</span>(),
+                ),
+            ],
+        );
+        <span class="macro">assert_eq!</span>(<span class="ident">res</span>, <span class="macro">vec!</span>[<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>])
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
