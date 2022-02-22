@@ -347,6 +347,12 @@
 <span id="345">345</span>
 <span id="346">346</span>
 <span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Apply colours and styling to strings.</span>
 
@@ -693,6 +699,12 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">split_string_unicode</span>() {
         <span class="macro">assert_eq!</span>(<span class="ident">split_string</span>(<span class="string">&quot;ab📦def&quot;</span>, <span class="number">3</span>), <span class="macro">vec!</span>[<span class="string">&quot;ab📦&quot;</span>, <span class="string">&quot;def&quot;</span>]);
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_split_and_apply_missing</span>() {
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">split_and_apply</span>(<span class="string">&quot;foo&quot;</span>, <span class="number">3</span>, <span class="bool-val">true</span>, <span class="kw-2">&amp;</span>[]);
+        <span class="macro">assert_eq!</span>(<span class="ident">res</span>, <span class="macro">vec!</span>[<span class="ident">highlight_missing_style_bug</span>(<span class="string">&quot;foo&quot;</span>)])
     }
 }
 </pre></div>
