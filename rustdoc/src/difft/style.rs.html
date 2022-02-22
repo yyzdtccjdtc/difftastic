@@ -392,6 +392,30 @@
 <span id="390">390</span>
 <span id="391">391</span>
 <span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Apply colours and styling to strings.</span>
 
@@ -522,6 +546,12 @@
             }
             <span class="ident">i</span> <span class="op">=</span> <span class="ident">span</span>.<span class="ident">end_col</span>;
         }
+
+        <span class="comment">// Ensure that i is at least at the start of this part.</span>
+        <span class="kw">if</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">prev_length</span> {
+            <span class="ident">i</span> <span class="op">=</span> <span class="ident">prev_length</span>;
+        }
+
         <span class="comment">// Unstyled text after the last span.</span>
         <span class="kw">if</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">prev_length</span> <span class="op">+</span> <span class="ident">codepoint_len</span>(<span class="kw-2">&amp;</span><span class="ident">part</span>) {
             <span class="kw">let</span> <span class="ident">span_s</span> <span class="op">=</span> <span class="ident">substring_by_codepoint</span>(<span class="kw-2">&amp;</span><span class="ident">part</span>, <span class="ident">i</span> <span class="op">-</span> <span class="ident">prev_length</span>, <span class="ident">codepoint_len</span>(<span class="kw-2">&amp;</span><span class="ident">part</span>));
@@ -783,6 +813,24 @@
             )],
         );
         <span class="macro">assert_eq!</span>(<span class="ident">res</span>, <span class="macro">vec!</span>[<span class="string">&quot;foobar&quot;</span>])
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_split_and_apply_trailing_text_newline</span>() {
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">split_and_apply</span>(
+            <span class="string">&quot;foobar      &quot;</span>,
+            <span class="number">6</span>,
+            <span class="bool-val">true</span>,
+            <span class="kw-2">&amp;</span>[(
+                <span class="ident">SingleLineSpan</span> {
+                    <span class="ident">line</span>: <span class="number">0</span>.<span class="ident">into</span>(),
+                    <span class="ident">start_col</span>: <span class="number">0</span>,
+                    <span class="ident">end_col</span>: <span class="number">3</span>,
+                },
+                <span class="ident">Style::new</span>(),
+            )],
+        );
+        <span class="macro">assert_eq!</span>(<span class="ident">res</span>, <span class="macro">vec!</span>[<span class="string">&quot;foobar&quot;</span>, <span class="string">&quot;      &quot;</span>])
     }
 }
 </pre></div>
