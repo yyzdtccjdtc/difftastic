@@ -500,6 +500,29 @@ could make <code>x</code> look changed.</p>
 (x) y
 </code></pre>
 <p>This should be highlighted similar to the expanding delimiter case.</p>
+<h2 id="disconnected-delimiters"><a class="header" href="#disconnected-delimiters">Disconnected Delimiters</a></h2>
+<pre><code>;; Before
+(foo (bar))
+
+;; After
+(foo (novel) (bar))
+</code></pre>
+<p>We want to highlight <code>(novel)</code>. It is easy to end up with
+<code>( +novel+ ) +(+ bar +)+</code>, where a later pair of delimiters are
+chosen.</p>
+<h2 id="rewrapping-large-nodes"><a class="header" href="#rewrapping-large-nodes">Rewrapping Large Nodes</a></h2>
+<pre><code>;; Before
+[[foo]]
+(x y)
+
+;; After
+([[foo]] x y)
+</code></pre>
+<p>We want to highlight <code>[[foo]]</code> being moved inside the
+parentheses. However, a naive syntax differ prefers consider a removal
+of <code>()</code> in the before and an addition of <code>()</code> in the after to be more
+minimal diff.</p>
+<p>(Reported as <a href="https://github.com/Wilfred/difftastic/issues/44">issue 44</a>.)</p>
 <h2 id="reordering-within-a-list"><a class="header" href="#reordering-within-a-list">Reordering Within A List</a></h2>
 <pre><code>;; Before
 (x y)
