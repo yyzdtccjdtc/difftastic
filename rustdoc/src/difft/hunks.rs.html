@@ -1576,7 +1576,7 @@
         <span class="ident">end_i</span> <span class="op">=</span> <span class="ident">matched_lines</span>.<span class="ident">len</span>();
     }
 
-    <span class="ident">matched_lines</span>[<span class="ident">start_i</span>..<span class="ident">end_i</span>].<span class="ident">iter</span>().<span class="ident">copied</span>().<span class="ident">collect</span>()
+    <span class="ident">matched_lines</span>[<span class="ident">start_i</span>..<span class="ident">end_i</span>].<span class="ident">to_vec</span>()
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
