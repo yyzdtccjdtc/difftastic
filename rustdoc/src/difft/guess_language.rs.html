@@ -255,6 +255,18 @@
 <span id="253">253</span>
 <span id="254">254</span>
 <span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Guess which programming language a file is written in.</span>
 <span class="doccomment">//!</span>
@@ -330,16 +342,16 @@
         <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">MODE_RE</span>: <span class="ident">Regex</span> <span class="op">=</span> <span class="ident">Regex::new</span>(<span class="string">r&quot;-\*-.*mode:([^;]+?);.*-\*-&quot;</span>).<span class="ident">unwrap</span>();
         <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">SHORTHAND_RE</span>: <span class="ident">Regex</span> <span class="op">=</span> <span class="ident">Regex::new</span>(<span class="string">r&quot;-\*-(.+)-\*-&quot;</span>).<span class="ident">unwrap</span>();
     }
-    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">first_line</span>) <span class="op">=</span> <span class="ident">src</span>.<span class="ident">lines</span>().<span class="ident">next</span>() {
-        <span class="kw">let</span> <span class="ident">mode_name</span>: <span class="ident">String</span> <span class="op">=</span> <span class="kw">match</span> (
-            <span class="ident">MODE_RE</span>.<span class="ident">captures</span>(<span class="ident">first_line</span>),
-            <span class="ident">SHORTHAND_RE</span>.<span class="ident">captures</span>(<span class="ident">first_line</span>),
-        ) {
+
+    <span class="comment">// Emacs allows the mode header to occur on the second line if the</span>
+    <span class="comment">// first line is a shebang.</span>
+    <span class="kw">for</span> <span class="ident">line</span> <span class="kw">in</span> <span class="ident">src</span>.<span class="ident">lines</span>().<span class="ident">take</span>(<span class="number">2</span>) {
+        <span class="kw">let</span> <span class="ident">mode_name</span>: <span class="ident">String</span> <span class="op">=</span> <span class="kw">match</span> (<span class="ident">MODE_RE</span>.<span class="ident">captures</span>(<span class="ident">line</span>), <span class="ident">SHORTHAND_RE</span>.<span class="ident">captures</span>(<span class="ident">line</span>)) {
             (<span class="prelude-val">Some</span>(<span class="ident">cap</span>), <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">cap</span>[<span class="number">1</span>].<span class="ident">into</span>(),
             (<span class="kw">_</span>, <span class="prelude-val">Some</span>(<span class="ident">cap</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">cap</span>[<span class="number">1</span>].<span class="ident">into</span>(),
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;&quot;</span>.<span class="ident">into</span>(),
         };
-        <span class="kw">match</span> <span class="ident">mode_name</span>.<span class="ident">to_ascii_lowercase</span>().<span class="ident">trim</span>().<span class="ident">borrow</span>() {
+        <span class="kw">let</span> <span class="ident">lang</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">mode_name</span>.<span class="ident">to_ascii_lowercase</span>().<span class="ident">trim</span>().<span class="ident">borrow</span>() {
             <span class="string">&quot;c&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">C</span>),
             <span class="string">&quot;clojure&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Clojure</span>),
             <span class="string">&quot;csharp&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">CSharp</span>),
@@ -361,10 +373,13 @@
             <span class="string">&quot;tuareg&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">OCaml</span>),
             <span class="string">&quot;typescript&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">TypeScript</span>),
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+        };
+        <span class="kw">if</span> <span class="ident">lang</span>.<span class="ident">is_some</span>() {
+            <span class="kw">return</span> <span class="ident">lang</span>;
         }
-    } <span class="kw">else</span> {
-        <span class="prelude-val">None</span>
     }
+
+    <span class="prelude-val">None</span>
 }
 
 <span class="doccomment">/// Try to guess the language based on a shebang present in the source.</span>
@@ -489,6 +504,15 @@
         <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">Path::new</span>(<span class="string">&quot;foo&quot;</span>);
         <span class="macro">assert_eq!</span>(
             <span class="ident">guess</span>(<span class="ident">path</span>, <span class="string">&quot;; -*- mode: Lisp; eval: (auto-fill-mode 1); -*-&quot;</span>),
+            <span class="prelude-val">Some</span>(<span class="ident">CommonLisp</span>)
+        );
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_guess_by_emacs_mode_second_line</span>() {
+        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">Path::new</span>(<span class="string">&quot;foo&quot;</span>);
+        <span class="macro">assert_eq!</span>(
+            <span class="ident">guess</span>(<span class="ident">path</span>, <span class="string">&quot;!#/bin/bash\n; -*- mode: Lisp; -*-&quot;</span>),
             <span class="prelude-val">Some</span>(<span class="ident">CommonLisp</span>)
         );
     }
