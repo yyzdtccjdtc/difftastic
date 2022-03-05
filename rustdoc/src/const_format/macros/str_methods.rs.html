@@ -1,6 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/const_format-0.2.22/src/macros/str_methods.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>str_methods.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings"></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
-<link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../const_format/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img src="../../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../settings.html" title="settings"><img src="../../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;const_format-0.2.22&#x2F;src&#x2F;macros&#x2F;str_methods.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>str_methods.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../const_format/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -486,8 +484,7 @@
 <span id="484">484</span>
 <span id="485">485</span>
 <span id="486">486</span>
-</pre><pre class="rust">
-<span class="doccomment">/// Replaces all the instances of `$pattern` in `$input`</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Replaces all the instances of `$pattern` in `$input`</span>
 <span class="doccomment">/// (a `&amp;&#39;static str` constant) with `$replace_with` (a `&amp;&#39;static str` constant).</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Signature</span>
@@ -547,14 +544,14 @@
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;docsrs&quot;</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;const_generics&quot;</span>)))]</span>
 <span class="macro">macro_rules!</span> <span class="ident">str_replace</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">input</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">pattern</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">replace_with</span>:<span class="ident">expr</span> $(,)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {{
-        <span class="kw">const</span> <span class="ident">ARGS_OSRCTFL4A</span>: <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::__str_methods::ReplaceInput</span> <span class="op">=</span>
-            <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::__str_methods::ReplaceInputConv</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">input</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">pattern</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">replace_with</span>).<span class="ident">conv</span>();
+        <span class="kw">const</span> <span class="ident">ARGS_OSRCTFL4A</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::__str_methods::ReplaceInput</span> <span class="op">=</span>
+            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::__str_methods::ReplaceInputConv</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">input</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">pattern</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">replace_with</span>).<span class="ident">conv</span>();
 
         {
-            <span class="kw">const</span> <span class="ident">OB</span>: <span class="kw-2">&amp;</span>[<span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::pmr::u8</span>; <span class="ident">ARGS_OSRCTFL4A</span>.<span class="ident">replace_length</span>()] <span class="op">=</span>
+            <span class="kw">const</span> <span class="ident">OB</span>: <span class="kw-2">&amp;</span>[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::pmr::u8</span>; <span class="ident">ARGS_OSRCTFL4A</span>.<span class="ident">replace_length</span>()] <span class="op">=</span>
                 <span class="kw-2">&amp;</span><span class="ident">ARGS_OSRCTFL4A</span>.<span class="ident">replace</span>();
 
-            <span class="kw">const</span> <span class="ident">OS</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::pmr::str</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::__priv_transmute_bytes_to_str!</span>(<span class="macro-nonterminal">OB</span>) };
+            <span class="kw">const</span> <span class="ident">OS</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::pmr::str</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="macro-nonterminal">$</span><span class="macro">crate::__priv_transmute_bytes_to_str!</span>(<span class="macro-nonterminal">OB</span>) };
 
             <span class="ident">OS</span>
         }
@@ -601,16 +598,16 @@ const_format::str_repeat!(&quot;hello&quot;, usize::MAX.wrapping_add(4));
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">str_repeat</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">string</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">times</span>:<span class="ident">expr</span>  $(,)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {{
-        <span class="kw">const</span> <span class="ident">P_OSRCTFL4A</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::__str_methods::StrRepeatArgs</span> <span class="op">=</span>
-            <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::__str_methods::StrRepeatArgs</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">string</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">times</span>);
+        <span class="kw">const</span> <span class="ident">P_OSRCTFL4A</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::__str_methods::StrRepeatArgs</span> <span class="op">=</span>
+            <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::__str_methods::StrRepeatArgs</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">string</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">times</span>);
 
         {
-            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::__hidden_utils::PtrToRef</span>;
-            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::pmr</span>::{<span class="ident">str</span>, <span class="ident">transmute</span>, <span class="ident">u8</span>};
+            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::__hidden_utils::PtrToRef</span>;
+            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::pmr</span>::{<span class="ident">str</span>, <span class="ident">transmute</span>, <span class="ident">u8</span>};
 
-            <span class="kw">const</span> <span class="ident">P</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::__str_methods::StrRepeatArgs</span> <span class="op">=</span> <span class="ident">P_OSRCTFL4A</span>;
+            <span class="kw">const</span> <span class="ident">P</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::__str_methods::StrRepeatArgs</span> <span class="op">=</span> <span class="ident">P_OSRCTFL4A</span>;
 
-            <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::pmr::respan_to!</span> {
+            <span class="macro-nonterminal">$</span><span class="macro">crate::pmr::respan_to!</span> {
                 (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">string</span>)
                 <span class="kw">const</span> <span class="ident">_ASSERT_VALID_LEN</span>: () <span class="op">=</span> <span class="ident">P</span>.<span class="ident">assert_valid</span>();
             }
@@ -621,7 +618,7 @@ const_format::str_repeat!(&quot;hello&quot;, usize::MAX.wrapping_add(4));
                     [<span class="kw-2">*</span><span class="ident">PtrToRef</span> { <span class="ident">ptr</span> }.<span class="ident">reff</span>; <span class="ident">P</span>.<span class="ident">repeat</span>],
                 )
             };
-            <span class="kw">const</span> <span class="ident">OUT_S</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::__priv_transmute_bytes_to_str!</span>(<span class="macro-nonterminal">OUT_B</span>) };
+            <span class="kw">const</span> <span class="ident">OUT_S</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="macro-nonterminal">$</span><span class="macro">crate::__priv_transmute_bytes_to_str!</span>(<span class="macro-nonterminal">OUT_B</span>) };
             <span class="ident">OUT_S</span>
         }
     }};
@@ -730,12 +727,12 @@ assert_eq!(
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">str_splice</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">string</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">index</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">insert</span>:<span class="ident">expr</span> $(,)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {{
-        <span class="kw">const</span> <span class="ident">P_OSRCTFL4A</span>: <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::__str_methods::StrSpliceArgs</span> <span class="op">=</span>
-            <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::__str_methods::StrSplceArgsConv</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">string</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">index</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">insert</span>).<span class="ident">conv</span>();
+        <span class="kw">const</span> <span class="ident">P_OSRCTFL4A</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::__str_methods::StrSpliceArgs</span> <span class="op">=</span>
+            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::__str_methods::StrSplceArgsConv</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">string</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">index</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">insert</span>).<span class="ident">conv</span>();
         {
-            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::__hidden_utils::PtrToRef</span>;
-            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::__str_methods</span>::{<span class="ident">DecomposedString</span>, <span class="ident">SplicedStr</span>, <span class="ident">StrSpliceArgs</span>};
-            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::pmr</span>::{<span class="ident">str</span>, <span class="ident">u8</span>};
+            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::__hidden_utils::PtrToRef</span>;
+            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::__str_methods</span>::{<span class="ident">DecomposedString</span>, <span class="ident">SplicedStr</span>, <span class="ident">StrSpliceArgs</span>};
+            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::pmr</span>::{<span class="ident">str</span>, <span class="ident">u8</span>};
 
             <span class="kw">const</span> <span class="ident">P</span>: <span class="kw-2">&amp;</span><span class="ident">StrSpliceArgs</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">P_OSRCTFL4A</span>;
 
@@ -745,7 +742,7 @@ assert_eq!(
             <span class="kw">type</span> <span class="ident">DecompOut</span> <span class="op">=</span>
                 <span class="ident">DecomposedString</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="ident">P</span>.<span class="ident">used_rstart</span>], [<span class="ident">u8</span>; <span class="ident">P</span>.<span class="ident">insert_len</span>], [<span class="ident">u8</span>; <span class="ident">P</span>.<span class="ident">suffix_len</span>]<span class="op">&gt;</span>;
 
-            <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::pmr::respan_to!</span> {
+            <span class="macro-nonterminal">$</span><span class="macro">crate::pmr::respan_to!</span> {
                 (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">string</span>)
                 <span class="kw">const</span> <span class="ident">_ASSERT_VALID_INDEX</span>: () <span class="op">=</span> <span class="ident">P</span>.<span class="ident">index_validity</span>.<span class="ident">assert_valid</span>();
             }
@@ -766,14 +763,14 @@ assert_eq!(
                         <span class="ident">middle</span>: <span class="kw-2">*</span><span class="ident">insert</span>,
                         <span class="ident">suffix</span>: <span class="ident">input</span>.<span class="ident">suffix</span>,
                     },
-                    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::__priv_transmute_bytes_to_str!</span>(<span class="kw-2">&amp;</span><span class="macro-nonterminal">input</span>.<span class="ident">middle</span>),
+                    <span class="macro-nonterminal">$</span><span class="macro">crate::__priv_transmute_bytes_to_str!</span>(<span class="kw-2">&amp;</span><span class="macro-nonterminal">input</span>.<span class="ident">middle</span>),
                 )
             };
 
             <span class="kw">const</span> <span class="ident">OUT</span>: <span class="ident">SplicedStr</span> <span class="op">=</span> <span class="kw">unsafe</span> {
                 <span class="kw">let</span> <span class="ident">output</span> <span class="op">=</span> <span class="ident">OUT_A</span>.<span class="number">0</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">DecompOut</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> [<span class="ident">u8</span>; <span class="ident">P</span>.<span class="ident">out_len</span>];
                 <span class="ident">SplicedStr</span> {
-                    <span class="ident">output</span>: <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::__priv_transmute_raw_bytes_to_str!</span>(<span class="macro-nonterminal">output</span>),
+                    <span class="ident">output</span>: <span class="macro-nonterminal">$</span><span class="macro">crate::__priv_transmute_raw_bytes_to_str!</span>(<span class="macro-nonterminal">output</span>),
                     <span class="ident">removed</span>: <span class="ident">OUT_A</span>.<span class="number">1</span>,
                 }
             };
@@ -849,18 +846,18 @@ assert_eq!(const_format::str_index!(&quot;効率的&quot;, 4..6), &quot;率&quot
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">str_index</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">string</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">index</span>:<span class="ident">expr</span> $(,)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {{
-        <span class="kw">const</span> <span class="ident">P_OSRCTFL4A</span>: <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::__str_methods::StrIndexArgs</span> <span class="op">=</span>
-            <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::__str_methods::StrIndexArgsConv</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">string</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">index</span>).<span class="ident">conv</span>();
+        <span class="kw">const</span> <span class="ident">P_OSRCTFL4A</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::__str_methods::StrIndexArgs</span> <span class="op">=</span>
+            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::__str_methods::StrIndexArgsConv</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">string</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">index</span>).<span class="ident">conv</span>();
 
         {
-            <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::pmr::respan_to!</span> {
+            <span class="macro-nonterminal">$</span><span class="macro">crate::pmr::respan_to!</span> {
                 (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">string</span>)
                 <span class="kw">const</span> <span class="ident">_ASSERT_VALID_INDEX</span>: () <span class="op">=</span>
                     <span class="ident">P_OSRCTFL4A</span>.<span class="ident">index_validity</span>.<span class="ident">assert_valid</span>();
             }
 
-            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::__hidden_utils::PtrToRef</span>;
-            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::__str_methods::DecomposedString</span>;
+            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::__hidden_utils::PtrToRef</span>;
+            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::__str_methods::DecomposedString</span>;
             <span class="kw">type</span> <span class="ident">DecompIn</span> <span class="op">=</span> <span class="ident">DecomposedString</span><span class="op">&lt;</span>
                 [<span class="ident">u8</span>; <span class="ident">P_OSRCTFL4A</span>.<span class="ident">used_rstart</span>],
                 [<span class="ident">u8</span>; <span class="ident">P_OSRCTFL4A</span>.<span class="ident">used_rlen</span>],
@@ -872,7 +869,7 @@ assert_eq!(const_format::str_index!(&quot;効率的&quot;, 4..6), &quot;率&quot
                     <span class="ident">ptr</span>: <span class="ident">P_OSRCTFL4A</span>.<span class="ident">str</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">DecompIn</span>,
                 }
                 .<span class="ident">reff</span>;
-                <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::__priv_transmute_raw_bytes_to_str!</span>(<span class="kw-2">&amp;</span><span class="macro-nonterminal">input</span>.<span class="ident">middle</span>)
+                <span class="macro-nonterminal">$</span><span class="macro">crate::__priv_transmute_raw_bytes_to_str!</span>(<span class="kw-2">&amp;</span><span class="macro-nonterminal">input</span>.<span class="ident">middle</span>)
             };
 
             <span class="ident">OUT</span>
@@ -944,28 +941,28 @@ assert_eq!(const_format::str_get!(&quot;効率的&quot;, 4..6), None);
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">str_get</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">string</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">index</span>:<span class="ident">expr</span> $(,)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {{
-        <span class="kw">const</span> <span class="ident">P_OSRCTFL4A</span>: <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::__str_methods::StrIndexArgs</span> <span class="op">=</span>
-            <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::__str_methods::StrIndexArgsConv</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">string</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">index</span>).<span class="ident">conv</span>();
+        <span class="kw">const</span> <span class="ident">P_OSRCTFL4A</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::__str_methods::StrIndexArgs</span> <span class="op">=</span>
+            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::__str_methods::StrIndexArgsConv</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">string</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">index</span>).<span class="ident">conv</span>();
 
         {
-            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::__hidden_utils::PtrToRef</span>;
-            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::__str_methods::DecomposedString</span>;
+            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::__hidden_utils::PtrToRef</span>;
+            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::__str_methods::DecomposedString</span>;
             <span class="kw">type</span> <span class="ident">DecompIn</span> <span class="op">=</span> <span class="ident">DecomposedString</span><span class="op">&lt;</span>
                 [<span class="ident">u8</span>; <span class="ident">P_OSRCTFL4A</span>.<span class="ident">used_rstart</span>],
                 [<span class="ident">u8</span>; <span class="ident">P_OSRCTFL4A</span>.<span class="ident">used_rlen</span>],
                 [<span class="ident">u8</span>; <span class="number">0</span>],
             <span class="op">&gt;</span>;
 
-            <span class="kw">const</span> <span class="ident">OUT</span>: <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::pmr::Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::pmr::str</span><span class="op">&gt;</span> <span class="op">=</span> <span class="kw">unsafe</span> {
+            <span class="kw">const</span> <span class="ident">OUT</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::pmr::Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::pmr::str</span><span class="op">&gt;</span> <span class="op">=</span> <span class="kw">unsafe</span> {
                 <span class="kw">if</span> <span class="ident">P_OSRCTFL4A</span>.<span class="ident">index_validity</span>.<span class="ident">is_valid</span>() {
                     <span class="kw">let</span> <span class="ident">input</span> <span class="op">=</span> <span class="ident">PtrToRef</span> {
                         <span class="ident">ptr</span>: <span class="ident">P_OSRCTFL4A</span>.<span class="ident">str</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">DecompIn</span>,
                     }
                     .<span class="ident">reff</span>;
 
-                    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::pmr::Some</span>(<span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::__priv_transmute_raw_bytes_to_str!</span>(<span class="kw-2">&amp;</span><span class="macro-nonterminal">input</span>.<span class="ident">middle</span>))
+                    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::pmr::Some</span>(<span class="macro-nonterminal">$</span><span class="macro">crate::__priv_transmute_raw_bytes_to_str!</span>(<span class="kw-2">&amp;</span><span class="macro-nonterminal">input</span>.<span class="ident">middle</span>))
                 } <span class="kw">else</span> {
-                    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::pmr::None</span>
+                    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::pmr::None</span>
                 }
             };
 
@@ -973,5 +970,7 @@ assert_eq!(const_format::str_get!(&quot;効率的&quot;, 4..6), None);
         }
     }};
 }
-</pre></div>
-</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="const_format" data-search-index-js="../../../search-index.js" data-search-js="../../../search.js"></div><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script></body></html>
+</code></pre></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="const_format" data-search-index-js="../../../search-index.js" data-search-js="../../../search.js"></div>
+    <script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script>
+</body></html>
