@@ -1043,6 +1043,17 @@
 <span id="1043">1043</span>
 <span id="1044">1044</span>
 <span id="1045">1045</span>
+<span id="1046">1046</span>
+<span id="1047">1047</span>
+<span id="1048">1048</span>
+<span id="1049">1049</span>
+<span id="1050">1050</span>
+<span id="1051">1051</span>
+<span id="1052">1052</span>
+<span id="1053">1053</span>
+<span id="1054">1054</span>
+<span id="1055">1055</span>
+<span id="1056">1056</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Syntax tree definitions with change metadata.</span>
 
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy::mutable_key_type</span>)]</span> <span class="comment">// Hash for Syntax doesn&#39;t use mutable fields.</span>
@@ -1330,6 +1341,17 @@
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">num_ancestors</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
         <span class="self">self</span>.<span class="ident">info</span>().<span class="ident">num_ancestors</span>.<span class="ident">get</span>()
+    }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dbg_content</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+        <span class="kw">match</span> <span class="self">self</span> {
+            <span class="ident">List</span> {
+                <span class="ident">open_content</span>,
+                <span class="ident">close_content</span>,
+                ..
+            } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">format!</span>(<span class="string">&quot;{} ... {}&quot;</span>, <span class="ident">open_content</span>, <span class="ident">close_content</span>),
+            <span class="ident">Atom</span> { <span class="ident">content</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">content</span>.<span class="ident">into</span>(),
+        }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">first_line</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span> {

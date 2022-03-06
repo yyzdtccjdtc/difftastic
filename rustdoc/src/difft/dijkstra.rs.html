@@ -586,6 +586,21 @@
 <span id="586">586</span>
 <span id="587">587</span>
 <span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Implements Dijkstra&#39;s algorithm for shortest path, to find an</span>
 <span class="doccomment">//! optimal and readable diff between two ASTs.</span>
 
@@ -671,7 +686,22 @@
     <span class="macro">info!</span>(
         <span class="string">&quot;Initial {} items on path: {:#?}&quot;</span>,
         <span class="ident">print_length</span>,
-        <span class="ident">route</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="number">0</span>).<span class="ident">take</span>(<span class="ident">print_length</span>).<span class="ident">collect_vec</span>()
+        <span class="ident">route</span>
+            .<span class="ident">iter</span>()
+            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> {
+                <span class="macro">format!</span>(
+                    <span class="string">&quot;{:10} {:10} --- {:?}&quot;</span>,
+                    <span class="ident">x</span>.<span class="number">1</span>.<span class="ident">lhs_syntax</span>
+                        .<span class="ident">map</span>(<span class="ident">Syntax::dbg_content</span>)
+                        .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="string">&quot;None&quot;</span>.<span class="ident">into</span>()),
+                    <span class="ident">x</span>.<span class="number">1</span>.<span class="ident">rhs_syntax</span>
+                        .<span class="ident">map</span>(<span class="ident">Syntax::dbg_content</span>)
+                        .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="string">&quot;None&quot;</span>.<span class="ident">into</span>()),
+                    <span class="ident">x</span>.<span class="number">0</span>,
+                )
+            })
+            .<span class="ident">take</span>(<span class="ident">print_length</span>)
+            .<span class="ident">collect_vec</span>()
     );
     <span class="ident">route</span>
 }
