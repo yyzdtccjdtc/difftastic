@@ -531,10 +531,125 @@
 <span id="531">531</span>
 <span id="532">532</span>
 <span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
 </pre><pre class="rust"><code><span class="doccomment">//! A graph representation for computing tree diffs.</span>
 
-<span class="kw">use</span> <span class="ident">rustc_hash::FxHasher</span>;
-<span class="kw">use</span> <span class="ident">std::hash</span>::{<span class="ident">Hash</span>, <span class="ident">Hasher</span>};
+<span class="kw">use</span> <span class="ident">rpds::Stack</span>;
+<span class="kw">use</span> <span class="ident">std</span>::{
+    <span class="ident">fmt</span>,
+    <span class="ident">hash</span>::{<span class="ident">Hash</span>, <span class="ident">Hasher</span>},
+};
 <span class="kw">use</span> <span class="ident">strsim::normalized_levenshtein</span>;
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::syntax</span>::{<span class="ident">AtomKind</span>, <span class="ident">ChangeKind</span>, <span class="ident">Syntax</span>};
@@ -572,18 +687,33 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Vertex</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="kw">pub</span> <span class="ident">lhs_syntax</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">rhs_syntax</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    <span class="comment">// Instead, store parent pointers for both sides and a hashset of</span>
-    <span class="comment">// novel delimiter parent IDs.</span>
-    <span class="ident">parents</span>: <span class="ident">rpds::Stack</span><span class="op">&lt;</span>(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>)<span class="op">&gt;</span>,
-    <span class="ident">parents_hash</span>: <span class="ident">u64</span>,
+    <span class="ident">parents</span>: <span class="ident">Stack</span><span class="op">&lt;</span><span class="ident">EnteredDelimiter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">lhs_parent_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
+    <span class="ident">rhs_parent_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">PartialEq</span> <span class="kw">for</span> <span class="ident">Vertex</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">lhs_syntax</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">node</span><span class="op">|</span> <span class="ident">node</span>.<span class="ident">id</span>()) <span class="op">=</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">lhs_syntax</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">node</span><span class="op">|</span> <span class="ident">node</span>.<span class="ident">id</span>())
             <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">rhs_syntax</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">node</span><span class="op">|</span> <span class="ident">node</span>.<span class="ident">id</span>()) <span class="op">=</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">rhs_syntax</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">node</span><span class="op">|</span> <span class="ident">node</span>.<span class="ident">id</span>())
-            <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">parents_hash</span> <span class="op">=</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">parents_hash</span>
-            <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">eq_parents_each_side</span>(<span class="ident">other</span>)
+            <span class="comment">// Strictly speaking, we should compare the whole</span>
+            <span class="comment">// EnteredDelimiter stack, not just the immediate</span>
+            <span class="comment">// parents. By taking the immediate parent, we have</span>
+            <span class="comment">// vertices with different stacks that are &#39;equal&#39;.</span>
+            <span class="comment">//</span>
+            <span class="comment">// This makes the graph traversal path dependent: the</span>
+            <span class="comment">// first vertex we see &#39;wins&#39;, and we use it for deciding</span>
+            <span class="comment">// how we can pop.</span>
+            <span class="comment">//</span>
+            <span class="comment">// In practice this seems to work well. The first vertex</span>
+            <span class="comment">// has the lowest cost, so has the most PopBoth</span>
+            <span class="comment">// occurrences, which is the best outcome.</span>
+            <span class="comment">//</span>
+            <span class="comment">// Handling this properly would require considering many</span>
+            <span class="comment">// more vertices to be distinct, exponentially increasing</span>
+            <span class="comment">// the graph size relative to tree depth.</span>
+            <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">lhs_parent_id</span> <span class="op">=</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">lhs_parent_id</span>
+            <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">rhs_parent_id</span> <span class="op">=</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">rhs_parent_id</span>
     }
 }
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Eq</span> <span class="kw">for</span> <span class="ident">Vertex</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {}
@@ -593,31 +723,150 @@
         <span class="self">self</span>.<span class="ident">lhs_syntax</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">node</span><span class="op">|</span> <span class="ident">node</span>.<span class="ident">id</span>()).<span class="ident">hash</span>(<span class="ident">state</span>);
         <span class="self">self</span>.<span class="ident">rhs_syntax</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">node</span><span class="op">|</span> <span class="ident">node</span>.<span class="ident">id</span>()).<span class="ident">hash</span>(<span class="ident">state</span>);
 
-        <span class="self">self</span>.<span class="ident">parents_hash</span>.<span class="ident">hash</span>(<span class="ident">state</span>);
+        <span class="self">self</span>.<span class="ident">lhs_parent_id</span>.<span class="ident">hash</span>(<span class="ident">state</span>);
+        <span class="self">self</span>.<span class="ident">rhs_parent_id</span>.<span class="ident">hash</span>(<span class="ident">state</span>);
     }
 }
 
-<span class="kw">fn</span> <span class="ident">hash_parents</span>(<span class="ident">parents</span>: <span class="kw-2">&amp;</span><span class="ident">rpds::Stack</span><span class="op">&lt;</span>(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Syntax</span><span class="op">&gt;</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Syntax</span><span class="op">&gt;</span>)<span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hasher</span> <span class="op">=</span> <span class="ident">FxHasher::default</span>();
+<span class="doccomment">/// Tracks entering syntax List nodes.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
+<span class="kw">enum</span> <span class="ident">EnteredDelimiter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// If we&#39;ve entered the LHS or RHS separately, we can pop either</span>
+    <span class="doccomment">/// side independently.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Assumes that at least one stack is non-empty.</span>
+    <span class="ident">PopEither</span>((<span class="ident">Stack</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Stack</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>)),
+    <span class="doccomment">/// If we&#39;ve entered the LHS and RHS together, we must pop both</span>
+    <span class="doccomment">/// sides together too. Otherwise we&#39;d consider the following case to have no changes.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```text</span>
+    <span class="doccomment">/// Old: (a b c)</span>
+    <span class="doccomment">/// New: (a b) c</span>
+    <span class="doccomment">/// ```</span>
+    <span class="ident">PopBoth</span>((<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>)),
+}
 
-    <span class="kw">for</span> (<span class="ident">parent_id</span>, <span class="kw">_</span>) <span class="kw">in</span> <span class="ident">parents</span>.<span class="ident">iter</span>() {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">parent_id</span>) <span class="op">=</span> <span class="ident">parent_id</span> {
-            <span class="comment">// FxHasher finishes with 0 if called with</span>
-            <span class="comment">// .write_u32(0). Ensure the u32 written is always</span>
-            <span class="comment">// non-zero.</span>
-            <span class="ident">hasher</span>.<span class="ident">write_u32</span>(<span class="ident">parent_id</span>.<span class="ident">id</span>() <span class="op">+</span> <span class="number">1</span>);
-        }
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">fmt::Debug</span> <span class="kw">for</span> <span class="ident">EnteredDelimiter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt::Result</span> {
+        <span class="kw">let</span> <span class="ident">desc</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span> {
+            <span class="ident">EnteredDelimiter::PopEither</span>((<span class="ident">lhs_delims</span>, <span class="ident">rhs_delims</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="macro">format!</span>(<span class="string">&quot;PopEither({}, {})&quot;</span>, <span class="ident">lhs_delims</span>.<span class="ident">size</span>(), <span class="ident">rhs_delims</span>.<span class="ident">size</span>())
+            }
+            <span class="ident">EnteredDelimiter::PopBoth</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;PopBoth&quot;</span>.<span class="ident">to_string</span>(),
+        };
+        <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="kw-2">&amp;</span><span class="ident">desc</span>)
     }
-    <span class="kw">for</span> (<span class="kw">_</span>, <span class="ident">parent_id</span>) <span class="kw">in</span> <span class="ident">parents</span>.<span class="ident">iter</span>() {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">parent_id</span>) <span class="op">=</span> <span class="ident">parent_id</span> {
-            <span class="comment">// FxHasher finishes with 0 if called with</span>
-            <span class="comment">// .write_u32(0). Ensure the u32 written is always</span>
-            <span class="comment">// non-zero.</span>
-            <span class="ident">hasher</span>.<span class="ident">write_u32</span>(<span class="ident">parent_id</span>.<span class="ident">id</span>() <span class="op">+</span> <span class="number">1</span>);
-        }
-    }
+}
 
-    <span class="ident">hasher</span>.<span class="ident">finish</span>()
+<span class="kw">fn</span> <span class="ident">push_both_delimiters</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
+    <span class="ident">entered</span>: <span class="kw-2">&amp;</span><span class="ident">Stack</span><span class="op">&lt;</span><span class="ident">EnteredDelimiter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">lhs_delim</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
+    <span class="ident">rhs_delim</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Stack</span><span class="op">&lt;</span><span class="ident">EnteredDelimiter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="ident">entered</span>.<span class="ident">push</span>(<span class="ident">EnteredDelimiter::PopBoth</span>((<span class="ident">lhs_delim</span>, <span class="ident">rhs_delim</span>)))
+}
+
+<span class="kw">fn</span> <span class="ident">try_pop_both</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
+    <span class="ident">entered</span>: <span class="kw-2">&amp;</span><span class="ident">Stack</span><span class="op">&lt;</span><span class="ident">EnteredDelimiter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="ident">Stack</span><span class="op">&lt;</span><span class="ident">EnteredDelimiter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>)<span class="op">&gt;</span> {
+    <span class="kw">match</span> <span class="ident">entered</span>.<span class="ident">peek</span>() {
+        <span class="prelude-val">Some</span>(<span class="ident">EnteredDelimiter::PopBoth</span>((<span class="ident">lhs_delim</span>, <span class="ident">rhs_delim</span>))) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="prelude-val">Some</span>((<span class="ident">lhs_delim</span>, <span class="ident">rhs_delim</span>, <span class="ident">entered</span>.<span class="ident">pop</span>().<span class="ident">unwrap</span>()))
+        }
+        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+    }
+}
+
+<span class="kw">fn</span> <span class="ident">try_pop_lhs</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
+    <span class="ident">entered</span>: <span class="kw-2">&amp;</span><span class="ident">Stack</span><span class="op">&lt;</span><span class="ident">EnteredDelimiter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="ident">Stack</span><span class="op">&lt;</span><span class="ident">EnteredDelimiter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>)<span class="op">&gt;</span> {
+    <span class="kw">match</span> <span class="ident">entered</span>.<span class="ident">peek</span>() {
+        <span class="prelude-val">Some</span>(<span class="ident">EnteredDelimiter::PopEither</span>((<span class="ident">lhs_delims</span>, <span class="ident">rhs_delims</span>))) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">lhs_delims</span>.<span class="ident">peek</span>() {
+            <span class="prelude-val">Some</span>(<span class="ident">lhs_delim</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">entered</span> <span class="op">=</span> <span class="ident">entered</span>.<span class="ident">pop</span>().<span class="ident">unwrap</span>();
+                <span class="kw">let</span> <span class="ident">new_lhs_delims</span> <span class="op">=</span> <span class="ident">lhs_delims</span>.<span class="ident">pop</span>().<span class="ident">unwrap</span>();
+
+                <span class="kw">if</span> <span class="op">!</span><span class="ident">new_lhs_delims</span>.<span class="ident">is_empty</span>() <span class="op">|</span><span class="op">|</span> <span class="op">!</span><span class="ident">rhs_delims</span>.<span class="ident">is_empty</span>() {
+                    <span class="ident">entered</span> <span class="op">=</span> <span class="ident">entered</span>.<span class="ident">push</span>(<span class="ident">EnteredDelimiter::PopEither</span>((
+                        <span class="ident">new_lhs_delims</span>,
+                        <span class="ident">rhs_delims</span>.<span class="ident">clone</span>(),
+                    )));
+                }
+
+                <span class="prelude-val">Some</span>((<span class="ident">lhs_delim</span>, <span class="ident">entered</span>))
+            }
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+        },
+        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+    }
+}
+
+<span class="kw">fn</span> <span class="ident">try_pop_rhs</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
+    <span class="ident">entered</span>: <span class="kw-2">&amp;</span><span class="ident">Stack</span><span class="op">&lt;</span><span class="ident">EnteredDelimiter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="ident">Stack</span><span class="op">&lt;</span><span class="ident">EnteredDelimiter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>)<span class="op">&gt;</span> {
+    <span class="kw">match</span> <span class="ident">entered</span>.<span class="ident">peek</span>() {
+        <span class="prelude-val">Some</span>(<span class="ident">EnteredDelimiter::PopEither</span>((<span class="ident">lhs_delims</span>, <span class="ident">rhs_delims</span>))) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">rhs_delims</span>.<span class="ident">peek</span>() {
+            <span class="prelude-val">Some</span>(<span class="ident">rhs_delim</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">entered</span> <span class="op">=</span> <span class="ident">entered</span>.<span class="ident">pop</span>().<span class="ident">unwrap</span>();
+                <span class="kw">let</span> <span class="ident">new_rhs_delims</span> <span class="op">=</span> <span class="ident">rhs_delims</span>.<span class="ident">pop</span>().<span class="ident">unwrap</span>();
+
+                <span class="kw">if</span> <span class="op">!</span><span class="ident">lhs_delims</span>.<span class="ident">is_empty</span>() <span class="op">|</span><span class="op">|</span> <span class="op">!</span><span class="ident">new_rhs_delims</span>.<span class="ident">is_empty</span>() {
+                    <span class="ident">entered</span> <span class="op">=</span> <span class="ident">entered</span>.<span class="ident">push</span>(<span class="ident">EnteredDelimiter::PopEither</span>((
+                        <span class="ident">lhs_delims</span>.<span class="ident">clone</span>(),
+                        <span class="ident">new_rhs_delims</span>,
+                    )));
+                }
+
+                <span class="prelude-val">Some</span>((<span class="ident">rhs_delim</span>, <span class="ident">entered</span>))
+            }
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+        },
+        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+    }
+}
+
+<span class="kw">fn</span> <span class="ident">push_lhs_delimiter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
+    <span class="ident">entered</span>: <span class="kw-2">&amp;</span><span class="ident">Stack</span><span class="op">&lt;</span><span class="ident">EnteredDelimiter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">delimiter</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Stack</span><span class="op">&lt;</span><span class="ident">EnteredDelimiter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">modifying_head</span> <span class="op">=</span> <span class="bool-val">false</span>;
+    <span class="kw">let</span> (<span class="kw-2">mut</span> <span class="ident">lhs_delims</span>, <span class="ident">rhs_delims</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">entered</span>.<span class="ident">peek</span>() {
+        <span class="prelude-val">Some</span>(<span class="ident">EnteredDelimiter::PopEither</span>((<span class="ident">lhs_delims</span>, <span class="ident">rhs_delims</span>))) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">modifying_head</span> <span class="op">=</span> <span class="bool-val">true</span>;
+            (<span class="ident">lhs_delims</span>.<span class="ident">clone</span>(), <span class="ident">rhs_delims</span>.<span class="ident">clone</span>())
+        }
+        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">Stack::new</span>(), <span class="ident">Stack::new</span>()),
+    };
+    <span class="ident">lhs_delims</span> <span class="op">=</span> <span class="ident">lhs_delims</span>.<span class="ident">push</span>(<span class="ident">delimiter</span>);
+
+    <span class="kw">let</span> <span class="ident">entered</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">modifying_head</span> {
+        <span class="ident">entered</span>.<span class="ident">pop</span>().<span class="ident">unwrap</span>()
+    } <span class="kw">else</span> {
+        <span class="ident">entered</span>.<span class="ident">clone</span>()
+    };
+    <span class="ident">entered</span>.<span class="ident">push</span>(<span class="ident">EnteredDelimiter::PopEither</span>((<span class="ident">lhs_delims</span>, <span class="ident">rhs_delims</span>)))
+}
+
+<span class="kw">fn</span> <span class="ident">push_rhs_delimiter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
+    <span class="ident">entered</span>: <span class="kw-2">&amp;</span><span class="ident">Stack</span><span class="op">&lt;</span><span class="ident">EnteredDelimiter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">delimiter</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Stack</span><span class="op">&lt;</span><span class="ident">EnteredDelimiter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">modifying_head</span> <span class="op">=</span> <span class="bool-val">false</span>;
+    <span class="kw">let</span> (<span class="ident">lhs_delims</span>, <span class="kw-2">mut</span> <span class="ident">rhs_delims</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">entered</span>.<span class="ident">peek</span>() {
+        <span class="prelude-val">Some</span>(<span class="ident">EnteredDelimiter::PopEither</span>((<span class="ident">lhs_delims</span>, <span class="ident">rhs_delims</span>))) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">modifying_head</span> <span class="op">=</span> <span class="bool-val">true</span>;
+            (<span class="ident">lhs_delims</span>.<span class="ident">clone</span>(), <span class="ident">rhs_delims</span>.<span class="ident">clone</span>())
+        }
+        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">Stack::new</span>(), <span class="ident">Stack::new</span>()),
+    };
+    <span class="ident">rhs_delims</span> <span class="op">=</span> <span class="ident">rhs_delims</span>.<span class="ident">push</span>(<span class="ident">delimiter</span>);
+
+    <span class="kw">let</span> <span class="ident">entered</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">modifying_head</span> {
+        <span class="ident">entered</span>.<span class="ident">pop</span>().<span class="ident">unwrap</span>()
+    } <span class="kw">else</span> {
+        <span class="ident">entered</span>.<span class="ident">clone</span>()
+    };
+    <span class="ident">entered</span>.<span class="ident">push</span>(<span class="ident">EnteredDelimiter::PopEither</span>((<span class="ident">lhs_delims</span>, <span class="ident">rhs_delims</span>)))
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Vertex</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
@@ -625,43 +874,14 @@
         <span class="self">self</span>.<span class="ident">lhs_syntax</span>.<span class="ident">is_none</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">rhs_syntax</span>.<span class="ident">is_none</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">parents</span>.<span class="ident">is_empty</span>()
     }
 
-    <span class="kw">fn</span> <span class="ident">eq_parents_each_side</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="comment">// Compare LHS and RHS parents separately. This ensures that</span>
-        <span class="comment">// the following are considered equal:</span>
-        <span class="comment">//</span>
-        <span class="comment">// [EnterNovelDelimiterLHS, EnterNovelDelimiterRHS]</span>
-        <span class="comment">// [EnterNovelDelimiterRHS, EnterNovelDelimiterLHS]</span>
-        <span class="comment">//</span>
-        <span class="comment">// Otherwise we would construct a much bigger graph and</span>
-        <span class="comment">// difftastic wouldn&#39;t scale to medium size programs such as</span>
-        <span class="comment">// sample_files/nest_after.rs.</span>
-        <span class="kw">let</span> <span class="ident">self_lhs_parents</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">parents</span>.<span class="ident">iter</span>().<span class="ident">filter_map</span>(<span class="op">|</span>(<span class="ident">lhs</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="kw-2">*</span><span class="ident">lhs</span>);
-        <span class="kw">let</span> <span class="ident">other_lhs_parents</span> <span class="op">=</span> <span class="ident">other</span>.<span class="ident">parents</span>.<span class="ident">iter</span>().<span class="ident">filter_map</span>(<span class="op">|</span>(<span class="ident">lhs</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="kw-2">*</span><span class="ident">lhs</span>);
-        <span class="kw">for</span> (<span class="ident">self_lhs_parent</span>, <span class="ident">other_lhs_parent</span>) <span class="kw">in</span> <span class="ident">self_lhs_parents</span>.<span class="ident">zip</span>(<span class="ident">other_lhs_parents</span>) {
-            <span class="kw">if</span> <span class="ident">self_lhs_parent</span>.<span class="ident">id</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">other_lhs_parent</span>.<span class="ident">id</span>() {
-                <span class="kw">return</span> <span class="bool-val">false</span>;
-            }
-        }
-
-        <span class="kw">let</span> <span class="ident">self_rhs_parents</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">parents</span>.<span class="ident">iter</span>().<span class="ident">filter_map</span>(<span class="op">|</span>(<span class="kw">_</span>, <span class="ident">rhs</span>)<span class="op">|</span> <span class="kw-2">*</span><span class="ident">rhs</span>);
-        <span class="kw">let</span> <span class="ident">other_rhs_parents</span> <span class="op">=</span> <span class="ident">other</span>.<span class="ident">parents</span>.<span class="ident">iter</span>().<span class="ident">filter_map</span>(<span class="op">|</span>(<span class="kw">_</span>, <span class="ident">rhs</span>)<span class="op">|</span> <span class="kw-2">*</span><span class="ident">rhs</span>);
-        <span class="kw">for</span> (<span class="ident">self_rhs_parent</span>, <span class="ident">other_rhs_parent</span>) <span class="kw">in</span> <span class="ident">self_rhs_parents</span>.<span class="ident">zip</span>(<span class="ident">other_rhs_parents</span>) {
-            <span class="kw">if</span> <span class="ident">self_rhs_parent</span>.<span class="ident">id</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">other_rhs_parent</span>.<span class="ident">id</span>() {
-                <span class="kw">return</span> <span class="bool-val">false</span>;
-            }
-        }
-
-        <span class="bool-val">true</span>
-    }
-
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">lhs_syntax</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">rhs_syntax</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="kw">let</span> <span class="ident">parents</span> <span class="op">=</span> <span class="ident">rpds::Stack::new</span>();
-        <span class="kw">let</span> <span class="ident">parents_hash</span> <span class="op">=</span> <span class="ident">hash_parents</span>(<span class="kw-2">&amp;</span><span class="ident">parents</span>);
+        <span class="kw">let</span> <span class="ident">parents</span> <span class="op">=</span> <span class="ident">Stack::new</span>();
         <span class="ident">Vertex</span> {
             <span class="ident">lhs_syntax</span>,
             <span class="ident">rhs_syntax</span>,
             <span class="ident">parents</span>,
-            <span class="ident">parents_hash</span>,
+            <span class="ident">lhs_parent_id</span>: <span class="prelude-val">None</span>,
+            <span class="ident">rhs_parent_id</span>: <span class="prelude-val">None</span>,
         }
     }
 }
@@ -743,63 +963,61 @@
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">0</span>;
 
-    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">lhs_parent</span>, <span class="ident">rhs_parent</span>)) <span class="op">=</span> <span class="ident">v</span>.<span class="ident">parents</span>.<span class="ident">peek</span>() {
-        <span class="kw">match</span> (<span class="ident">lhs_parent</span>, <span class="ident">rhs_parent</span>) {
-            (<span class="prelude-val">Some</span>(<span class="ident">lhs_parent</span>), <span class="prelude-val">Some</span>(<span class="ident">rhs_parent</span>))
-                <span class="kw">if</span> <span class="ident">v</span>.<span class="ident">lhs_syntax</span>.<span class="ident">is_none</span>() <span class="op">&amp;&amp;</span> <span class="ident">v</span>.<span class="ident">rhs_syntax</span>.<span class="ident">is_none</span>() <span class="op">=</span><span class="op">&gt;</span>
-            {
-                <span class="comment">// We have exhausted all the nodes on both lists, so we can</span>
-                <span class="comment">// move up to the parent node.</span>
-                <span class="kw">let</span> <span class="ident">next_parents</span> <span class="op">=</span> <span class="ident">v</span>.<span class="ident">parents</span>.<span class="ident">pop</span>().<span class="ident">unwrap</span>();
-                <span class="kw">let</span> <span class="ident">parents_hash</span> <span class="op">=</span> <span class="ident">hash_parents</span>(<span class="kw-2">&amp;</span><span class="ident">next_parents</span>);
+    <span class="kw">if</span> <span class="ident">v</span>.<span class="ident">lhs_syntax</span>.<span class="ident">is_none</span>() <span class="op">&amp;&amp;</span> <span class="ident">v</span>.<span class="ident">rhs_syntax</span>.<span class="ident">is_none</span>() {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">lhs_parent</span>, <span class="ident">rhs_parent</span>, <span class="ident">parents_next</span>)) <span class="op">=</span> <span class="ident">try_pop_both</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>.<span class="ident">parents</span>) {
+            <span class="comment">// We have exhausted all the nodes on both lists, so we can</span>
+            <span class="comment">// move up to the parent node.</span>
 
-                <span class="comment">// Continue from sibling of parent.</span>
-                <span class="ident">buf</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="prelude-val">Some</span>((
-                    <span class="ident">ExitDelimiterBoth</span>,
-                    <span class="ident">Vertex</span> {
-                        <span class="ident">lhs_syntax</span>: <span class="ident">lhs_parent</span>.<span class="ident">next_sibling</span>(),
-                        <span class="ident">rhs_syntax</span>: <span class="ident">rhs_parent</span>.<span class="ident">next_sibling</span>(),
-                        <span class="ident">parents</span>: <span class="ident">next_parents</span>,
-                        <span class="ident">parents_hash</span>,
-                    },
-                ));
-                <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
-            }
-            (<span class="prelude-val">Some</span>(<span class="ident">lhs_parent</span>), <span class="prelude-val">None</span>) <span class="kw">if</span> <span class="ident">v</span>.<span class="ident">lhs_syntax</span>.<span class="ident">is_none</span>() <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="comment">// Move to next after LHS parent.</span>
-                <span class="kw">let</span> <span class="ident">next_parents</span> <span class="op">=</span> <span class="ident">v</span>.<span class="ident">parents</span>.<span class="ident">pop</span>().<span class="ident">unwrap</span>();
-                <span class="kw">let</span> <span class="ident">parents_hash</span> <span class="op">=</span> <span class="ident">hash_parents</span>(<span class="kw-2">&amp;</span><span class="ident">next_parents</span>);
+            <span class="comment">// Continue from sibling of parent.</span>
+            <span class="ident">buf</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="prelude-val">Some</span>((
+                <span class="ident">ExitDelimiterBoth</span>,
+                <span class="ident">Vertex</span> {
+                    <span class="ident">lhs_syntax</span>: <span class="ident">lhs_parent</span>.<span class="ident">next_sibling</span>(),
+                    <span class="ident">rhs_syntax</span>: <span class="ident">rhs_parent</span>.<span class="ident">next_sibling</span>(),
+                    <span class="ident">parents</span>: <span class="ident">parents_next</span>,
+                    <span class="ident">lhs_parent_id</span>: <span class="ident">lhs_parent</span>.<span class="ident">parent</span>().<span class="ident">map</span>(<span class="ident">Syntax::id</span>),
+                    <span class="ident">rhs_parent_id</span>: <span class="ident">rhs_parent</span>.<span class="ident">parent</span>().<span class="ident">map</span>(<span class="ident">Syntax::id</span>),
+                },
+            ));
+            <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+        }
+    }
 
-                <span class="comment">// Continue from sibling of parent.</span>
-                <span class="ident">buf</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="prelude-val">Some</span>((
-                    <span class="ident">ExitDelimiterLHS</span>,
-                    <span class="ident">Vertex</span> {
-                        <span class="ident">lhs_syntax</span>: <span class="ident">lhs_parent</span>.<span class="ident">next_sibling</span>(),
-                        <span class="ident">rhs_syntax</span>: <span class="ident">v</span>.<span class="ident">rhs_syntax</span>,
-                        <span class="ident">parents</span>: <span class="ident">next_parents</span>,
-                        <span class="ident">parents_hash</span>,
-                    },
-                ));
-                <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
-            }
-            (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="ident">rhs_parent</span>)) <span class="kw">if</span> <span class="ident">v</span>.<span class="ident">rhs_syntax</span>.<span class="ident">is_none</span>() <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="comment">// Move to next after RHS parent.</span>
-                <span class="kw">let</span> <span class="ident">next_parents</span> <span class="op">=</span> <span class="ident">v</span>.<span class="ident">parents</span>.<span class="ident">pop</span>().<span class="ident">unwrap</span>();
-                <span class="kw">let</span> <span class="ident">parents_hash</span> <span class="op">=</span> <span class="ident">hash_parents</span>(<span class="kw-2">&amp;</span><span class="ident">next_parents</span>);
+    <span class="kw">if</span> <span class="ident">v</span>.<span class="ident">lhs_syntax</span>.<span class="ident">is_none</span>() {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">lhs_parent</span>, <span class="ident">parents_next</span>)) <span class="op">=</span> <span class="ident">try_pop_lhs</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>.<span class="ident">parents</span>) {
+            <span class="comment">// Move to next after LHS parent.</span>
 
-                <span class="comment">// Continue from sibling of parent.</span>
-                <span class="ident">buf</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="prelude-val">Some</span>((
-                    <span class="ident">ExitDelimiterRHS</span>,
-                    <span class="ident">Vertex</span> {
-                        <span class="ident">lhs_syntax</span>: <span class="ident">v</span>.<span class="ident">lhs_syntax</span>,
-                        <span class="ident">rhs_syntax</span>: <span class="ident">rhs_parent</span>.<span class="ident">next_sibling</span>(),
-                        <span class="ident">parents</span>: <span class="ident">next_parents</span>,
-                        <span class="ident">parents_hash</span>,
-                    },
-                ));
-                <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
-            }
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {}
+            <span class="comment">// Continue from sibling of parent.</span>
+            <span class="ident">buf</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="prelude-val">Some</span>((
+                <span class="ident">ExitDelimiterLHS</span>,
+                <span class="ident">Vertex</span> {
+                    <span class="ident">lhs_syntax</span>: <span class="ident">lhs_parent</span>.<span class="ident">next_sibling</span>(),
+                    <span class="ident">rhs_syntax</span>: <span class="ident">v</span>.<span class="ident">rhs_syntax</span>,
+                    <span class="ident">parents</span>: <span class="ident">parents_next</span>,
+                    <span class="ident">lhs_parent_id</span>: <span class="ident">lhs_parent</span>.<span class="ident">parent</span>().<span class="ident">map</span>(<span class="ident">Syntax::id</span>),
+                    <span class="ident">rhs_parent_id</span>: <span class="ident">v</span>.<span class="ident">rhs_parent_id</span>,
+                },
+            ));
+            <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+        }
+    }
+
+    <span class="kw">if</span> <span class="ident">v</span>.<span class="ident">rhs_syntax</span>.<span class="ident">is_none</span>() {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">rhs_parent</span>, <span class="ident">parents_next</span>)) <span class="op">=</span> <span class="ident">try_pop_rhs</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>.<span class="ident">parents</span>) {
+            <span class="comment">// Move to next after RHS parent.</span>
+
+            <span class="comment">// Continue from sibling of parent.</span>
+            <span class="ident">buf</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="prelude-val">Some</span>((
+                <span class="ident">ExitDelimiterRHS</span>,
+                <span class="ident">Vertex</span> {
+                    <span class="ident">lhs_syntax</span>: <span class="ident">v</span>.<span class="ident">lhs_syntax</span>,
+                    <span class="ident">rhs_syntax</span>: <span class="ident">rhs_parent</span>.<span class="ident">next_sibling</span>(),
+                    <span class="ident">parents</span>: <span class="ident">parents_next</span>,
+                    <span class="ident">lhs_parent_id</span>: <span class="ident">v</span>.<span class="ident">lhs_parent_id</span>,
+                    <span class="ident">rhs_parent_id</span>: <span class="ident">rhs_parent</span>.<span class="ident">parent</span>().<span class="ident">map</span>(<span class="ident">Syntax::id</span>),
+                },
+            ));
+            <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
         }
     }
 
@@ -812,7 +1030,8 @@
                     <span class="ident">lhs_syntax</span>: <span class="ident">lhs_syntax</span>.<span class="ident">next_sibling</span>(),
                     <span class="ident">rhs_syntax</span>: <span class="ident">rhs_syntax</span>.<span class="ident">next_sibling</span>(),
                     <span class="ident">parents</span>: <span class="ident">v</span>.<span class="ident">parents</span>.<span class="ident">clone</span>(),
-                    <span class="ident">parents_hash</span>: <span class="ident">v</span>.<span class="ident">parents_hash</span>,
+                    <span class="ident">lhs_parent_id</span>: <span class="ident">v</span>.<span class="ident">lhs_parent_id</span>,
+                    <span class="ident">rhs_parent_id</span>: <span class="ident">v</span>.<span class="ident">rhs_parent_id</span>,
                 },
             ));
             <span class="kw">return</span>;
@@ -839,8 +1058,7 @@
                 <span class="kw">let</span> <span class="ident">rhs_next</span> <span class="op">=</span> <span class="ident">rhs_children</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>();
 
                 <span class="comment">// TODO: be consistent between parents_next and next_parents.</span>
-                <span class="kw">let</span> <span class="ident">parents_next</span> <span class="op">=</span> <span class="ident">v</span>.<span class="ident">parents</span>.<span class="ident">push</span>((<span class="prelude-val">Some</span>(<span class="ident">lhs_syntax</span>), <span class="prelude-val">Some</span>(<span class="ident">rhs_syntax</span>)));
-                <span class="kw">let</span> <span class="ident">parents_hash</span> <span class="op">=</span> <span class="ident">hash_parents</span>(<span class="kw-2">&amp;</span><span class="ident">parents_next</span>);
+                <span class="kw">let</span> <span class="ident">parents_next</span> <span class="op">=</span> <span class="ident">push_both_delimiters</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>.<span class="ident">parents</span>, <span class="ident">lhs_syntax</span>, <span class="ident">rhs_syntax</span>);
 
                 <span class="ident">buf</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="prelude-val">Some</span>((
                     <span class="ident">EnterUnchangedDelimiter</span>,
@@ -848,7 +1066,8 @@
                         <span class="ident">lhs_syntax</span>: <span class="ident">lhs_next</span>,
                         <span class="ident">rhs_syntax</span>: <span class="ident">rhs_next</span>,
                         <span class="ident">parents</span>: <span class="ident">parents_next</span>,
-                        <span class="ident">parents_hash</span>,
+                        <span class="ident">lhs_parent_id</span>: <span class="prelude-val">Some</span>(<span class="ident">lhs_syntax</span>.<span class="ident">id</span>()),
+                        <span class="ident">rhs_parent_id</span>: <span class="prelude-val">Some</span>(<span class="ident">rhs_syntax</span>.<span class="ident">id</span>()),
                     },
                 ));
                 <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
@@ -879,7 +1098,8 @@
                         <span class="ident">lhs_syntax</span>: <span class="ident">lhs_syntax</span>.<span class="ident">next_sibling</span>(),
                         <span class="ident">rhs_syntax</span>: <span class="ident">rhs_syntax</span>.<span class="ident">next_sibling</span>(),
                         <span class="ident">parents</span>: <span class="ident">v</span>.<span class="ident">parents</span>.<span class="ident">clone</span>(),
-                        <span class="ident">parents_hash</span>: <span class="ident">v</span>.<span class="ident">parents_hash</span>,
+                        <span class="ident">lhs_parent_id</span>: <span class="ident">v</span>.<span class="ident">lhs_parent_id</span>,
+                        <span class="ident">rhs_parent_id</span>: <span class="ident">v</span>.<span class="ident">rhs_parent_id</span>,
                     },
                 ));
                 <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
@@ -901,7 +1121,8 @@
                         <span class="ident">lhs_syntax</span>: <span class="ident">lhs_syntax</span>.<span class="ident">next_sibling</span>(),
                         <span class="ident">rhs_syntax</span>: <span class="ident">v</span>.<span class="ident">rhs_syntax</span>,
                         <span class="ident">parents</span>: <span class="ident">v</span>.<span class="ident">parents</span>.<span class="ident">clone</span>(),
-                        <span class="ident">parents_hash</span>: <span class="ident">v</span>.<span class="ident">parents_hash</span>,
+                        <span class="ident">lhs_parent_id</span>: <span class="ident">v</span>.<span class="ident">lhs_parent_id</span>,
+                        <span class="ident">rhs_parent_id</span>: <span class="ident">v</span>.<span class="ident">rhs_parent_id</span>,
                     },
                 ));
                 <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
@@ -914,8 +1135,7 @@
             } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">lhs_next</span> <span class="op">=</span> <span class="ident">children</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>();
 
-                <span class="kw">let</span> <span class="ident">parents_next</span> <span class="op">=</span> <span class="ident">v</span>.<span class="ident">parents</span>.<span class="ident">push</span>((<span class="prelude-val">Some</span>(<span class="ident">lhs_syntax</span>), <span class="prelude-val">None</span>));
-                <span class="kw">let</span> <span class="ident">parents_hash</span> <span class="op">=</span> <span class="ident">hash_parents</span>(<span class="kw-2">&amp;</span><span class="ident">parents_next</span>);
+                <span class="kw">let</span> <span class="ident">parents_next</span> <span class="op">=</span> <span class="ident">push_lhs_delimiter</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>.<span class="ident">parents</span>, <span class="ident">lhs_syntax</span>);
 
                 <span class="ident">buf</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="prelude-val">Some</span>((
                     <span class="ident">EnterNovelDelimiterLHS</span> {
@@ -925,7 +1145,8 @@
                         <span class="ident">lhs_syntax</span>: <span class="ident">lhs_next</span>,
                         <span class="ident">rhs_syntax</span>: <span class="ident">v</span>.<span class="ident">rhs_syntax</span>,
                         <span class="ident">parents</span>: <span class="ident">parents_next</span>,
-                        <span class="ident">parents_hash</span>,
+                        <span class="ident">lhs_parent_id</span>: <span class="prelude-val">Some</span>(<span class="ident">lhs_syntax</span>.<span class="ident">id</span>()),
+                        <span class="ident">rhs_parent_id</span>: <span class="ident">v</span>.<span class="ident">rhs_parent_id</span>,
                     },
                 ));
                 <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
@@ -939,7 +1160,8 @@
                             <span class="ident">lhs_syntax</span>: <span class="ident">lhs_syntax</span>.<span class="ident">next_sibling</span>(),
                             <span class="ident">rhs_syntax</span>: <span class="ident">v</span>.<span class="ident">rhs_syntax</span>,
                             <span class="ident">parents</span>: <span class="ident">v</span>.<span class="ident">parents</span>.<span class="ident">clone</span>(),
-                            <span class="ident">parents_hash</span>: <span class="ident">v</span>.<span class="ident">parents_hash</span>,
+                            <span class="ident">lhs_parent_id</span>: <span class="ident">v</span>.<span class="ident">lhs_parent_id</span>,
+                            <span class="ident">rhs_parent_id</span>: <span class="ident">v</span>.<span class="ident">rhs_parent_id</span>,
                         },
                     ));
                     <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
@@ -960,7 +1182,8 @@
                         <span class="ident">lhs_syntax</span>: <span class="ident">v</span>.<span class="ident">lhs_syntax</span>,
                         <span class="ident">rhs_syntax</span>: <span class="ident">rhs_syntax</span>.<span class="ident">next_sibling</span>(),
                         <span class="ident">parents</span>: <span class="ident">v</span>.<span class="ident">parents</span>.<span class="ident">clone</span>(),
-                        <span class="ident">parents_hash</span>: <span class="ident">v</span>.<span class="ident">parents_hash</span>,
+                        <span class="ident">lhs_parent_id</span>: <span class="ident">v</span>.<span class="ident">lhs_parent_id</span>,
+                        <span class="ident">rhs_parent_id</span>: <span class="ident">v</span>.<span class="ident">rhs_parent_id</span>,
                     },
                 ));
                 <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
@@ -973,8 +1196,7 @@
             } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">rhs_next</span> <span class="op">=</span> <span class="ident">children</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>();
 
-                <span class="kw">let</span> <span class="ident">parents_next</span> <span class="op">=</span> <span class="ident">v</span>.<span class="ident">parents</span>.<span class="ident">push</span>((<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="ident">rhs_syntax</span>)));
-                <span class="kw">let</span> <span class="ident">parents_hash</span> <span class="op">=</span> <span class="ident">hash_parents</span>(<span class="kw-2">&amp;</span><span class="ident">parents_next</span>);
+                <span class="kw">let</span> <span class="ident">parents_next</span> <span class="op">=</span> <span class="ident">push_rhs_delimiter</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>.<span class="ident">parents</span>, <span class="ident">rhs_syntax</span>);
 
                 <span class="ident">buf</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="prelude-val">Some</span>((
                     <span class="ident">EnterNovelDelimiterRHS</span> {
@@ -984,7 +1206,8 @@
                         <span class="ident">lhs_syntax</span>: <span class="ident">v</span>.<span class="ident">lhs_syntax</span>,
                         <span class="ident">rhs_syntax</span>: <span class="ident">rhs_next</span>,
                         <span class="ident">parents</span>: <span class="ident">parents_next</span>,
-                        <span class="ident">parents_hash</span>,
+                        <span class="ident">lhs_parent_id</span>: <span class="ident">v</span>.<span class="ident">lhs_parent_id</span>,
+                        <span class="ident">rhs_parent_id</span>: <span class="prelude-val">Some</span>(<span class="ident">rhs_syntax</span>.<span class="ident">id</span>()),
                     },
                 ));
                 <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
@@ -998,7 +1221,8 @@
                             <span class="ident">lhs_syntax</span>: <span class="ident">v</span>.<span class="ident">lhs_syntax</span>,
                             <span class="ident">rhs_syntax</span>: <span class="ident">rhs_syntax</span>.<span class="ident">next_sibling</span>(),
                             <span class="ident">parents</span>: <span class="ident">v</span>.<span class="ident">parents</span>.<span class="ident">clone</span>(),
-                            <span class="ident">parents_hash</span>: <span class="ident">v</span>.<span class="ident">parents_hash</span>,
+                            <span class="ident">lhs_parent_id</span>: <span class="ident">v</span>.<span class="ident">lhs_parent_id</span>,
+                            <span class="ident">rhs_parent_id</span>: <span class="ident">v</span>.<span class="ident">rhs_parent_id</span>,
                         },
                     ));
                     <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
