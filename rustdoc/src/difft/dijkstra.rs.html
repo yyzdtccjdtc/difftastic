@@ -614,6 +614,8 @@
 <span id="614">614</span>
 <span id="615">615</span>
 <span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Implements Dijkstra&#39;s algorithm for shortest path, to find an</span>
 <span class="doccomment">//! optimal and readable diff between two ASTs.</span>
 
@@ -936,7 +938,9 @@
         <span class="macro">assert_eq!</span>(
             <span class="ident">actions</span>,
             <span class="macro">vec!</span>[
-                <span class="ident">UnchangedNode</span> { <span class="ident">depth_difference</span>: <span class="number">0</span> },
+                <span class="ident">UnchangedNode</span> {
+                    <span class="ident">depth_difference</span>: <span class="number">0</span>
+                },
                 <span class="ident">NovelAtomLHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> },
                 <span class="ident">NovelAtomLHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">true</span> },
             ]
