@@ -601,6 +601,19 @@
 <span id="601">601</span>
 <span id="602">602</span>
 <span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Implements Dijkstra&#39;s algorithm for shortest path, to find an</span>
 <span class="doccomment">//! optimal and readable diff between two ASTs.</span>
 
@@ -753,7 +766,12 @@
         <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>);
 
         <span class="kw">let</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">route</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">action</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="kw-2">*</span><span class="ident">action</span>).<span class="ident">collect_vec</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">actions</span>, <span class="macro">vec!</span>[<span class="ident">UnchangedNode</span>]);
+        <span class="macro">assert_eq!</span>(
+            <span class="ident">actions</span>,
+            <span class="macro">vec!</span>[<span class="ident">UnchangedNode</span> {
+                <span class="ident">depth_difference</span>: <span class="number">0</span>
+            }]
+        );
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -791,7 +809,9 @@
         <span class="macro">assert_eq!</span>(
             <span class="ident">actions</span>,
             <span class="macro">vec!</span>[
-                <span class="ident">EnterUnchangedDelimiter</span>,
+                <span class="ident">EnterUnchangedDelimiter</span> {
+                    <span class="ident">depth_difference</span>: <span class="number">0</span>
+                },
                 <span class="ident">NovelAtomLHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> },
                 <span class="ident">ExitDelimiterBoth</span>,
             ]
@@ -831,7 +851,9 @@
         <span class="macro">assert_eq!</span>(
             <span class="ident">actions</span>,
             <span class="macro">vec!</span>[
-                <span class="ident">EnterUnchangedDelimiter</span>,
+                <span class="ident">EnterUnchangedDelimiter</span> {
+                    <span class="ident">depth_difference</span>: <span class="number">0</span>
+                },
                 <span class="ident">NovelAtomRHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> },
                 <span class="ident">NovelAtomRHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> },
                 <span class="ident">ExitDelimiterBoth</span>,
@@ -877,8 +899,12 @@
             <span class="macro">vec!</span>[
                 <span class="ident">EnterNovelDelimiterRHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> },
                 <span class="ident">EnterNovelDelimiterLHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> },
-                <span class="ident">UnchangedNode</span>,
-                <span class="ident">UnchangedNode</span>,
+                <span class="ident">UnchangedNode</span> {
+                    <span class="ident">depth_difference</span>: <span class="number">0</span>
+                },
+                <span class="ident">UnchangedNode</span> {
+                    <span class="ident">depth_difference</span>: <span class="number">0</span>
+                },
                 <span class="ident">ExitDelimiterRHS</span>,
                 <span class="ident">ExitDelimiterLHS</span>,
             ],
@@ -910,7 +936,7 @@
         <span class="macro">assert_eq!</span>(
             <span class="ident">actions</span>,
             <span class="macro">vec!</span>[
-                <span class="ident">UnchangedNode</span>,
+                <span class="ident">UnchangedNode</span> { <span class="ident">depth_difference</span>: <span class="number">0</span> },
                 <span class="ident">NovelAtomLHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">false</span> },
                 <span class="ident">NovelAtomLHS</span> { <span class="ident">contiguous</span>: <span class="bool-val">true</span> },
             ]
