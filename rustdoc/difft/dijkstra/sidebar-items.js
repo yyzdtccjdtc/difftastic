@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["mark_syntax",""],["shortest_path",""]],"type":[["PredecessorInfo",""]]});
+initSidebarItems({"fn":[["mark_syntax",""],["node_count",""],["shortest_path",""]],"type":[["PredecessorInfo",""]]});
