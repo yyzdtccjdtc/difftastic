@@ -491,6 +491,29 @@
 <span id="491">491</span>
 <span id="492">492</span>
 <span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::syntax</span>::{<span class="ident">ChangeKind</span>, <span class="ident">Syntax</span>};
 
 <span class="kw">const</span> <span class="ident">TINY_TREE_THRESHOLD</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">10</span>;
@@ -503,8 +526,23 @@
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>)<span class="op">&gt;</span> {
     <span class="kw">let</span> (<span class="ident">lhs_nodes</span>, <span class="ident">rhs_nodes</span>) <span class="op">=</span> <span class="ident">shrink_unchanged_at_ends</span>(<span class="ident">lhs_nodes</span>, <span class="ident">rhs_nodes</span>);
 
+    <span class="kw">let</span> <span class="ident">size_threshold</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">env_threshold</span>) <span class="op">=</span> <span class="ident">std::env::var</span>(<span class="string">&quot;DFT_TINY_THRESHOLD&quot;</span>) {
+        <span class="ident">env_threshold</span>
+            .<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>()
+            .<span class="ident">ok</span>()
+            .<span class="ident">unwrap_or</span>(<span class="ident">TINY_TREE_THRESHOLD</span>)
+    } <span class="kw">else</span> {
+        <span class="ident">TINY_TREE_THRESHOLD</span>
+    };
+    <span class="macro">dbg!</span>(<span class="ident">size_threshold</span>);
+
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">possibly_changed</span> <span class="op">=</span> <span class="macro">vec!</span>[];
-    <span class="ident">mark_unchanged_toplevel</span>(<span class="kw-2">&amp;</span><span class="ident">lhs_nodes</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_nodes</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">possibly_changed</span>);
+    <span class="ident">mark_unchanged_toplevel</span>(
+        <span class="kw-2">&amp;</span><span class="ident">lhs_nodes</span>,
+        <span class="kw-2">&amp;</span><span class="ident">rhs_nodes</span>,
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">possibly_changed</span>,
+        <span class="ident">size_threshold</span>,
+    );
     <span class="ident">possibly_changed</span>
 }
 
@@ -515,6 +553,7 @@
     <span class="ident">lhs_nodes</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>],
     <span class="ident">rhs_nodes</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>],
     <span class="ident">possibly_changed</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>)<span class="op">&gt;</span>,
+    <span class="ident">size_threshold</span>: <span class="ident">u32</span>,
 ) {
     <span class="kw">let</span> <span class="ident">lhs_node_ids</span> <span class="op">=</span> <span class="ident">lhs_nodes</span>
         .<span class="ident">iter</span>()
@@ -545,7 +584,7 @@
                 <span class="kw">let</span> <span class="ident">tiny_node</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">lhs_node</span> {
                     <span class="ident">Syntax::List</span> {
                         <span class="ident">num_descendants</span>, ..
-                    } <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="ident">num_descendants</span> <span class="op">&lt;</span> <span class="ident">TINY_TREE_THRESHOLD</span>,
+                    } <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="ident">num_descendants</span> <span class="op">&lt;</span> <span class="ident">size_threshold</span>,
                     <span class="ident">Syntax::Atom</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
                 };
 
@@ -558,6 +597,7 @@
                             <span class="kw-2">&amp;</span><span class="ident">section_lhs_nodes</span>,
                             <span class="kw-2">&amp;</span><span class="ident">section_rhs_nodes</span>,
                             <span class="ident">possibly_changed</span>,
+                            <span class="ident">size_threshold</span>,
                         );
 
                         <span class="ident">section_lhs_nodes</span> <span class="op">=</span> <span class="macro">vec!</span>[];
@@ -578,7 +618,12 @@
     }
 
     <span class="kw">if</span> <span class="op">!</span><span class="ident">section_lhs_nodes</span>.<span class="ident">is_empty</span>() <span class="op">|</span><span class="op">|</span> <span class="op">!</span><span class="ident">section_rhs_nodes</span>.<span class="ident">is_empty</span>() {
-        <span class="ident">mark_unchanged_outer_list</span>(<span class="kw-2">&amp;</span><span class="ident">section_lhs_nodes</span>, <span class="kw-2">&amp;</span><span class="ident">section_rhs_nodes</span>, <span class="ident">possibly_changed</span>);
+        <span class="ident">mark_unchanged_outer_list</span>(
+            <span class="kw-2">&amp;</span><span class="ident">section_lhs_nodes</span>,
+            <span class="kw-2">&amp;</span><span class="ident">section_rhs_nodes</span>,
+            <span class="ident">possibly_changed</span>,
+            <span class="ident">size_threshold</span>,
+        );
     }
 }
 
@@ -588,6 +633,7 @@
     <span class="ident">lhs_nodes</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>],
     <span class="ident">rhs_nodes</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>],
     <span class="ident">possibly_changed</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>)<span class="op">&gt;</span>,
+    <span class="ident">size_threshold</span>: <span class="ident">u32</span>,
 ) {
     <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">lhs_nodes</span>.<span class="ident">is_empty</span>() <span class="op">|</span><span class="op">|</span> <span class="op">!</span><span class="ident">rhs_nodes</span>.<span class="ident">is_empty</span>());
 
@@ -609,7 +655,7 @@
         <span class="kw">if</span> <span class="ident">lhs_open</span> <span class="op">=</span><span class="op">=</span> <span class="ident">rhs_open</span> <span class="op">&amp;&amp;</span> <span class="ident">lhs_close</span> <span class="op">=</span><span class="op">=</span> <span class="ident">rhs_close</span> {
             <span class="ident">lhs_nodes</span>[<span class="number">0</span>].<span class="ident">set_change</span>(<span class="ident">ChangeKind::Unchanged</span>(<span class="ident">rhs_nodes</span>[<span class="number">0</span>]));
             <span class="ident">rhs_nodes</span>[<span class="number">0</span>].<span class="ident">set_change</span>(<span class="ident">ChangeKind::Unchanged</span>(<span class="ident">lhs_nodes</span>[<span class="number">0</span>]));
-            <span class="ident">mark_unchanged_toplevel</span>(<span class="ident">lhs_children</span>, <span class="ident">rhs_children</span>, <span class="ident">possibly_changed</span>);
+            <span class="ident">mark_unchanged_toplevel</span>(<span class="ident">lhs_children</span>, <span class="ident">rhs_children</span>, <span class="ident">possibly_changed</span>, <span class="ident">size_threshold</span>);
         } <span class="kw">else</span> {
             <span class="ident">possibly_changed</span>.<span class="ident">push</span>((<span class="ident">lhs_nodes</span>.<span class="ident">into</span>(), <span class="ident">rhs_nodes</span>.<span class="ident">into</span>()));
         }
@@ -834,7 +880,7 @@
         <span class="ident">init_all_info</span>(<span class="kw-2">&amp;</span><span class="ident">lhs_nodes</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_nodes</span>);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">vec!</span>[];
-        <span class="ident">mark_unchanged_toplevel</span>(<span class="kw-2">&amp;</span><span class="ident">lhs_nodes</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_nodes</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">res</span>);
+        <span class="ident">mark_unchanged_toplevel</span>(<span class="kw-2">&amp;</span><span class="ident">lhs_nodes</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_nodes</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">res</span>, <span class="ident">TINY_TREE_THRESHOLD</span>);
 
         <span class="macro">assert_eq!</span>(<span class="ident">res</span>.<span class="ident">len</span>(), <span class="number">1</span>);
         <span class="kw">let</span> (<span class="ident">lhs_after_skip</span>, <span class="ident">rhs_after_skip</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">res</span>[<span class="number">0</span>];
@@ -862,7 +908,7 @@
         <span class="ident">init_all_info</span>(<span class="kw-2">&amp;</span><span class="ident">lhs_nodes</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_nodes</span>);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">vec!</span>[];
-        <span class="ident">mark_unchanged_toplevel</span>(<span class="kw-2">&amp;</span><span class="ident">lhs_nodes</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_nodes</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">res</span>);
+        <span class="ident">mark_unchanged_toplevel</span>(<span class="kw-2">&amp;</span><span class="ident">lhs_nodes</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_nodes</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">res</span>, <span class="ident">TINY_TREE_THRESHOLD</span>);
 
         <span class="macro">assert_eq!</span>(<span class="ident">res</span>.<span class="ident">len</span>(), <span class="number">1</span>);
         <span class="kw">let</span> (<span class="ident">lhs_after_skip</span>, <span class="ident">rhs_after_skip</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">res</span>[<span class="number">0</span>];
@@ -890,7 +936,7 @@
         <span class="ident">init_all_info</span>(<span class="kw-2">&amp;</span><span class="ident">lhs_nodes</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_nodes</span>);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">vec!</span>[];
-        <span class="ident">mark_unchanged_toplevel</span>(<span class="kw-2">&amp;</span><span class="ident">lhs_nodes</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_nodes</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">res</span>);
+        <span class="ident">mark_unchanged_toplevel</span>(<span class="kw-2">&amp;</span><span class="ident">lhs_nodes</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_nodes</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">res</span>, <span class="ident">TINY_TREE_THRESHOLD</span>);
 
         <span class="macro">assert_eq!</span>(<span class="ident">res</span>.<span class="ident">len</span>(), <span class="number">1</span>);
         <span class="kw">let</span> (<span class="ident">lhs_after_skip</span>, <span class="ident">rhs_after_skip</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">res</span>[<span class="number">0</span>];
@@ -935,7 +981,7 @@
         <span class="ident">init_all_info</span>(<span class="kw-2">&amp;</span><span class="ident">lhs_nodes</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_nodes</span>);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">vec!</span>[];
-        <span class="ident">mark_unchanged_toplevel</span>(<span class="kw-2">&amp;</span><span class="ident">lhs_nodes</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_nodes</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">res</span>);
+        <span class="ident">mark_unchanged_toplevel</span>(<span class="kw-2">&amp;</span><span class="ident">lhs_nodes</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_nodes</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">res</span>, <span class="ident">TINY_TREE_THRESHOLD</span>);
 
         <span class="macro">assert_eq!</span>(
             <span class="ident">res</span>,
@@ -973,7 +1019,7 @@
         <span class="ident">init_all_info</span>(<span class="kw-2">&amp;</span><span class="ident">lhs_nodes</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_nodes</span>);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">vec!</span>[];
-        <span class="ident">mark_unchanged_toplevel</span>(<span class="kw-2">&amp;</span><span class="ident">lhs_nodes</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_nodes</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">res</span>);
+        <span class="ident">mark_unchanged_toplevel</span>(<span class="kw-2">&amp;</span><span class="ident">lhs_nodes</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_nodes</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">res</span>, <span class="ident">TINY_TREE_THRESHOLD</span>);
 
         <span class="macro">assert_eq!</span>(
             <span class="ident">res</span>,
