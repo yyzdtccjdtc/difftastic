@@ -513,7 +513,6 @@
 <span id="513">513</span>
 <span id="514">514</span>
 <span id="515">515</span>
-<span id="516">516</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::syntax</span>::{<span class="ident">ChangeKind</span>, <span class="ident">Syntax</span>};
 
 <span class="kw">const</span> <span class="ident">TINY_TREE_THRESHOLD</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">10</span>;
@@ -534,7 +533,6 @@
     } <span class="kw">else</span> {
         <span class="ident">TINY_TREE_THRESHOLD</span>
     };
-    <span class="macro">dbg!</span>(<span class="ident">size_threshold</span>);
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">possibly_changed</span> <span class="op">=</span> <span class="macro">vec!</span>[];
     <span class="ident">mark_unchanged_toplevel</span>(
