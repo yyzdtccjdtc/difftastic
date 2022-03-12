@@ -888,6 +888,7 @@
 <span id="888">888</span>
 <span id="889">889</span>
 <span id="890">890</span>
+<span id="891">891</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Calculating which modified lines should be displayed together.</span>
 
 <span class="doccomment">/// The maximum number of lines that may occur between changed lines in a hunk.</span>
@@ -1554,9 +1555,10 @@
     }
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">end_i</span> <span class="op">=</span> <span class="prelude-val">None</span>;
-    <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">matched_line</span>) <span class="kw">in</span> <span class="ident">matched_lines</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
+    <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">matched_line</span>) <span class="kw">in</span> <span class="ident">matched_lines</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>().<span class="ident">rev</span>() {
         <span class="kw">if</span> <span class="ident">either_side_equal</span>(<span class="ident">matched_line</span>, <span class="ident">hunk_last</span>) {
             <span class="ident">end_i</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>);
+            <span class="kw">break</span>;
         }
     }
 
