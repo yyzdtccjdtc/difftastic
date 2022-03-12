@@ -513,7 +513,9 @@
 <span id="513">513</span>
 <span id="514">514</span>
 <span id="515">515</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::syntax</span>::{<span class="ident">ChangeKind</span>, <span class="ident">Syntax</span>};
+<span id="516">516</span>
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::myers_diff</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::syntax</span>::{<span class="ident">ChangeKind</span>, <span class="ident">Syntax</span>};
 
 <span class="kw">const</span> <span class="ident">TINY_TREE_THRESHOLD</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">10</span>;
 
@@ -565,9 +567,9 @@
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">section_lhs_nodes</span> <span class="op">=</span> <span class="macro">vec!</span>[];
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">section_rhs_nodes</span> <span class="op">=</span> <span class="macro">vec!</span>[];
 
-    <span class="kw">for</span> <span class="ident">diff_res</span> <span class="kw">in</span> <span class="ident">diff::slice</span>(<span class="kw-2">&amp;</span><span class="ident">lhs_node_ids</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_node_ids</span>) {
+    <span class="kw">for</span> <span class="ident">diff_res</span> <span class="kw">in</span> <span class="ident">myers_diff::slice</span>(<span class="kw-2">&amp;</span><span class="ident">lhs_node_ids</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_node_ids</span>) {
         <span class="kw">match</span> <span class="ident">diff_res</span> {
-            <span class="ident">diff::Result::Both</span>(<span class="ident">lhs</span>, <span class="ident">rhs</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">myers_diff::DiffResult::Both</span>(<span class="ident">lhs</span>, <span class="ident">rhs</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">lhs_node</span> <span class="op">=</span> <span class="ident">lhs</span>.<span class="number">1</span>;
                 <span class="kw">let</span> <span class="ident">rhs_node</span> <span class="op">=</span> <span class="ident">rhs</span>.<span class="number">1</span>;
 
@@ -606,10 +608,10 @@
                     <span class="ident">rhs_node</span>.<span class="ident">set_change_deep</span>(<span class="ident">ChangeKind::Unchanged</span>(<span class="ident">lhs_node</span>));
                 }
             }
-            <span class="ident">diff::Result::Left</span>(<span class="ident">lhs</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">myers_diff::DiffResult::Left</span>(<span class="ident">lhs</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">section_lhs_nodes</span>.<span class="ident">push</span>(<span class="ident">lhs</span>.<span class="number">1</span>);
             }
-            <span class="ident">diff::Result::Right</span>(<span class="ident">rhs</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">myers_diff::DiffResult::Right</span>(<span class="ident">rhs</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">section_rhs_nodes</span>.<span class="ident">push</span>(<span class="ident">rhs</span>.<span class="number">1</span>);
             }
         }
@@ -662,7 +664,7 @@
     }
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">struct</span> <span class="ident">EqOnFirstItem</span><span class="op">&lt;</span><span class="ident">X</span>, <span class="ident">Y</span><span class="op">&gt;</span>(<span class="ident">X</span>, <span class="ident">Y</span>);
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">X</span>: <span class="ident">Eq</span>, <span class="ident">Y</span><span class="op">&gt;</span> <span class="ident">PartialEq</span> <span class="kw">for</span> <span class="ident">EqOnFirstItem</span><span class="op">&lt;</span><span class="ident">X</span>, <span class="ident">Y</span><span class="op">&gt;</span> {
