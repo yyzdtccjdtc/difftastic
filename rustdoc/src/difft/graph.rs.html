@@ -653,6 +653,13 @@
 <span id="653">653</span>
 <span id="654">654</span>
 <span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
 </pre><pre class="rust"><code><span class="doccomment">//! A graph representation for computing tree diffs.</span>
 
 <span class="kw">use</span> <span class="ident">rpds::Stack</span>;
@@ -925,11 +932,18 @@
 <span class="kw">impl</span> <span class="ident">Edge</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cost</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
         <span class="kw">match</span> <span class="self">self</span> {
+            <span class="comment">// When we&#39;re at the end of a list, there&#39;s only one exit</span>
+            <span class="comment">// delimiter possibility, so the cost doesn&#39;t matter. We</span>
+            <span class="comment">// choose a non-zero number as it&#39;s easier to reason</span>
+            <span class="comment">// about.</span>
             <span class="ident">ExitDelimiterBoth</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">1</span>,
+            <span class="comment">// Choose a higher value for exiting individually. This</span>
+            <span class="comment">// shouldn&#39;t matter since entering a novel delimiter is</span>
+            <span class="comment">// already more expensive than entering a matched</span>
+            <span class="comment">// delimiter, but be defensive.</span>
             <span class="ident">ExitDelimiterLHS</span> <span class="op">|</span> <span class="ident">ExitDelimiterRHS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">2</span>,
 
             <span class="comment">// Matching nodes is always best.</span>
-            <span class="comment">// TODO: now we model parents correctly, do we need to track depth difference?</span>
             <span class="ident">UnchangedNode</span> { <span class="ident">depth_difference</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">min</span>(<span class="number">40</span>, <span class="kw-2">*</span><span class="ident">depth_difference</span> <span class="kw">as</span> <span class="ident">u64</span> <span class="op">+</span> <span class="number">1</span>),
             <span class="comment">// Matching an outer delimiter is good.</span>
             <span class="ident">EnterUnchangedDelimiter</span> { <span class="ident">depth_difference</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="number">100</span> <span class="op">+</span> <span class="ident">min</span>(<span class="number">40</span>, <span class="kw-2">*</span><span class="ident">depth_difference</span> <span class="kw">as</span> <span class="ident">u64</span>),
