@@ -660,6 +660,10 @@
 <span id="660">660</span>
 <span id="661">661</span>
 <span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
 </pre><pre class="rust"><code><span class="doccomment">//! A graph representation for computing tree diffs.</span>
 
 <span class="kw">use</span> <span class="ident">rpds::Stack</span>;
@@ -768,7 +772,11 @@
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt::Result</span> {
         <span class="kw">let</span> <span class="ident">desc</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span> {
             <span class="ident">EnteredDelimiter::PopEither</span>((<span class="ident">lhs_delims</span>, <span class="ident">rhs_delims</span>)) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="macro">format!</span>(<span class="string">&quot;PopEither(lhs count: {}, rhs count: {})&quot;</span>, <span class="ident">lhs_delims</span>.<span class="ident">size</span>(), <span class="ident">rhs_delims</span>.<span class="ident">size</span>())
+                <span class="macro">format!</span>(
+                    <span class="string">&quot;PopEither(lhs count: {}, rhs count: {})&quot;</span>,
+                    <span class="ident">lhs_delims</span>.<span class="ident">size</span>(),
+                    <span class="ident">rhs_delims</span>.<span class="ident">size</span>()
+                )
             }
             <span class="ident">EnteredDelimiter::PopBoth</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;PopBoth&quot;</span>.<span class="ident">to_string</span>(),
         };
