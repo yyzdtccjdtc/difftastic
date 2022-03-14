@@ -1057,6 +1057,12 @@
 <span id="1057">1057</span>
 <span id="1058">1058</span>
 <span id="1059">1059</span>
+<span id="1060">1060</span>
+<span id="1061">1061</span>
+<span id="1062">1062</span>
+<span id="1063">1063</span>
+<span id="1064">1064</span>
+<span id="1065">1065</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Syntax tree definitions with change metadata.</span>
 
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy::mutable_key_type</span>)]</span> <span class="comment">// Hash for Syntax doesn&#39;t use mutable fields.</span>
@@ -1066,6 +1072,7 @@
     <span class="ident">collections::HashMap</span>,
     <span class="ident">env</span>, <span class="ident">fmt</span>,
     <span class="ident">hash</span>::{<span class="ident">Hash</span>, <span class="ident">Hasher</span>},
+    <span class="ident">num::NonZeroU32</span>,
 };
 <span class="kw">use</span> <span class="ident">typed_arena::Arena</span>;
 
@@ -1084,17 +1091,23 @@
     <span class="ident">Novel</span>,
 }
 
-<span class="doccomment">/// A Debug implementation that ignores the corresponding node</span>
-<span class="doccomment">/// mentioned for Unchanged. Otherwise we will infinitely loop on</span>
-<span class="doccomment">/// unchanged nodes, which both point to the other.</span>
+<span class="doccomment">/// A Debug implementation that does not reucurse into the</span>
+<span class="doccomment">/// corresponding node mentioned for Unchanged. Otherwise we will</span>
+<span class="doccomment">/// infinitely loop on unchanged nodes, which both point to the other.</span>
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">fmt::Debug</span> <span class="kw">for</span> <span class="ident">ChangeKind</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt::Result</span> {
         <span class="kw">let</span> <span class="ident">desc</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">Unchanged</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;Unchanged&quot;</span>,
-            <span class="ident">ReplacedComment</span>(<span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;ReplacedComment&quot;</span>,
-            <span class="ident">Novel</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;Novel&quot;</span>,
+            <span class="ident">Unchanged</span>(<span class="ident">node</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">format!</span>(<span class="string">&quot;Unchanged(ID: {})&quot;</span>, <span class="ident">node</span>.<span class="ident">id</span>()),
+            <span class="ident">ReplacedComment</span>(<span class="ident">lhs_node</span>, <span class="ident">rhs_node</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="macro">format!</span>(
+                    <span class="string">&quot;ReplacedComment(lhs ID: {}, rhs ID: {})&quot;</span>,
+                    <span class="ident">lhs_node</span>.<span class="ident">id</span>(),
+                    <span class="ident">rhs_node</span>.<span class="ident">id</span>()
+                )
+            }
+            <span class="ident">Novel</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;Novel&quot;</span>.<span class="ident">to_owned</span>(),
         };
-        <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="ident">desc</span>)
+        <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="kw-2">&amp;</span><span class="ident">desc</span>)
     }
 }
 
@@ -1116,7 +1129,7 @@
     <span class="doccomment">/// The number of nodes that are ancestors of this one.</span>
     <span class="ident">num_ancestors</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="doccomment">/// A number that uniquely identifies this syntax node.</span>
-    <span class="ident">unique_id</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
+    <span class="ident">unique_id</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="ident">NonZeroU32</span><span class="op">&gt;</span>,
     <span class="doccomment">/// A number that uniquely identifies the content of this syntax</span>
     <span class="doccomment">/// node. This may be the same as nodes on the other side of the</span>
     <span class="doccomment">/// diff, or nodes at different positions.</span>
@@ -1134,7 +1147,7 @@
             <span class="ident">prev_is_contiguous</span>: <span class="ident">Cell::new</span>(<span class="bool-val">false</span>),
             <span class="ident">change</span>: <span class="ident">Cell::new</span>(<span class="prelude-val">None</span>),
             <span class="ident">num_ancestors</span>: <span class="ident">Cell::new</span>(<span class="number">0</span>),
-            <span class="ident">unique_id</span>: <span class="ident">Cell::new</span>(<span class="number">0</span>),
+            <span class="ident">unique_id</span>: <span class="ident">Cell::new</span>(<span class="ident">NonZeroU32::new</span>(<span class="ident">u32::MAX</span>).<span class="ident">unwrap</span>()),
             <span class="ident">content_id</span>: <span class="ident">Cell::new</span>(<span class="number">0</span>),
         }
     }
@@ -1332,7 +1345,7 @@
 
     <span class="doccomment">/// A unique ID of this syntax node. Every node is guaranteed to</span>
     <span class="doccomment">/// have a different value.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">NonZeroU32</span> {
         <span class="self">self</span>.<span class="ident">info</span>().<span class="ident">unique_id</span>.<span class="ident">get</span>()
     }
 
@@ -1413,9 +1426,7 @@
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">init_info</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">lhs_roots</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>], <span class="ident">rhs_roots</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>]) {
-    <span class="comment">// TODO: start unique IDs at 1. This helps with hashing and makes</span>
-    <span class="comment">// it obvious if we&#39;ve forgotten to init the syntax info.</span>
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">id</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">id</span> <span class="op">=</span> <span class="ident">NonZeroU32::new</span>(<span class="number">1</span>).<span class="ident">unwrap</span>();
     <span class="ident">init_info_single</span>(<span class="ident">lhs_roots</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">id</span>);
     <span class="ident">init_info_single</span>(<span class="ident">rhs_roots</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">id</span>);
 
@@ -1483,16 +1494,17 @@
     <span class="ident">set_prev_is_contiguous</span>(<span class="ident">roots</span>);
 }
 
-<span class="kw">fn</span> <span class="ident">init_info_single</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">roots</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>], <span class="ident">next_id</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">u32</span>) {
+<span class="kw">fn</span> <span class="ident">init_info_single</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">roots</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>], <span class="ident">next_id</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">NonZeroU32</span>) {
     <span class="ident">set_parent</span>(<span class="ident">roots</span>, <span class="prelude-val">None</span>);
     <span class="ident">set_num_ancestors</span>(<span class="ident">roots</span>, <span class="number">0</span>);
     <span class="ident">set_unique_id</span>(<span class="ident">roots</span>, <span class="ident">next_id</span>)
 }
 
-<span class="kw">fn</span> <span class="ident">set_unique_id</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">nodes</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>], <span class="ident">next_id</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">u32</span>) {
+<span class="kw">fn</span> <span class="ident">set_unique_id</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">nodes</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>], <span class="ident">next_id</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">NonZeroU32</span>) {
     <span class="kw">for</span> <span class="ident">node</span> <span class="kw">in</span> <span class="ident">nodes</span> {
         <span class="ident">node</span>.<span class="ident">info</span>().<span class="ident">unique_id</span>.<span class="ident">set</span>(<span class="kw-2">*</span><span class="ident">next_id</span>);
-        <span class="kw-2">*</span><span class="ident">next_id</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+        <span class="kw-2">*</span><span class="ident">next_id</span> <span class="op">=</span> <span class="ident">NonZeroU32::new</span>(<span class="ident">u32::from</span>(<span class="kw-2">*</span><span class="ident">next_id</span>) <span class="op">+</span> <span class="number">1</span>)
+            .<span class="ident">expect</span>(<span class="string">&quot;Should not have more than u32::MAX nodes&quot;</span>);
         <span class="kw">if</span> <span class="kw">let</span> <span class="ident">List</span> { <span class="ident">children</span>, .. } <span class="op">=</span> <span class="ident">node</span> {
             <span class="ident">set_unique_id</span>(<span class="ident">children</span>, <span class="ident">next_id</span>);
         }
