@@ -465,6 +465,10 @@
 <span id="465">465</span>
 <span id="466">466</span>
 <span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Prefer contiguous novel nodes on the same line.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! A slider takes the following form:</span>
@@ -649,7 +653,7 @@
     }
 }
 
-<span class="kw">fn</span> <span class="ident">slide_to_prev_node</span>(<span class="ident">nodes</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">Syntax</span>], <span class="ident">start_idx</span>: <span class="ident">usize</span>, <span class="ident">end_idx</span>: <span class="ident">usize</span>) {
+<span class="kw">fn</span> <span class="ident">slide_to_prev_node</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">nodes</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>], <span class="ident">start_idx</span>: <span class="ident">usize</span>, <span class="ident">end_idx</span>: <span class="ident">usize</span>) {
     <span class="kw">if</span> <span class="ident">start_idx</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
         <span class="kw">return</span>;
     }
@@ -692,10 +696,11 @@
 
         <span class="ident">before_start_node</span>.<span class="ident">set_change_deep</span>(<span class="ident">Novel</span>);
         <span class="ident">last_node</span>.<span class="ident">set_change_deep</span>(<span class="ident">Unchanged</span>(<span class="ident">opposite</span>));
+        <span class="ident">opposite</span>.<span class="ident">set_change_deep</span>(<span class="ident">Unchanged</span>(<span class="ident">last_node</span>));
     }
 }
 
-<span class="kw">fn</span> <span class="ident">slide_to_next_node</span>(<span class="ident">nodes</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">Syntax</span>], <span class="ident">start_idx</span>: <span class="ident">usize</span>, <span class="ident">end_idx</span>: <span class="ident">usize</span>) {
+<span class="kw">fn</span> <span class="ident">slide_to_next_node</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">nodes</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>], <span class="ident">start_idx</span>: <span class="ident">usize</span>, <span class="ident">end_idx</span>: <span class="ident">usize</span>) {
     <span class="kw">if</span> <span class="ident">end_idx</span> <span class="op">=</span><span class="op">=</span> <span class="ident">nodes</span>.<span class="ident">len</span>() <span class="op">-</span> <span class="number">1</span> {
         <span class="kw">return</span>;
     }
@@ -737,6 +742,7 @@
         };
 
         <span class="ident">start_node</span>.<span class="ident">set_change_deep</span>(<span class="ident">Unchanged</span>(<span class="ident">opposite</span>));
+        <span class="ident">opposite</span>.<span class="ident">set_change_deep</span>(<span class="ident">Unchanged</span>(<span class="ident">start_node</span>));
         <span class="ident">after_last_node</span>.<span class="ident">set_change_deep</span>(<span class="ident">Novel</span>);
     }
 }
@@ -862,6 +868,7 @@
         <span class="macro">assert_eq!</span>(<span class="ident">lhs</span>[<span class="number">0</span>].<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">Novel</span>));
         <span class="macro">assert_eq!</span>(<span class="ident">lhs</span>[<span class="number">1</span>].<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">Novel</span>));
         <span class="macro">assert_eq!</span>(<span class="ident">lhs</span>[<span class="number">2</span>].<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">Unchanged</span>(<span class="ident">rhs</span>[<span class="number">0</span>])));
+        <span class="macro">assert_eq!</span>(<span class="ident">rhs</span>[<span class="number">0</span>].<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">Unchanged</span>(<span class="ident">lhs</span>[<span class="number">2</span>])));
     }
 
     <span class="doccomment">/// Test that we slide at the end if the unchanged node is</span>
@@ -906,6 +913,7 @@
         <span class="ident">lhs</span>[<span class="number">2</span>].<span class="ident">set_change</span>(<span class="ident">Unchanged</span>(<span class="ident">rhs</span>[<span class="number">0</span>]));
 
         <span class="ident">fix_all_sliders</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">rhs</span>[<span class="number">0</span>].<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">Unchanged</span>(<span class="ident">lhs</span>[<span class="number">0</span>])));
         <span class="macro">assert_eq!</span>(<span class="ident">lhs</span>[<span class="number">0</span>].<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">Unchanged</span>(<span class="ident">rhs</span>[<span class="number">0</span>])));
         <span class="macro">assert_eq!</span>(<span class="ident">lhs</span>[<span class="number">1</span>].<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">Novel</span>));
         <span class="macro">assert_eq!</span>(<span class="ident">lhs</span>[<span class="number">2</span>].<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">Novel</span>));
