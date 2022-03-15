@@ -889,6 +889,18 @@
 <span id="889">889</span>
 <span id="890">890</span>
 <span id="891">891</span>
+<span id="892">892</span>
+<span id="893">893</span>
+<span id="894">894</span>
+<span id="895">895</span>
+<span id="896">896</span>
+<span id="897">897</span>
+<span id="898">898</span>
+<span id="899">899</span>
+<span id="900">900</span>
+<span id="901">901</span>
+<span id="902">902</span>
+<span id="903">903</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Calculating which modified lines should be displayed together.</span>
 
 <span class="doccomment">/// The maximum number of lines that may occur between changed lines in a hunk.</span>
@@ -1542,13 +1554,25 @@
     <span class="ident">matched_lines</span>: <span class="kw-2">&amp;</span>[(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span>)],
     <span class="ident">hunk</span>: <span class="kw-2">&amp;</span><span class="ident">Hunk</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span>)<span class="op">&gt;</span> {
-    <span class="comment">// TODO: Use binary search instead.</span>
-    <span class="kw">let</span> <span class="ident">hunk_first</span> <span class="op">=</span> <span class="ident">hunk</span>.<span class="ident">lines</span>.<span class="ident">first</span>().<span class="ident">expect</span>(<span class="string">&quot;Hunks are non-empty&quot;</span>);
-    <span class="kw">let</span> <span class="ident">hunk_last</span> <span class="op">=</span> <span class="ident">hunk</span>.<span class="ident">lines</span>.<span class="ident">last</span>().<span class="ident">expect</span>(<span class="string">&quot;Hunks are non-empty&quot;</span>);
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hunk_lhs_novel</span> <span class="op">=</span> <span class="ident">hunk</span>.<span class="ident">novel_lhs</span>.<span class="ident">iter</span>().<span class="ident">copied</span>().<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>();
+    <span class="ident">hunk_lhs_novel</span>.<span class="ident">sort</span>();
 
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hunk_rhs_novel</span> <span class="op">=</span> <span class="ident">hunk</span>.<span class="ident">novel_rhs</span>.<span class="ident">iter</span>().<span class="ident">copied</span>().<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>();
+    <span class="ident">hunk_rhs_novel</span>.<span class="ident">sort</span>();
+
+    <span class="kw">let</span> <span class="ident">hunk_smallest</span> <span class="op">=</span> (
+        <span class="ident">hunk_lhs_novel</span>.<span class="ident">first</span>().<span class="ident">copied</span>(),
+        <span class="ident">hunk_rhs_novel</span>.<span class="ident">first</span>().<span class="ident">copied</span>(),
+    );
+    <span class="kw">let</span> <span class="ident">hunk_largest</span> <span class="op">=</span> (
+        <span class="ident">hunk_lhs_novel</span>.<span class="ident">last</span>().<span class="ident">copied</span>(),
+        <span class="ident">hunk_rhs_novel</span>.<span class="ident">last</span>().<span class="ident">copied</span>(),
+    );
+
+    <span class="comment">// TODO: Use binary search instead.</span>
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">start_i</span> <span class="op">=</span> <span class="prelude-val">None</span>;
     <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">matched_line</span>) <span class="kw">in</span> <span class="ident">matched_lines</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
-        <span class="kw">if</span> <span class="ident">either_side_equal</span>(<span class="ident">matched_line</span>, <span class="ident">hunk_first</span>) {
+        <span class="kw">if</span> <span class="ident">either_side_equal</span>(<span class="ident">matched_line</span>, <span class="kw-2">&amp;</span><span class="ident">hunk_smallest</span>) {
             <span class="ident">start_i</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">i</span>);
             <span class="kw">break</span>;
         }
@@ -1556,7 +1580,7 @@
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">end_i</span> <span class="op">=</span> <span class="prelude-val">None</span>;
     <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">matched_line</span>) <span class="kw">in</span> <span class="ident">matched_lines</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>().<span class="ident">rev</span>() {
-        <span class="kw">if</span> <span class="ident">either_side_equal</span>(<span class="ident">matched_line</span>, <span class="ident">hunk_last</span>) {
+        <span class="kw">if</span> <span class="ident">either_side_equal</span>(<span class="ident">matched_line</span>, <span class="kw-2">&amp;</span><span class="ident">hunk_largest</span>) {
             <span class="ident">end_i</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>);
             <span class="kw">break</span>;
         }
