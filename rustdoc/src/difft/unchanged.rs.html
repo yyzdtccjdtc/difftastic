@@ -512,8 +512,6 @@
 <span id="512">512</span>
 <span id="513">513</span>
 <span id="514">514</span>
-<span id="515">515</span>
-<span id="516">516</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::myers_diff</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::syntax</span>::{<span class="ident">ChangeKind</span>, <span class="ident">Syntax</span>};
 
@@ -724,10 +722,8 @@
         <span class="comment">// file. There&#39;s no risk we split unrelated regions with a</span>
         <span class="comment">// trivial unchanged node in the middle.</span>
         <span class="kw">if</span> <span class="ident">lhs_node</span>.<span class="ident">content_id</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">rhs_node</span>.<span class="ident">content_id</span>() {
-            {
-                <span class="ident">lhs_node</span>.<span class="ident">set_change_deep</span>(<span class="ident">ChangeKind::Unchanged</span>(<span class="ident">rhs_node</span>));
-                <span class="ident">rhs_node</span>.<span class="ident">set_change_deep</span>(<span class="ident">ChangeKind::Unchanged</span>(<span class="ident">lhs_node</span>));
-            };
+            <span class="ident">lhs_node</span>.<span class="ident">set_change_deep</span>(<span class="ident">ChangeKind::Unchanged</span>(<span class="ident">rhs_node</span>));
+            <span class="ident">rhs_node</span>.<span class="ident">set_change_deep</span>(<span class="ident">ChangeKind::Unchanged</span>(<span class="ident">lhs_node</span>));
 
             <span class="ident">lhs_nodes</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">lhs_nodes</span>[<span class="number">1</span>..];
             <span class="ident">rhs_nodes</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">rhs_nodes</span>[<span class="number">1</span>..];
