@@ -343,8 +343,8 @@
     <span class="kw">for</span> (<span class="ident">kind</span>, <span class="ident">lhs_lines</span>, <span class="ident">rhs_lines</span>) <span class="kw">in</span> <span class="ident">lines</span> {
         <span class="kw">match</span> <span class="ident">kind</span> {
             <span class="ident">TextChangeKind::Novel</span> <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">lhs_novel</span>.<span class="ident">extend</span>(<span class="ident">lhs_lines</span>.<span class="ident">iter</span>().<span class="ident">cloned</span>());
-                <span class="ident">rhs_novel</span>.<span class="ident">extend</span>(<span class="ident">rhs_lines</span>.<span class="ident">iter</span>().<span class="ident">cloned</span>());
+                <span class="ident">lhs_novel</span>.<span class="ident">extend</span>(<span class="ident">lhs_lines</span>.<span class="ident">iter</span>().<span class="ident">copied</span>());
+                <span class="ident">rhs_novel</span>.<span class="ident">extend</span>(<span class="ident">rhs_lines</span>.<span class="ident">iter</span>().<span class="ident">copied</span>());
             }
             <span class="ident">TextChangeKind::Unchanged</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">if</span> <span class="op">!</span><span class="ident">lhs_novel</span>.<span class="ident">is_empty</span>() <span class="op">|</span><span class="op">|</span> <span class="op">!</span><span class="ident">rhs_novel</span>.<span class="ident">is_empty</span>() {

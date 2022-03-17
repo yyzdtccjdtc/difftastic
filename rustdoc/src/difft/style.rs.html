@@ -594,7 +594,7 @@
         }
 
         <span class="ident">styled_parts</span>.<span class="ident">push</span>(<span class="ident">res</span>);
-        <span class="ident">part_start</span> <span class="op">+</span><span class="op">=</span> <span class="ident">byte_len</span>(<span class="kw-2">&amp;</span><span class="ident">part</span>)
+        <span class="ident">part_start</span> <span class="op">+</span><span class="op">=</span> <span class="ident">byte_len</span>(<span class="kw-2">&amp;</span><span class="ident">part</span>);
     }
 
     <span class="ident">styled_parts</span>
@@ -712,7 +712,7 @@
                         <span class="ident">AtomKind::Keyword</span> <span class="op">|</span> <span class="ident">AtomKind::Type</span> <span class="op">=</span><span class="op">&gt;</span> {
                             <span class="ident">style</span> <span class="op">=</span> <span class="ident">style</span>.<span class="ident">bold</span>();
                         }
-                        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {}
+                        <span class="ident">AtomKind::Normal</span> <span class="op">=</span><span class="op">&gt;</span> {}
                     }
                 }
             }

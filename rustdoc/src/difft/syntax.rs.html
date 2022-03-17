@@ -1497,7 +1497,7 @@
 <span class="kw">fn</span> <span class="ident">init_info_single</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">roots</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>], <span class="ident">next_id</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">NonZeroU32</span>) {
     <span class="ident">set_parent</span>(<span class="ident">roots</span>, <span class="prelude-val">None</span>);
     <span class="ident">set_num_ancestors</span>(<span class="ident">roots</span>, <span class="number">0</span>);
-    <span class="ident">set_unique_id</span>(<span class="ident">roots</span>, <span class="ident">next_id</span>)
+    <span class="ident">set_unique_id</span>(<span class="ident">roots</span>, <span class="ident">next_id</span>);
 }
 
 <span class="kw">fn</span> <span class="ident">set_unique_id</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">nodes</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>], <span class="ident">next_id</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">NonZeroU32</span>) {
