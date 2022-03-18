@@ -476,6 +476,13 @@
 <span id="476">476</span>
 <span id="477">477</span>
 <span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Difftastic is a syntactic diff tool.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! For usage instructions and advice on contributing, see [the</span>
@@ -485,6 +492,13 @@
 <span class="comment">// This tends to trigger on larger tuples of simple types, and naming</span>
 <span class="comment">// them would probably be worse for readability.</span>
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy::type_complexity</span>)]</span>
+
+<span class="comment">// == &quot;&quot; is often clearer when dealing with strings.</span>
+<span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy::comparison_to_empty</span>)]</span>
+
+<span class="comment">// It&#39;s common to have pairs foo_lhs and foo_rhs, leading to double</span>
+<span class="comment">// the number of arguments and triggering this lint.</span>
+<span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy::too_many_arguments</span>)]</span>
 
 <span class="kw">mod</span> <span class="ident">context</span>;
 <span class="kw">mod</span> <span class="ident">dijkstra</span>;
