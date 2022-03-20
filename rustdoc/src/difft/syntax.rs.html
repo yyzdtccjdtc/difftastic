@@ -1052,14 +1052,6 @@
 <span id="1052">1052</span>
 <span id="1053">1053</span>
 <span id="1054">1054</span>
-<span id="1055">1055</span>
-<span id="1056">1056</span>
-<span id="1057">1057</span>
-<span id="1058">1058</span>
-<span id="1059">1059</span>
-<span id="1060">1060</span>
-<span id="1061">1061</span>
-<span id="1062">1062</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Syntax tree definitions with change metadata.</span>
 
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy::mutable_key_type</span>)]</span> <span class="comment">// Hash for Syntax doesn&#39;t use mutable fields.</span>
@@ -1633,15 +1625,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">MatchKind</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">first_opposite_span</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SingleLineSpan</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">MatchKind::UnchangedToken</span> { <span class="ident">opposite_pos</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">opposite_pos</span>.<span class="ident">first</span>().<span class="ident">copied</span>(),
-            <span class="ident">MatchKind::NovelLinePart</span> { <span class="ident">opposite_pos</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">opposite_pos</span>.<span class="ident">first</span>().<span class="ident">copied</span>(),
-            <span class="ident">MatchKind::Novel</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
-            <span class="ident">MatchKind::NovelWord</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
-        }
-    }
-
+    <span class="comment">// TODO: is_novel would be a better name here.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_change</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="macro">matches!</span>(
             <span class="self">self</span>,
