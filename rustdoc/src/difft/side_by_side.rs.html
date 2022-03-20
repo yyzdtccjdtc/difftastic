@@ -883,12 +883,12 @@
 ) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">HashSet</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span>, <span class="ident">HashSet</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span>) {
     <span class="kw">let</span> <span class="ident">lhs_lines_with_novel</span>: <span class="ident">HashSet</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">lhs_mps</span>
         .<span class="ident">iter</span>()
-        .<span class="ident">filter</span>(<span class="op">|</span><span class="ident">mp</span><span class="op">|</span> <span class="ident">mp</span>.<span class="ident">kind</span>.<span class="ident">is_change</span>())
+        .<span class="ident">filter</span>(<span class="op">|</span><span class="ident">mp</span><span class="op">|</span> <span class="ident">mp</span>.<span class="ident">kind</span>.<span class="ident">is_novel</span>())
         .<span class="ident">map</span>(<span class="op">|</span><span class="ident">mp</span><span class="op">|</span> <span class="ident">mp</span>.<span class="ident">pos</span>.<span class="ident">line</span>)
         .<span class="ident">collect</span>();
     <span class="kw">let</span> <span class="ident">rhs_lines_with_novel</span>: <span class="ident">HashSet</span><span class="op">&lt;</span><span class="ident">LineNumber</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">rhs_mps</span>
         .<span class="ident">iter</span>()
-        .<span class="ident">filter</span>(<span class="op">|</span><span class="ident">mp</span><span class="op">|</span> <span class="ident">mp</span>.<span class="ident">kind</span>.<span class="ident">is_change</span>())
+        .<span class="ident">filter</span>(<span class="op">|</span><span class="ident">mp</span><span class="op">|</span> <span class="ident">mp</span>.<span class="ident">kind</span>.<span class="ident">is_novel</span>())
         .<span class="ident">map</span>(<span class="op">|</span><span class="ident">mp</span><span class="op">|</span> <span class="ident">mp</span>.<span class="ident">pos</span>.<span class="ident">line</span>)
         .<span class="ident">collect</span>();
 

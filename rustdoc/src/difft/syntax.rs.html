@@ -1051,7 +1051,6 @@
 <span id="1051">1051</span>
 <span id="1052">1052</span>
 <span id="1053">1053</span>
-<span id="1054">1054</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Syntax tree definitions with change metadata.</span>
 
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy::mutable_key_type</span>)]</span> <span class="comment">// Hash for Syntax doesn&#39;t use mutable fields.</span>
@@ -1625,8 +1624,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">MatchKind</span> {
-    <span class="comment">// TODO: is_novel would be a better name here.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_change</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_novel</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="macro">matches!</span>(
             <span class="self">self</span>,
             <span class="ident">MatchKind::Novel</span> { .. } <span class="op">|</span> <span class="ident">MatchKind::NovelWord</span> { .. } <span class="op">|</span> <span class="ident">MatchKind::NovelLinePart</span> { .. }
