@@ -294,35 +294,6 @@
 <span id="294">294</span>
 <span id="295">295</span>
 <span id="296">296</span>
-<span id="297">297</span>
-<span id="298">298</span>
-<span id="299">299</span>
-<span id="300">300</span>
-<span id="301">301</span>
-<span id="302">302</span>
-<span id="303">303</span>
-<span id="304">304</span>
-<span id="305">305</span>
-<span id="306">306</span>
-<span id="307">307</span>
-<span id="308">308</span>
-<span id="309">309</span>
-<span id="310">310</span>
-<span id="311">311</span>
-<span id="312">312</span>
-<span id="313">313</span>
-<span id="314">314</span>
-<span id="315">315</span>
-<span id="316">316</span>
-<span id="317">317</span>
-<span id="318">318</span>
-<span id="319">319</span>
-<span id="320">320</span>
-<span id="321">321</span>
-<span id="322">322</span>
-<span id="323">323</span>
-<span id="324">324</span>
-<span id="325">325</span>
 </pre><pre class="rust"><code><span class="doccomment">//! A fallback &quot;parser&quot; for plain text.</span>
 
 <span class="kw">use</span> <span class="ident">std::hash::Hash</span>;
@@ -455,42 +426,12 @@
         .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>()
 }
 
-<span class="kw">fn</span> <span class="ident">split_unchanged_ends</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
-    <span class="ident">lhs_lines</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>],
-    <span class="ident">rhs_lines</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>],
-) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>) {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">lhs_lines</span> <span class="op">=</span> <span class="ident">lhs_lines</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rhs_lines</span> <span class="op">=</span> <span class="ident">rhs_lines</span>;
-
-    <span class="kw">while</span> <span class="kw">let</span> (<span class="prelude-val">Some</span>(<span class="ident">lhs_line</span>), <span class="prelude-val">Some</span>(<span class="ident">rhs_line</span>)) <span class="op">=</span> (<span class="ident">lhs_lines</span>.<span class="ident">first</span>(), <span class="ident">rhs_lines</span>.<span class="ident">first</span>()) {
-        <span class="kw">if</span> <span class="ident">lhs_line</span> <span class="op">=</span><span class="op">=</span> <span class="ident">rhs_line</span> {
-            <span class="ident">lhs_lines</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">lhs_lines</span>[<span class="number">1</span>..];
-            <span class="ident">rhs_lines</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">rhs_lines</span>[<span class="number">1</span>..];
-        } <span class="kw">else</span> {
-            <span class="kw">break</span>;
-        }
-    }
-
-    <span class="kw">while</span> <span class="kw">let</span> (<span class="prelude-val">Some</span>(<span class="ident">lhs_line</span>), <span class="prelude-val">Some</span>(<span class="ident">rhs_line</span>)) <span class="op">=</span> (<span class="ident">lhs_lines</span>.<span class="ident">last</span>(), <span class="ident">rhs_lines</span>.<span class="ident">last</span>()) {
-        <span class="kw">if</span> <span class="ident">lhs_line</span> <span class="op">=</span><span class="op">=</span> <span class="ident">rhs_line</span> {
-            <span class="ident">lhs_lines</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">lhs_lines</span>[..<span class="ident">lhs_lines</span>.<span class="ident">len</span>() <span class="op">-</span> <span class="number">1</span>];
-            <span class="ident">rhs_lines</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">rhs_lines</span>[..<span class="ident">rhs_lines</span>.<span class="ident">len</span>() <span class="op">-</span> <span class="number">1</span>];
-        } <span class="kw">else</span> {
-            <span class="kw">break</span>;
-        }
-    }
-
-    (<span class="ident">Vec::from</span>(<span class="ident">lhs_lines</span>), <span class="ident">Vec::from</span>(<span class="ident">rhs_lines</span>))
-}
-
 <span class="kw">fn</span> <span class="ident">changed_parts</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
     <span class="ident">src</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
     <span class="ident">opposite_src</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">TextChangeKind</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>)<span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">src_lines</span> <span class="op">=</span> <span class="ident">split_lines_keep_newline</span>(<span class="ident">src</span>);
     <span class="kw">let</span> <span class="ident">opposite_src_lines</span> <span class="op">=</span> <span class="ident">split_lines_keep_newline</span>(<span class="ident">opposite_src</span>);
-
-    <span class="kw">let</span> (<span class="ident">src_lines</span>, <span class="ident">opposite_src_lines</span>) <span class="op">=</span> <span class="ident">split_unchanged_ends</span>(<span class="kw-2">&amp;</span><span class="ident">src_lines</span>, <span class="kw-2">&amp;</span><span class="ident">opposite_src_lines</span>);
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span>: <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">TextChangeKind</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>)<span class="op">&gt;</span> <span class="op">=</span> <span class="macro">vec!</span>[];
     <span class="kw">for</span> <span class="ident">diff_res</span> <span class="kw">in</span> <span class="ident">diff_slice_by_hash</span>(<span class="kw-2">&amp;</span><span class="ident">src_lines</span>, <span class="kw-2">&amp;</span><span class="ident">opposite_src_lines</span>) {
@@ -628,6 +569,7 @@
     <span class="kw">fn</span> <span class="ident">test_no_changes_trailing_newlines</span>() {
         <span class="kw">let</span> <span class="ident">positions</span> <span class="op">=</span> <span class="ident">change_positions</span>(<span class="string">&quot;foo\n&quot;</span>, <span class="string">&quot;foo\n&quot;</span>);
 
+        <span class="macro">dbg!</span>(<span class="kw-2">&amp;</span><span class="ident">positions</span>);
         <span class="macro">assert_eq!</span>(<span class="ident">positions</span>.<span class="ident">len</span>(), <span class="number">1</span>);
         <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">positions</span>[<span class="number">0</span>].<span class="ident">kind</span>.<span class="ident">is_novel</span>());
     }
