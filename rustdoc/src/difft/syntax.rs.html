@@ -1051,6 +1051,25 @@
 <span id="1051">1051</span>
 <span id="1052">1052</span>
 <span id="1053">1053</span>
+<span id="1054">1054</span>
+<span id="1055">1055</span>
+<span id="1056">1056</span>
+<span id="1057">1057</span>
+<span id="1058">1058</span>
+<span id="1059">1059</span>
+<span id="1060">1060</span>
+<span id="1061">1061</span>
+<span id="1062">1062</span>
+<span id="1063">1063</span>
+<span id="1064">1064</span>
+<span id="1065">1065</span>
+<span id="1066">1066</span>
+<span id="1067">1067</span>
+<span id="1068">1068</span>
+<span id="1069">1069</span>
+<span id="1070">1070</span>
+<span id="1071">1071</span>
+<span id="1072">1072</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Syntax tree definitions with change metadata.</span>
 
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy::mutable_key_type</span>)]</span> <span class="comment">// Hash for Syntax doesn&#39;t use mutable fields.</span>
@@ -1101,8 +1120,10 @@
 
 <span class="doccomment">/// Fields that are common to both `Syntax::List` and `Syntax::Atom`.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SyntaxInfo</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// The previous node with the same parent as this one.</span>
+    <span class="ident">previous_sibling</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="doccomment">/// The next node with the same parent as this one.</span>
-    <span class="kw">pub</span> <span class="ident">next_sibling</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">next_sibling</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="doccomment">/// The syntax node that occurs before this one, in a depth-first</span>
     <span class="doccomment">/// tree traversal.</span>
     <span class="kw">pub</span> <span class="ident">prev</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
@@ -1129,6 +1150,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">SyntaxInfo</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
+            <span class="ident">previous_sibling</span>: <span class="ident">Cell::new</span>(<span class="prelude-val">None</span>),
             <span class="ident">next_sibling</span>: <span class="ident">Cell::new</span>(<span class="prelude-val">None</span>),
             <span class="ident">prev</span>: <span class="ident">Cell::new</span>(<span class="prelude-val">None</span>),
             <span class="ident">parent</span>: <span class="ident">Cell::new</span>(<span class="prelude-val">None</span>),
@@ -1477,6 +1499,7 @@
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">init_next_prev</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">roots</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>]) {
+    <span class="ident">set_prev_sibling</span>(<span class="ident">roots</span>);
     <span class="ident">set_next_sibling</span>(<span class="ident">roots</span>);
     <span class="ident">set_prev</span>(<span class="ident">roots</span>, <span class="prelude-val">None</span>);
     <span class="ident">set_prev_is_contiguous</span>(<span class="ident">roots</span>);
@@ -1495,6 +1518,21 @@
             .<span class="ident">expect</span>(<span class="string">&quot;Should not have more than u32::MAX nodes&quot;</span>);
         <span class="kw">if</span> <span class="kw">let</span> <span class="ident">List</span> { <span class="ident">children</span>, .. } <span class="op">=</span> <span class="ident">node</span> {
             <span class="ident">set_unique_id</span>(<span class="ident">children</span>, <span class="ident">next_id</span>);
+        }
+    }
+}
+
+<span class="kw">fn</span> <span class="ident">set_prev_sibling</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">nodes</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>]) {
+    <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">node</span>) <span class="kw">in</span> <span class="ident">nodes</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
+        <span class="kw">if</span> <span class="ident">i</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">continue</span>;
+        }
+
+        <span class="kw">let</span> <span class="ident">sibling</span> <span class="op">=</span> <span class="ident">nodes</span>.<span class="ident">get</span>(<span class="ident">i</span> <span class="op">-</span> <span class="number">1</span>).<span class="ident">copied</span>();
+        <span class="ident">node</span>.<span class="ident">info</span>().<span class="ident">previous_sibling</span>.<span class="ident">set</span>(<span class="ident">sibling</span>);
+
+        <span class="kw">if</span> <span class="kw">let</span> <span class="ident">List</span> { <span class="ident">children</span>, .. } <span class="op">=</span> <span class="ident">node</span> {
+            <span class="ident">set_prev_sibling</span>(<span class="ident">children</span>);
         }
     }
 }
