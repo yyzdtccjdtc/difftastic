@@ -899,6 +899,10 @@
 <span id="899">899</span>
 <span id="900">900</span>
 <span id="901">901</span>
+<span id="902">902</span>
+<span id="903">903</span>
+<span id="904">904</span>
+<span id="905">905</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Load and configure parsers written with tree-sitter.</span>
 
 <span class="kw">use</span> <span class="ident">std::collections::HashSet</span>;
@@ -1335,7 +1339,11 @@
                 <span class="ident">language</span>,
                 <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>, <span class="string">&quot;template_string&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
                 <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)]),
-                <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(<span class="ident">language</span>, <span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>(),
+                <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
+                    <span class="ident">language</span>,
+                    <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/scala.scm&quot;</span>),
+                )
+                .<span class="ident">unwrap</span>(),
             }
         }
         <span class="ident">TypeScript</span> <span class="op">=</span><span class="op">&gt;</span> {
