@@ -22,7 +22,7 @@ include = [
 
 [dependencies]
 regex = "1.5.4"
-clap = { version = "3.0.13", features = ["cargo"] }
+clap = "2"
 itertools = "0.10.1"
 typed-arena = "2.0.1"
 rustc-hash = "1.1.0"
@@ -34,11 +34,11 @@ libc = "0.2.108"
 log = "0.4.14"
 pretty_env_logger = "0.4.0"
 mimalloc = { version = "0.1.26", default-features = false }
-radix-heap = "0.4.2"
+radix-heap = "0.3"
 walkdir = "2.3.2"
 term_size = "0.3.2"
 const_format = "0.2.22"
-owo-colors = "3.2.0"
+owo-colors = "1.3.0"
 rpds = "0.10.0"
 wu-diff = "0.1.2"
 
