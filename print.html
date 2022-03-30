@@ -169,10 +169,20 @@ tool that understands syntax. It supports the following languages:</p>
 changelog</a>
 records which features and bug fixes are in each version.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
-<h2 id="installation"><a class="header" href="#installation">Installation</a></h2>
-<p>The latest version of difftastic is <a href="https://crates.io/crates/difftastic">available on
-crates.io</a>. You can install it
-with Cargo. Difftastic requires Rust 1.56 or later.</p>
+<h2 id="installing-a-prebuilt-package"><a class="header" href="#installing-a-prebuilt-package">Installing a prebuilt package</a></h2>
+<p>Prebuilt packages are available on the following platforms.</p>
+<p><a href="https://repology.org/project/difftastic/versions"><img src="https://repology.org/badge/vertical-allrepos/difftastic.svg" alt="Packaging status" /></a></p>
+<h2 id="installing-from-source"><a class="header" href="#installing-from-source">Installing from source</a></h2>
+<h3 id="build-requirements"><a class="header" href="#build-requirements">Build Requirements</a></h3>
+<p>Difftastic is written in Rust, so you will need Rust installed. I
+recommend <a href="https://rustup.rs/">rustup</a> to install Rust. Difftastic
+requires Rust version 1.56 or later.</p>
+<p>You will also need a C++ compiler that supports C++14. I recommend
+Clang.</p>
+<h3 id="build"><a class="header" href="#build">Build</a></h3>
+<p>You can download and build <a href="https://crates.io/crates/difftastic">difftastic on
+crates.io</a> with Cargo (which is
+part of Rust).</p>
 <pre><code>$ cargo install difftastic
 </code></pre>
 <p>See <a href="./contributing.html">contributing</a> for instructions on debug
