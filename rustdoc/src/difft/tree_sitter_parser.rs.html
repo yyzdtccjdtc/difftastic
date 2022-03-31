@@ -968,18 +968,6 @@
 <span id="968">968</span>
 <span id="969">969</span>
 <span id="970">970</span>
-<span id="971">971</span>
-<span id="972">972</span>
-<span id="973">973</span>
-<span id="974">974</span>
-<span id="975">975</span>
-<span id="976">976</span>
-<span id="977">977</span>
-<span id="978">978</span>
-<span id="979">979</span>
-<span id="980">980</span>
-<span id="981">981</span>
-<span id="982">982</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Load and configure parsers written with tree-sitter.</span>
 
 <span class="kw">use</span> <span class="ident">std::collections::HashSet</span>;
@@ -1072,10 +1060,10 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;Bash&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>, <span class="string">&quot;raw_string&quot;</span>, <span class="string">&quot;heredoc_body&quot;</span>])
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>, <span class="string">&quot;raw_string&quot;</span>, <span class="string">&quot;heredoc_body&quot;</span>]
                     .<span class="ident">into_iter</span>()
                     .<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)]),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)],
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
                     <span class="ident">language</span>,
                     <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/bash.scm&quot;</span>),
@@ -1088,10 +1076,8 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;C&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;string_literal&quot;</span>, <span class="string">&quot;char_literal&quot;</span>])
-                    .<span class="ident">into_iter</span>()
-                    .<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)]),
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[<span class="string">&quot;string_literal&quot;</span>, <span class="string">&quot;char_literal&quot;</span>].<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)],
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
                     <span class="ident">language</span>,
                     <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/c.scm&quot;</span>),
@@ -1106,10 +1092,8 @@
                 <span class="ident">language</span>,
                 <span class="comment">// The C++ grammar extends the C grammar, so the node</span>
                 <span class="comment">// names are generally the same.</span>
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;string_literal&quot;</span>, <span class="string">&quot;char_literal&quot;</span>])
-                    .<span class="ident">into_iter</span>()
-                    .<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;&lt;&quot;</span>, <span class="string">&quot;&gt;&quot;</span>)]),
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[<span class="string">&quot;string_literal&quot;</span>, <span class="string">&quot;char_literal&quot;</span>].<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;&lt;&quot;</span>, <span class="string">&quot;&gt;&quot;</span>)],
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
                     <span class="ident">language</span>,
                     <span class="macro">concat!</span>(
@@ -1125,8 +1109,8 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;Clojure&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)])
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[].<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)]
                     .<span class="ident">into_iter</span>()
                     .<span class="ident">collect</span>(),
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
@@ -1141,8 +1125,8 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;Common Lisp&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;str_lit&quot;</span>, <span class="string">&quot;char_lit&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>)]),
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[<span class="string">&quot;str_lit&quot;</span>, <span class="string">&quot;char_lit&quot;</span>].<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>)],
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(<span class="ident">language</span>, <span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>(),
             }
         }
@@ -1151,14 +1135,14 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;C#&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[
                     <span class="string">&quot;string_literal&quot;</span>,
                     <span class="string">&quot;verbatim_string_literal&quot;</span>,
                     <span class="string">&quot;character_literal&quot;</span>,
-                ])
+                ]
                 .<span class="ident">into_iter</span>()
                 .<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>)]),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>)],
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
                     <span class="ident">language</span>,
                     <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/c-sharp.scm&quot;</span>),
@@ -1171,8 +1155,8 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;CSS&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;integer_value&quot;</span>, <span class="string">&quot;float_value&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>)]),
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[<span class="string">&quot;integer_value&quot;</span>, <span class="string">&quot;float_value&quot;</span>].<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>)],
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
                     <span class="ident">language</span>,
                     <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/css.scm&quot;</span>),
@@ -1185,8 +1169,8 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;Dart&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;string_literal&quot;</span>, <span class="string">&quot;script_tag&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;&lt;&quot;</span>, <span class="string">&quot;&gt;&quot;</span>)]),
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[<span class="string">&quot;string_literal&quot;</span>, <span class="string">&quot;script_tag&quot;</span>].<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;&lt;&quot;</span>, <span class="string">&quot;&gt;&quot;</span>)],
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
                     <span class="ident">language</span>,
                     <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/dart.scm&quot;</span>),
@@ -1199,8 +1183,8 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;Emacs Lisp&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)])
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[].<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)]
                     .<span class="ident">into_iter</span>()
                     .<span class="ident">collect</span>(),
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
@@ -1215,8 +1199,8 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;Elixir&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>, <span class="string">&quot;heredoc&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;do&quot;</span>, <span class="string">&quot;end&quot;</span>)])
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>, <span class="string">&quot;heredoc&quot;</span>].<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;do&quot;</span>, <span class="string">&quot;end&quot;</span>)]
                     .<span class="ident">into_iter</span>()
                     .<span class="ident">collect</span>(),
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
@@ -1231,10 +1215,10 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;Go&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;interpreted_string_literal&quot;</span>, <span class="string">&quot;raw_string_literal&quot;</span>])
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[<span class="string">&quot;interpreted_string_literal&quot;</span>, <span class="string">&quot;raw_string_literal&quot;</span>]
                     .<span class="ident">into_iter</span>()
                     .<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>)])
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>)]
                     .<span class="ident">into_iter</span>()
                     .<span class="ident">collect</span>(),
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
@@ -1249,8 +1233,8 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;Haskell&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>)]),
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[].<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>)],
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
                     <span class="ident">language</span>,
                     <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/haskell.scm&quot;</span>),
@@ -1263,15 +1247,15 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;Janet&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[].<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[
                     (<span class="string">&quot;@{&quot;</span>, <span class="string">&quot;}&quot;</span>),
                     (<span class="string">&quot;@(&quot;</span>, <span class="string">&quot;)&quot;</span>),
                     (<span class="string">&quot;@[&quot;</span>, <span class="string">&quot;]&quot;</span>),
                     (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>),
                     (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>),
                     (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>),
-                ])
+                ]
                 .<span class="ident">into_iter</span>()
                 .<span class="ident">collect</span>(),
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
@@ -1286,8 +1270,8 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;Java&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)]),
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[].<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)],
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
                     <span class="ident">language</span>,
                     <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/java.scm&quot;</span>),
@@ -1300,10 +1284,10 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;JavaScript&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>, <span class="string">&quot;template_string&quot;</span>, <span class="string">&quot;regex&quot;</span>])
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>, <span class="string">&quot;template_string&quot;</span>, <span class="string">&quot;regex&quot;</span>]
                     .<span class="ident">into_iter</span>()
                     .<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[
                     (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>),
                     (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>),
                     (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>),
@@ -1311,7 +1295,7 @@
                     <span class="comment">// like 1 &lt; 2, but we should never see both a &lt; and a</span>
                     <span class="comment">// &gt; at the same level in JSX.</span>
                     (<span class="string">&quot;&lt;&quot;</span>, <span class="string">&quot;&gt;&quot;</span>),
-                ]),
+                ],
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
                     <span class="ident">language</span>,
                     <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/javascript.scm&quot;</span>),
@@ -1324,8 +1308,8 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;JSON&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)]),
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>].<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)],
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
                     <span class="ident">language</span>,
                     <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/json.scm&quot;</span>),
@@ -1338,8 +1322,8 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;Lua&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)])
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>].<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)]
                     .<span class="ident">into_iter</span>()
                     .<span class="ident">collect</span>(),
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
@@ -1371,7 +1355,7 @@
                 <span class="ident">name</span>: <span class="string">&quot;OCaml&quot;</span>,
                 <span class="ident">language</span>,
                 <span class="ident">atom_nodes</span>: <span class="ident">OCAML_ATOM_NODES</span>.<span class="ident">iter</span>().<span class="ident">copied</span>().<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>)]),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>)],
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
                     <span class="ident">language</span>,
                     <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/ocaml.scm&quot;</span>),
@@ -1385,7 +1369,7 @@
                 <span class="ident">name</span>: <span class="string">&quot;OCaml Interface&quot;</span>,
                 <span class="ident">language</span>,
                 <span class="ident">atom_nodes</span>: <span class="ident">OCAML_ATOM_NODES</span>.<span class="ident">iter</span>().<span class="ident">copied</span>().<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>)]),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>)],
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
                     <span class="ident">language</span>,
                     <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/ocaml.scm&quot;</span>),
@@ -1398,8 +1382,8 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;PHP&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>)]),
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>].<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>)],
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
                     <span class="ident">language</span>,
                     <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/php.scm&quot;</span>),
@@ -1412,8 +1396,8 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;Python&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>)]),
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>].<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>)],
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
                     <span class="ident">language</span>,
                     <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/python.scm&quot;</span>),
@@ -1426,10 +1410,10 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;Ruby&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>, <span class="string">&quot;heredoc_body&quot;</span>, <span class="string">&quot;regex&quot;</span>])
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>, <span class="string">&quot;heredoc_body&quot;</span>, <span class="string">&quot;regex&quot;</span>]
                     .<span class="ident">into_iter</span>()
                     .<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[
                     (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>),
                     (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>),
                     (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>),
@@ -1437,7 +1421,7 @@
                     (<span class="string">&quot;def&quot;</span>, <span class="string">&quot;end&quot;</span>),
                     (<span class="string">&quot;begin&quot;</span>, <span class="string">&quot;end&quot;</span>),
                     (<span class="string">&quot;class&quot;</span>, <span class="string">&quot;end&quot;</span>),
-                ]),
+                ],
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
                     <span class="ident">language</span>,
                     <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/ruby.scm&quot;</span>),
@@ -1450,16 +1434,8 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;Rust&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;char_literal&quot;</span>, <span class="string">&quot;string_literal&quot;</span>])
-                    .<span class="ident">into_iter</span>()
-                    .<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[
-                    (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>),
-                    (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>),
-                    (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>),
-                    (<span class="string">&quot;|&quot;</span>, <span class="string">&quot;|&quot;</span>),
-                    (<span class="string">&quot;&lt;&quot;</span>, <span class="string">&quot;&gt;&quot;</span>),
-                ]),
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[<span class="string">&quot;char_literal&quot;</span>, <span class="string">&quot;string_literal&quot;</span>].<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;|&quot;</span>, <span class="string">&quot;|&quot;</span>), (<span class="string">&quot;&lt;&quot;</span>, <span class="string">&quot;&gt;&quot;</span>)],
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
                     <span class="ident">language</span>,
                     <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/rust.scm&quot;</span>),
@@ -1472,8 +1448,8 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;Scala&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>, <span class="string">&quot;template_string&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)]),
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>, <span class="string">&quot;template_string&quot;</span>].<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)],
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
                     <span class="ident">language</span>,
                     <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/scala.scm&quot;</span>),
@@ -1486,10 +1462,10 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;TypeScript&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>, <span class="string">&quot;template_string&quot;</span>, <span class="string">&quot;regex&quot;</span>])
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>, <span class="string">&quot;template_string&quot;</span>, <span class="string">&quot;regex&quot;</span>]
                     .<span class="ident">into_iter</span>()
                     .<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;&lt;&quot;</span>, <span class="string">&quot;&gt;&quot;</span>)]),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;&lt;&quot;</span>, <span class="string">&quot;&gt;&quot;</span>)],
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
                     <span class="ident">language</span>,
                     <span class="macro">concat!</span>(
@@ -1505,8 +1481,8 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;TypeScript TSX&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>, <span class="string">&quot;template_string&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
-                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;&lt;&quot;</span>, <span class="string">&quot;&gt;&quot;</span>)]),
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>, <span class="string">&quot;template_string&quot;</span>].<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;&lt;&quot;</span>, <span class="string">&quot;&gt;&quot;</span>)],
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
                     <span class="ident">language</span>,
                     <span class="macro">concat!</span>(
