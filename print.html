@@ -76,7 +76,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting_started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="git.html"><strong aria-hidden="true">2.1.</strong> Git</a></li><li class="chapter-item expanded "><a href="mercurial.html"><strong aria-hidden="true">2.2.</strong> Mercurial</a></li></ol></li><li class="chapter-item expanded "><a href="parsing.html"><strong aria-hidden="true">3.</strong> Parsing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="upstream_parsers.html"><strong aria-hidden="true">3.1.</strong> Upstream Parsers</a></li></ol></li><li class="chapter-item expanded "><a href="diffing.html"><strong aria-hidden="true">4.</strong> Diffing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tricky_cases.html"><strong aria-hidden="true">4.1.</strong> Tricky Cases</a></li></ol></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">5.</strong> Contributing</a></li><li class="chapter-item expanded "><a href="glossary.html"><strong aria-hidden="true">6.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="alternative_projects.html"><strong aria-hidden="true">7.</strong> Alternative Projects</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tree_diffing.html"><strong aria-hidden="true">7.1.</strong> Tree Diffing</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting_started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="git.html"><strong aria-hidden="true">2.1.</strong> Git</a></li><li class="chapter-item expanded "><a href="mercurial.html"><strong aria-hidden="true">2.2.</strong> Mercurial</a></li></ol></li><li class="chapter-item expanded "><a href="parsing.html"><strong aria-hidden="true">3.</strong> Parsing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="upstream_parsers.html"><strong aria-hidden="true">3.1.</strong> Upstream Parsers</a></li><li class="chapter-item expanded "><a href="adding_a_parser.html"><strong aria-hidden="true">3.2.</strong> Adding A Parser</a></li></ol></li><li class="chapter-item expanded "><a href="diffing.html"><strong aria-hidden="true">4.</strong> Diffing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tricky_cases.html"><strong aria-hidden="true">4.1.</strong> Tricky Cases</a></li></ol></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">5.</strong> Contributing</a></li><li class="chapter-item expanded "><a href="glossary.html"><strong aria-hidden="true">6.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="alternative_projects.html"><strong aria-hidden="true">7.</strong> Alternative Projects</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tree_diffing.html"><strong aria-hidden="true">7.1.</strong> Tree Diffing</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -375,29 +375,6 @@ largely ignored during diffing.</p>
 <tr><td>Scala</td><td><a href="https://github.com/tree-sitter/tree-sitter-scala">tree-sitter/tree-sitter-scala</a></td></tr>
 <tr><td>TypeScript, TSX</td><td><a href="https://github.com/tree-sitter/tree-sitter-typescript">tree-sitter/tree-sitter-typescript</a></td></tr>
 </tbody></table>
-<p>These parsers are included as git subtrees in <code>vendor/</code>.</p>
-<p>Tree-sitter parsers are sometimes packaged on npm, sometimes packaged
-on crates.io, and have different release frequencies. Git subtrees
-allow difftastic to track the latest version of these parsers.</p>
-<h2 id="adding-a-new-parser"><a class="header" href="#adding-a-new-parser">Adding a new parser</a></h2>
-<p>If you've found a reasonably complete parser implementation for your
-target language, add it to <code>vendor/</code>.</p>
-<pre><code>$ git subtree add --prefix=vendor/tree-sitter-java git@github.com:tree-sitter/tree-sitter-java.git master
-</code></pre>
-<p>Cargo does not allow packages to include subdirectories that contain a
-<code>Cargo.toml</code>. Add a symlink to the <code>src/</code> parser subdirectory.</p>
-<pre><code>$ cd vendor
-$ ln -s tree-sitter-java/src tree-sitter-java-src
-</code></pre>
-<p>You can now add the parser to build by including the directory in
-<code>build.rs</code>. You will also need to update <code>guess_language.rs</code> to
-configure the file extensions, and <code>tree_sitter_parser.rs</code> to
-configure atoms and delimiters.</p>
-<p>To add syntax highlighting to the package, you'll also need a symlink
-to the <code>highlights.scm</code>, if available.</p>
-<pre><code>$ cd vendor/highlights
-$ ln -s ../tree-sitter-java/queries/highlights.scm java.scm
-</code></pre>
 <h2 id="updating-a-parser"><a class="header" href="#updating-a-parser">Updating a parser</a></h2>
 <p>To update a parser, pull commits from the upstream git repository. For
 example, the following command will update the Java parser:</p>
@@ -406,6 +383,99 @@ example, the following command will update the Java parser:</p>
 <p>To see when each parser was last updated, use the following shell
 command:</p>
 <pre><code>$ for d in $(git log | grep git-subtree-dir | tr -d ' ' | cut -d &quot;:&quot; -f2 | sort); do echo &quot;$d&quot;; git log --pretty=&quot;  %cs&quot; -n 1 $d; done
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="adding-a-parser"><a class="header" href="#adding-a-parser">Adding A Parser</a></h1>
+<h2 id="finding-a-parser"><a class="header" href="#finding-a-parser">Finding a parser</a></h2>
+<p>New parsers for difftastic must be reasonably complete and maintained.</p>
+<p>There are many tree-sitter parsers available, and the tree-sitter
+website includes <a href="https://tree-sitter.github.io/tree-sitter/#available-parsers">a list of some well-known
+parsers</a>.</p>
+<h2 id="add-the-source-code"><a class="header" href="#add-the-source-code">Add the source code</a></h2>
+<p>Tree-sitter parsers are sometimes packaged on npm, sometimes packaged
+on crates.io, and have different release frequencies. Difftastic uses
+git subtrees (not git submodules) to track parsers.</p>
+<p>Once you've found a parser, add it as a git subtree to
+<code>vendor/</code>. We'll use
+<a href="https://github.com/tree-sitter/tree-sitter-json">tree-sitter-json</a> as
+an example.</p>
+<pre><code>$ git subtree add --prefix=vendor/tree-sitter-json git@github.com:tree-sitter/tree-sitter-json.git master
+</code></pre>
+<h2 id="configure-the-build"><a class="header" href="#configure-the-build">Configure the build</a></h2>
+<p>Cargo does not allow packages to include subdirectories that contain a
+<code>Cargo.toml</code>. Add a symlink to the <code>src/</code> parser subdirectory.</p>
+<pre><code>$ cd vendor
+$ ln -s tree-sitter-json/src tree-sitter-json-src
+</code></pre>
+<p>You can now add the parser to build by including the directory in
+<code>build.rs</code>. </p>
+<pre><code>TreeSitterParser {
+    name: &quot;tree-sitter-json&quot;,
+    src_dir: &quot;vendor/tree-sitter-json-src&quot;,
+    extra_files: vec![],
+},
+</code></pre>
+<p>If your parser includes custom C or C++ files for lexing (e.g. a
+<code>scanner.cc</code>), add them to <code>extra_files</code>.</p>
+<h2 id="configure-parsing"><a class="header" href="#configure-parsing">Configure parsing</a></h2>
+<p>Add an entry to <code>tree_sitter_parser.rs</code> for your language.</p>
+<pre><code>Json =&gt; {
+    let language = unsafe { tree_sitter_json() };
+    TreeSitterConfig {
+        name: &quot;JSON&quot;,
+        language,
+        atom_nodes: vec![&quot;string&quot;].into_iter().collect(),
+        delimiter_tokens: vec![(&quot;{&quot;, &quot;}&quot;), (&quot;[&quot;, &quot;]&quot;)],
+        highlight_query: ts::Query::new(
+            language,
+            include_str!(&quot;../vendor/highlights/json.scm&quot;),
+        )
+        .unwrap(),
+    }
+}
+</code></pre>
+<p><code>name</code> is the human-readable name shown in the UI.</p>
+<p><code>atom_nodes</code> is a list of tree-sitter node names that should be
+treated as atoms even though the nodes have children. This is common
+for things like string literals or interpolated strings, where the
+node might have children for the opening and closing quote.</p>
+<p>If you don't set <code>atom_nodes</code>, you may notice added/removed content
+shown in white. This is usually a sign that child node should have its
+parent treated as an atom.</p>
+<p><code>delimiter_tokens</code> are delimiters that difftastic stores on
+the enclosing list node. This allows difftastic to distinguish
+delimiter tokens from other punctuation in the language.</p>
+<p>If you don't set <code>delimiter_tokens</code>, difftastic will consider the
+tokens in isolation, and may think that a <code>(</code> was added but the <code>)</code>
+was unchanged.</p>
+<p>You can use <code>difft --dump-ts foo.json</code> to see the results of the
+tree-sitter parser, and <code>difft --dump-syntax foo.json</code> to confirm that
+you've set atoms and delimiters correctly.</p>
+<h2 id="configure-language-detection"><a class="header" href="#configure-language-detection">Configure language detection</a></h2>
+<p>Update <code>from_extension</code> in <code>guess_language.rs</code> to detect your new
+language.</p>
+<pre><code>&quot;json&quot; =&gt; Some(Json),
+</code></pre>
+<p>There may also file names or shebangs associated with your
+language. <a href="https://github.com/github/linguist/blob/master/lib/linguist/languages.yml">GitHub's linguist
+definitions</a>
+is a useful source of common file extension.</p>
+<h2 id="syntax-highlighting-optional"><a class="header" href="#syntax-highlighting-optional">Syntax highlighting (Optional)</a></h2>
+<p>To add syntax highlighting to the package, you'll also need a symlink
+to the <code>highlights.scm</code>, if available.</p>
+<pre><code>$ cd vendor/highlights
+$ ln -s ../tree-sitter-json/queries/highlights.scm json.scm
+</code></pre>
+<h2 id="add-a-regression-test"><a class="header" href="#add-a-regression-test">Add a regression test</a></h2>
+<p>Finally, add a regression test for your language. This ensures that
+the output for your test file doesn't change unexpectedly.</p>
+<p>Regression test files live in <code>sample_files/</code> and have the form
+<code>foo_before.abc</code> and <code>foo_after.abc</code>.</p>
+<pre><code>$ nano simple_before.json
+$ nano simple_after.json
+</code></pre>
+<p>Run the regression test script and update the <code>.expected</code> file.</p>
+<pre><code>$ ./sample_files/compare_all.sh
+$ cp sample_files/compare.result sample_files/compare.expected
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="diffing"><a class="header" href="#diffing">Diffing</a></h1>
 <p>Difftastic treats diff calculations as a route finding problem on a

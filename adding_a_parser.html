@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Contributing - Difftastic Manual</title>
+        <title>Adding A Parser - Difftastic Manual</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="The official manual for difftastic, the syntactic differ">
@@ -75,7 +75,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting_started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="git.html"><strong aria-hidden="true">2.1.</strong> Git</a></li><li class="chapter-item expanded "><a href="mercurial.html"><strong aria-hidden="true">2.2.</strong> Mercurial</a></li></ol></li><li class="chapter-item expanded "><a href="parsing.html"><strong aria-hidden="true">3.</strong> Parsing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="upstream_parsers.html"><strong aria-hidden="true">3.1.</strong> Upstream Parsers</a></li><li class="chapter-item expanded "><a href="adding_a_parser.html"><strong aria-hidden="true">3.2.</strong> Adding A Parser</a></li></ol></li><li class="chapter-item expanded "><a href="diffing.html"><strong aria-hidden="true">4.</strong> Diffing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tricky_cases.html"><strong aria-hidden="true">4.1.</strong> Tricky Cases</a></li></ol></li><li class="chapter-item expanded "><a href="contributing.html" class="active"><strong aria-hidden="true">5.</strong> Contributing</a></li><li class="chapter-item expanded "><a href="glossary.html"><strong aria-hidden="true">6.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="alternative_projects.html"><strong aria-hidden="true">7.</strong> Alternative Projects</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tree_diffing.html"><strong aria-hidden="true">7.1.</strong> Tree Diffing</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting_started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="git.html"><strong aria-hidden="true">2.1.</strong> Git</a></li><li class="chapter-item expanded "><a href="mercurial.html"><strong aria-hidden="true">2.2.</strong> Mercurial</a></li></ol></li><li class="chapter-item expanded "><a href="parsing.html"><strong aria-hidden="true">3.</strong> Parsing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="upstream_parsers.html"><strong aria-hidden="true">3.1.</strong> Upstream Parsers</a></li><li class="chapter-item expanded "><a href="adding_a_parser.html" class="active"><strong aria-hidden="true">3.2.</strong> Adding A Parser</a></li></ol></li><li class="chapter-item expanded "><a href="diffing.html"><strong aria-hidden="true">4.</strong> Diffing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tricky_cases.html"><strong aria-hidden="true">4.1.</strong> Tricky Cases</a></li></ol></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">5.</strong> Contributing</a></li><li class="chapter-item expanded "><a href="glossary.html"><strong aria-hidden="true">6.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="alternative_projects.html"><strong aria-hidden="true">7.</strong> Alternative Projects</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tree_diffing.html"><strong aria-hidden="true">7.1.</strong> Tree Diffing</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -134,86 +134,108 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="contributing"><a class="header" href="#contributing">Contributing</a></h1>
-<h2 id="building"><a class="header" href="#building">Building</a></h2>
-<p>Install Rust with <a href="https://rustup.rs/">rustup</a>, then clone the code.</p>
-<pre><code>$ git clone git@github.com:Wilfred/difftastic.git
-$ cd difftastic
+                        <h1 id="adding-a-parser"><a class="header" href="#adding-a-parser">Adding A Parser</a></h1>
+<h2 id="finding-a-parser"><a class="header" href="#finding-a-parser">Finding a parser</a></h2>
+<p>New parsers for difftastic must be reasonably complete and maintained.</p>
+<p>There are many tree-sitter parsers available, and the tree-sitter
+website includes <a href="https://tree-sitter.github.io/tree-sitter/#available-parsers">a list of some well-known
+parsers</a>.</p>
+<h2 id="add-the-source-code"><a class="header" href="#add-the-source-code">Add the source code</a></h2>
+<p>Tree-sitter parsers are sometimes packaged on npm, sometimes packaged
+on crates.io, and have different release frequencies. Difftastic uses
+git subtrees (not git submodules) to track parsers.</p>
+<p>Once you've found a parser, add it as a git subtree to
+<code>vendor/</code>. We'll use
+<a href="https://github.com/tree-sitter/tree-sitter-json">tree-sitter-json</a> as
+an example.</p>
+<pre><code>$ git subtree add --prefix=vendor/tree-sitter-json git@github.com:tree-sitter/tree-sitter-json.git master
 </code></pre>
-<p>Difftastic uses <a href="https://doc.rust-lang.org/cargo/">Cargo</a> for
-building.</p>
-<pre><code>$ cargo build
+<h2 id="configure-the-build"><a class="header" href="#configure-the-build">Configure the build</a></h2>
+<p>Cargo does not allow packages to include subdirectories that contain a
+<code>Cargo.toml</code>. Add a symlink to the <code>src/</code> parser subdirectory.</p>
+<pre><code>$ cd vendor
+$ ln -s tree-sitter-json/src tree-sitter-json-src
 </code></pre>
-<p>Debug builds are significantly slower than release builds. For files
-with more than fifty lines, it's usually worth using an optimised
-build.</p>
-<pre><code>$ cargo build --release
+<p>You can now add the parser to build by including the directory in
+<code>build.rs</code>. </p>
+<pre><code>TreeSitterParser {
+    name: &quot;tree-sitter-json&quot;,
+    src_dir: &quot;vendor/tree-sitter-json-src&quot;,
+    extra_files: vec![],
+},
 </code></pre>
-<h2 id="manual"><a class="header" href="#manual">Manual</a></h2>
-<p>This website is generated with
-<a href="https://github.com/rust-lang/mdBook/">mdbook</a>. mdbook can be
-installed with Cargo.</p>
-<pre><code>$ cargo install mdbook
+<p>If your parser includes custom C or C++ files for lexing (e.g. a
+<code>scanner.cc</code>), add them to <code>extra_files</code>.</p>
+<h2 id="configure-parsing"><a class="header" href="#configure-parsing">Configure parsing</a></h2>
+<p>Add an entry to <code>tree_sitter_parser.rs</code> for your language.</p>
+<pre><code>Json =&gt; {
+    let language = unsafe { tree_sitter_json() };
+    TreeSitterConfig {
+        name: &quot;JSON&quot;,
+        language,
+        atom_nodes: vec![&quot;string&quot;].into_iter().collect(),
+        delimiter_tokens: vec![(&quot;{&quot;, &quot;}&quot;), (&quot;[&quot;, &quot;]&quot;)],
+        highlight_query: ts::Query::new(
+            language,
+            include_str!(&quot;../vendor/highlights/json.scm&quot;),
+        )
+        .unwrap(),
+    }
+}
 </code></pre>
-<p>You can then use the <code>mdbook</code> binary to build and serve the site
-locally.</p>
-<pre><code>$ cd manual
-$ mdbook serve
+<p><code>name</code> is the human-readable name shown in the UI.</p>
+<p><code>atom_nodes</code> is a list of tree-sitter node names that should be
+treated as atoms even though the nodes have children. This is common
+for things like string literals or interpolated strings, where the
+node might have children for the opening and closing quote.</p>
+<p>If you don't set <code>atom_nodes</code>, you may notice added/removed content
+shown in white. This is usually a sign that child node should have its
+parent treated as an atom.</p>
+<p><code>delimiter_tokens</code> are delimiters that difftastic stores on
+the enclosing list node. This allows difftastic to distinguish
+delimiter tokens from other punctuation in the language.</p>
+<p>If you don't set <code>delimiter_tokens</code>, difftastic will consider the
+tokens in isolation, and may think that a <code>(</code> was added but the <code>)</code>
+was unchanged.</p>
+<p>You can use <code>difft --dump-ts foo.json</code> to see the results of the
+tree-sitter parser, and <code>difft --dump-syntax foo.json</code> to confirm that
+you've set atoms and delimiters correctly.</p>
+<h2 id="configure-language-detection"><a class="header" href="#configure-language-detection">Configure language detection</a></h2>
+<p>Update <code>from_extension</code> in <code>guess_language.rs</code> to detect your new
+language.</p>
+<pre><code>&quot;json&quot; =&gt; Some(Json),
 </code></pre>
-<h2 id="api-documentation"><a class="header" href="#api-documentation">API Documentation</a></h2>
-<p>You can browse the internal API documentation generated by rustdoc
-<a href="https://difftastic.wilfred.me.uk/rustdoc/difft/">here</a>.</p>
-<p>Difftastic's internal docs are not available on docs.rs, as it <a href="https://difftastic.wilfred.me.uk/rustdoc/difft/">does
-not support binary crates today</a>.</p>
-<h2 id="testing"><a class="header" href="#testing">Testing</a></h2>
-<pre><code>$ cargo test
+<p>There may also file names or shebangs associated with your
+language. <a href="https://github.com/github/linguist/blob/master/lib/linguist/languages.yml">GitHub's linguist
+definitions</a>
+is a useful source of common file extension.</p>
+<h2 id="syntax-highlighting-optional"><a class="header" href="#syntax-highlighting-optional">Syntax highlighting (Optional)</a></h2>
+<p>To add syntax highlighting to the package, you'll also need a symlink
+to the <code>highlights.scm</code>, if available.</p>
+<pre><code>$ cd vendor/highlights
+$ ln -s ../tree-sitter-json/queries/highlights.scm json.scm
 </code></pre>
-<p>There are also several files in <code>sample_files/</code> that you can use.</p>
-<p>The best way to test difftastic is to look at history from a real
-project. Set <code>GIT_EXTERNAL_DIFF</code> to point to your current build.</p>
-<p>For example, you can run difftastic on its own source code.</p>
-<pre><code>$ GIT_EXTERNAL_DIFF=./target/release/difft git log -p --ext-diff -- src
+<h2 id="add-a-regression-test"><a class="header" href="#add-a-regression-test">Add a regression test</a></h2>
+<p>Finally, add a regression test for your language. This ensures that
+the output for your test file doesn't change unexpectedly.</p>
+<p>Regression test files live in <code>sample_files/</code> and have the form
+<code>foo_before.abc</code> and <code>foo_after.abc</code>.</p>
+<pre><code>$ nano simple_before.json
+$ nano simple_after.json
 </code></pre>
-<h2 id="logging"><a class="header" href="#logging">Logging</a></h2>
-<p>Difftastic uses the <code>pretty_env_logger</code> library to log some additional
-debug information.</p>
-<pre><code>$ RUST_LOG=debug cargo run sample_files/old.jsx sample_files/new.jsx
+<p>Run the regression test script and update the <code>.expected</code> file.</p>
+<pre><code>$ ./sample_files/compare_all.sh
+$ cp sample_files/compare.result sample_files/compare.expected
 </code></pre>
-<p>See the <a href="https://docs.rs/env_logger/0.9.0/env_logger/"><code>env_logger</code>
-documentation</a> for full details.</p>
-<h2 id="profiling"><a class="header" href="#profiling">Profiling</a></h2>
-<p>If you have a file that's particularly slow, you can use
-<a href="https://github.com/flamegraph-rs/flamegraph">cargo-flamegraph</a> to see
-which functions are slow.</p>
-<pre><code>$ CARGO_PROFILE_RELEASE_DEBUG=true cargo flamegraph --bin difft sample_files/slow_before.rs sample_files/slow_after.rs
-</code></pre>
-<p>It's also worth looking at memory usage, as graph traversal bugs can
-lead to huge memory consumption.</p>
-<pre><code>$ /usr/bin/time -v ./target/release/difft sample_files/slow_before.rs sample_files/slow_after.rs
-</code></pre>
-<p>If timing measurement are noisy, Linux's <code>perf</code> tool will report
-instructions executed, which is more stable.</p>
-<pre><code>$ perf stat ./target/release/difft sample_files/slow_before.rs sample_files/slow_after.rs
-$ perf stat ./target/release/difft sample_files/typing_old.ml sample_files/typing_new.ml
-</code></pre>
-<p>Many more profiling techniques are discussed in the <a href="https://nnethercote.github.io/perf-book/">The Rust
-Performance Book</a>.</p>
-<h2 id="releasing"><a class="header" href="#releasing">Releasing</a></h2>
-<p>Use Cargo to create a new release, and tag it in git. Difftastic has a
-helper script for this:</p>
-<pre><code>$ ./scripts/release.sh
-</code></pre>
-<p>You can now increment the version in Cargo.toml and add a new entry to
-CHANGELOG.md.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="tricky_cases.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="upstream_parsers.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                            <a rel="next" href="glossary.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="diffing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
@@ -222,10 +244,10 @@ CHANGELOG.md.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="tricky_cases.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="upstream_parsers.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                    <a rel="next" href="glossary.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="diffing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
