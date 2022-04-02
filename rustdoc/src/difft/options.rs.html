@@ -348,13 +348,41 @@
 <span id="348">348</span>
 <span id="349">349</span>
 <span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">borrow::Borrow</span>, <span class="ident">env</span>};
 
 <span class="kw">use</span> <span class="ident">atty::Stream</span>;
 <span class="kw">use</span> <span class="ident">clap</span>::{<span class="ident">crate_authors</span>, <span class="ident">crate_description</span>, <span class="ident">crate_version</span>, <span class="ident">App</span>, <span class="ident">AppSettings</span>, <span class="ident">Arg</span>};
 <span class="kw">use</span> <span class="ident">const_format::formatcp</span>;
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::style::BackgroundColor</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">guess_language</span>, <span class="ident">style::BackgroundColor</span>};
 
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">DEFAULT_NODE_LIMIT</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">30_000</span>;
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">DEFAULT_BYTE_LIMIT</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">1_000_000</span>;
@@ -440,6 +468,13 @@
                 .<span class="ident">help</span>(<span class="string">&quot;Treat paths that don&#39;t exist as equivalent to an empty file.&quot;</span>)
         )
         .<span class="ident">arg</span>(
+            <span class="ident">Arg::new</span>(<span class="string">&quot;language&quot;</span>).<span class="ident">long</span>(<span class="string">&quot;language&quot;</span>)
+                .<span class="ident">value_name</span>(<span class="string">&quot;EXT&quot;</span>)
+                .<span class="ident">allow_invalid_utf8</span>(<span class="bool-val">true</span>)
+                .<span class="ident">help</span>(<span class="string">&quot;Override language detection. Inputs are assumed to have this file extension. When diffing directories, applies to all files.&quot;</span>)
+                <span class="comment">// TODO: support DFT_LANGUAGE for consistency</span>
+        )
+        .<span class="ident">arg</span>(
             <span class="ident">Arg::new</span>(<span class="string">&quot;node-limit&quot;</span>).<span class="ident">long</span>(<span class="string">&quot;node-limit&quot;</span>)
                 .<span class="ident">takes_value</span>(<span class="bool-val">true</span>)
                 .<span class="ident">value_name</span>(<span class="string">&quot;LIMIT&quot;</span>)
@@ -485,14 +520,17 @@
         <span class="ident">color_output</span>: <span class="ident">ColorOutput</span>,
         <span class="ident">display_width</span>: <span class="ident">usize</span>,
         <span class="ident">display_path</span>: <span class="ident">String</span>,
+        <span class="ident">language_override</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">guess_language::Language</span><span class="op">&gt;</span>,
         <span class="ident">lhs_path</span>: <span class="ident">String</span>,
         <span class="ident">rhs_path</span>: <span class="ident">String</span>,
     },
     <span class="ident">DumpTreeSitter</span> {
         <span class="ident">path</span>: <span class="ident">String</span>,
+        <span class="ident">language_override</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">guess_language::Language</span><span class="op">&gt;</span>,
     },
     <span class="ident">DumpSyntax</span> {
         <span class="ident">path</span>: <span class="ident">String</span>,
+        <span class="ident">language_override</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">guess_language::Language</span><span class="op">&gt;</span>,
     },
 }
 
@@ -500,15 +538,32 @@
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parse_args</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Mode</span> {
     <span class="kw">let</span> <span class="ident">matches</span> <span class="op">=</span> <span class="ident">app</span>().<span class="ident">get_matches</span>();
 
+    <span class="kw">let</span> <span class="ident">language_override</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">matches</span>.<span class="ident">value_of_os</span>(<span class="string">&quot;language&quot;</span>) {
+        <span class="prelude-val">Some</span>(<span class="ident">lang_str</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">lang</span>) <span class="op">=</span> <span class="ident">guess_language::from_extension</span>(<span class="ident">lang_str</span>) {
+                <span class="prelude-val">Some</span>(<span class="ident">lang</span>)
+            } <span class="kw">else</span> {
+                <span class="macro">eprintln!</span>(
+                    <span class="string">&quot;No language is associated with extension: {}&quot;</span>,
+                    <span class="ident">lang_str</span>.<span class="ident">to_string_lossy</span>()
+                );
+                <span class="prelude-val">None</span>
+            }
+        }
+        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+    };
+
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">path</span>) <span class="op">=</span> <span class="ident">matches</span>.<span class="ident">value_of</span>(<span class="string">&quot;dump-syntax&quot;</span>) {
         <span class="kw">return</span> <span class="ident">Mode::DumpSyntax</span> {
             <span class="ident">path</span>: <span class="ident">path</span>.<span class="ident">to_string</span>(),
+            <span class="ident">language_override</span>,
         };
     }
 
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">path</span>) <span class="op">=</span> <span class="ident">matches</span>.<span class="ident">value_of</span>(<span class="string">&quot;dump-ts&quot;</span>) {
         <span class="kw">return</span> <span class="ident">Mode::DumpTreeSitter</span> {
             <span class="ident">path</span>: <span class="ident">path</span>.<span class="ident">to_string</span>(),
+            <span class="ident">language_override</span>,
         };
     }
 
@@ -659,6 +714,7 @@
         <span class="ident">color_output</span>,
         <span class="ident">display_width</span>,
         <span class="ident">display_path</span>,
+        <span class="ident">language_override</span>,
         <span class="ident">lhs_path</span>,
         <span class="ident">rhs_path</span>,
     }
