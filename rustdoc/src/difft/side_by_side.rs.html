@@ -696,6 +696,10 @@
 <span id="696">696</span>
 <span id="697">697</span>
 <span id="698">698</span>
+<span id="699">699</span>
+<span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Side-by-side (two column) display of diffs.</span>
 
 <span class="kw">use</span> <span class="ident">owo_colors</span>::{<span class="ident">OwoColorize</span>, <span class="ident">Style</span>};
@@ -708,6 +712,7 @@
     <span class="ident">context::all_matched_lines_filled</span>,
     <span class="ident">hunks</span>::{<span class="ident">matched_lines_for_hunk</span>, <span class="ident">Hunk</span>},
     <span class="ident">lines</span>::{<span class="ident">codepoint_len</span>, <span class="ident">format_line_num</span>, <span class="ident">LineNumber</span>},
+    <span class="ident">options::DisplayMode</span>,
     <span class="ident">positions::SingleLineSpan</span>,
     <span class="ident">style</span>::{<span class="self">self</span>, <span class="ident">apply_colors</span>, <span class="ident">color_positions</span>, <span class="ident">novel_style</span>, <span class="ident">split_and_apply</span>, <span class="ident">BackgroundColor</span>},
     <span class="ident">syntax</span>::{<span class="ident">zip_pad_shorter</span>, <span class="ident">MatchedPos</span>},
@@ -1000,6 +1005,7 @@
     <span class="ident">hunks</span>: <span class="kw-2">&amp;</span>[<span class="ident">Hunk</span>],
     <span class="ident">display_width</span>: <span class="ident">usize</span>,
     <span class="ident">use_color</span>: <span class="ident">bool</span>,
+    <span class="ident">display_mode</span>: <span class="ident">DisplayMode</span>,
     <span class="ident">background</span>: <span class="ident">BackgroundColor</span>,
     <span class="ident">display_path</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
     <span class="ident">lang_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
@@ -1111,7 +1117,8 @@
                 <span class="ident">prev_rhs_line_num</span>,
             );
 
-            <span class="kw">if</span> <span class="ident">no_lhs_changes</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">std::env::var</span>(<span class="string">&quot;DFT_SHOW_BOTH&quot;</span>).<span class="ident">is_ok</span>() {
+            <span class="kw">let</span> <span class="ident">show_both</span> <span class="op">=</span> <span class="macro">matches!</span>(<span class="ident">display_mode</span>, <span class="ident">DisplayMode::SideBySideShowBoth</span>);
+            <span class="kw">if</span> <span class="ident">no_lhs_changes</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">show_both</span> {
                 <span class="kw">match</span> <span class="ident">rhs_line_num</span> {
                     <span class="prelude-val">Some</span>(<span class="ident">rhs_line_num</span>) <span class="op">=</span><span class="op">&gt;</span> {
                         <span class="kw">let</span> <span class="ident">rhs_line</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">rhs_colored_lines</span>[<span class="ident">rhs_line_num</span>.<span class="number">0</span>];
@@ -1131,7 +1138,7 @@
                         <span class="macro">println!</span>(<span class="string">&quot;{}{}&quot;</span>, <span class="ident">display_rhs_line_num</span>, <span class="ident">display_rhs_line_num</span>);
                     }
                 }
-            } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">no_rhs_changes</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">std::env::var</span>(<span class="string">&quot;DFT_SHOW_BOTH&quot;</span>).<span class="ident">is_ok</span>() {
+            } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">no_rhs_changes</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">show_both</span> {
                 <span class="kw">match</span> <span class="ident">lhs_line_num</span> {
                     <span class="prelude-val">Some</span>(<span class="ident">lhs_line_num</span>) <span class="op">=</span><span class="op">&gt;</span> {
                         <span class="kw">let</span> <span class="ident">lhs_line</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">lhs_colored_lines</span>[<span class="ident">lhs_line_num</span>.<span class="number">0</span>];
@@ -1384,6 +1391,7 @@
             <span class="kw-2">&amp;</span><span class="ident">hunks</span>,
             <span class="number">80</span>,
             <span class="bool-val">true</span>,
+            <span class="ident">DisplayMode::SideBySide</span>,
             <span class="ident">BackgroundColor::Dark</span>,
             <span class="string">&quot;foo.el&quot;</span>,
             <span class="string">&quot;Emacs Lisp&quot;</span>,

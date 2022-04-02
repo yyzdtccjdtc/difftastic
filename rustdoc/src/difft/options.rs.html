@@ -317,7 +317,38 @@
 <span id="317">317</span>
 <span id="318">318</span>
 <span id="319">319</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::env</span>;
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">borrow::Borrow</span>, <span class="ident">env</span>};
 
 <span class="kw">use</span> <span class="ident">atty::Stream</span>;
 <span class="kw">use</span> <span class="ident">clap</span>::{<span class="ident">crate_authors</span>, <span class="ident">crate_description</span>, <span class="ident">crate_version</span>, <span class="ident">App</span>, <span class="ident">AppSettings</span>, <span class="ident">Arg</span>};
@@ -383,6 +414,12 @@
                 .<span class="ident">required</span>(<span class="bool-val">false</span>),
         )
         .<span class="ident">arg</span>(
+            <span class="ident">Arg::new</span>(<span class="string">&quot;display&quot;</span>).<span class="ident">long</span>(<span class="string">&quot;display&quot;</span>)
+                .<span class="ident">possible_values</span>([<span class="string">&quot;side-by-side&quot;</span>, <span class="string">&quot;side-by-side-show-both&quot;</span>, <span class="string">&quot;inline&quot;</span>, ])
+                .<span class="ident">value_name</span>(<span class="string">&quot;MODE&quot;</span>)
+                .<span class="ident">help</span>(<span class="string">&quot;Display mode for showing results. Overrides $DFT_DISPLAY if present.&quot;</span>)
+        )
+        .<span class="ident">arg</span>(
             <span class="ident">Arg::new</span>(<span class="string">&quot;color&quot;</span>).<span class="ident">long</span>(<span class="string">&quot;color&quot;</span>)
                 .<span class="ident">possible_values</span>([<span class="string">&quot;always&quot;</span>, <span class="string">&quot;auto&quot;</span>, <span class="string">&quot;never&quot;</span>])
                 .<span class="ident">value_name</span>(<span class="string">&quot;WHEN&quot;</span>)
@@ -430,12 +467,20 @@
         .<span class="ident">setting</span>(<span class="ident">AppSettings::ArgRequiredElseHelp</span>)
 }
 
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DisplayMode</span> {
+    <span class="ident">Inline</span>,
+    <span class="ident">SideBySide</span>,
+    <span class="ident">SideBySideShowBoth</span>,
+}
+
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Mode</span> {
     <span class="ident">Diff</span> {
         <span class="ident">node_limit</span>: <span class="ident">u32</span>,
         <span class="ident">byte_limit</span>: <span class="ident">usize</span>,
         <span class="ident">print_unchanged</span>: <span class="ident">bool</span>,
         <span class="ident">missing_as_empty</span>: <span class="ident">bool</span>,
+        <span class="ident">display_mode</span>: <span class="ident">DisplayMode</span>,
         <span class="ident">background_color</span>: <span class="ident">BackgroundColor</span>,
         <span class="ident">color_output</span>: <span class="ident">ColorOutput</span>,
         <span class="ident">display_width</span>: <span class="ident">usize</span>,
@@ -524,6 +569,22 @@
         <span class="ident">env_width</span>.<span class="ident">unwrap_or_else</span>(<span class="ident">detect_display_width</span>)
     };
 
+    <span class="kw">let</span> <span class="ident">display_mode_str</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">display_mode_str</span>) <span class="op">=</span> <span class="ident">matches</span>.<span class="ident">value_of</span>(<span class="string">&quot;display&quot;</span>) {
+        <span class="ident">display_mode_str</span>.<span class="ident">to_owned</span>()
+    } <span class="kw">else</span> {
+        <span class="ident">env::var</span>(<span class="string">&quot;DFT_DISPLAY&quot;</span>).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="string">&quot;&quot;</span>.<span class="ident">to_owned</span>())
+    };
+    <span class="kw">let</span> <span class="ident">display_mode</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">display_mode_str</span>.<span class="ident">borrow</span>() {
+        <span class="string">&quot;side-by-side&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DisplayMode::SideBySide</span>,
+        <span class="string">&quot;side-by-side-show-both&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DisplayMode::SideBySideShowBoth</span>,
+        <span class="string">&quot;inline&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DisplayMode::Inline</span>,
+        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="comment">// The CLI validates values, but environment variables can</span>
+            <span class="comment">// be any string.</span>
+            <span class="ident">DisplayMode::SideBySide</span>
+        }
+    };
+
     <span class="kw">let</span> <span class="ident">color_output</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">color_when</span>) <span class="op">=</span> <span class="ident">matches</span>.<span class="ident">value_of</span>(<span class="string">&quot;color&quot;</span>) {
         <span class="kw">if</span> <span class="ident">color_when</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;always&quot;</span> {
             <span class="ident">ColorOutput::Always</span>
@@ -593,6 +654,7 @@
         <span class="ident">byte_limit</span>,
         <span class="ident">print_unchanged</span>,
         <span class="ident">missing_as_empty</span>,
+        <span class="ident">display_mode</span>,
         <span class="ident">background_color</span>,
         <span class="ident">color_output</span>,
         <span class="ident">display_width</span>,
