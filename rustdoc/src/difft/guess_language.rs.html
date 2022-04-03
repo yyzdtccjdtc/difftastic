@@ -280,6 +280,9 @@
 <span id="280">280</span>
 <span id="281">281</span>
 <span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Guess which programming language a file is written in.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! This is heavily based on GitHub&#39;s</span>
@@ -328,6 +331,7 @@
     <span class="ident">Scala</span>,
     <span class="ident">Tsx</span>,
     <span class="ident">TypeScript</span>,
+    <span class="ident">Zig</span>,
 }
 
 <span class="kw">use</span> <span class="ident">Language</span>::<span class="kw-2">*</span>;
@@ -394,6 +398,7 @@
             <span class="string">&quot;sh&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Bash</span>),
             <span class="string">&quot;tuareg&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">OCaml</span>),
             <span class="string">&quot;typescript&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">TypeScript</span>),
+            <span class="string">&quot;zig&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Zig</span>),
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
         };
         <span class="kw">if</span> <span class="ident">lang</span>.<span class="ident">is_some</span>() {
@@ -493,6 +498,7 @@
         <span class="string">&quot;scala&quot;</span> <span class="op">|</span> <span class="string">&quot;sbt&quot;</span> <span class="op">|</span> <span class="string">&quot;sc&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Scala</span>),
         <span class="string">&quot;ts&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">TypeScript</span>),
         <span class="string">&quot;tsx&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Tsx</span>),
+        <span class="string">&quot;zig&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Zig</span>),
         <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
     }
 }
