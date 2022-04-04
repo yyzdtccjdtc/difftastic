@@ -289,6 +289,9 @@
 <span id="289">289</span>
 <span id="290">290</span>
 <span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Guess which programming language a file is written in.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! This is heavily based on GitHub&#39;s</span>
@@ -339,6 +342,7 @@
     <span class="ident">Scala</span>,
     <span class="ident">Tsx</span>,
     <span class="ident">TypeScript</span>,
+    <span class="ident">Yaml</span>,
     <span class="ident">Zig</span>,
 }
 
@@ -408,6 +412,7 @@
             <span class="string">&quot;sh&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Bash</span>),
             <span class="string">&quot;tuareg&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">OCaml</span>),
             <span class="string">&quot;typescript&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">TypeScript</span>),
+            <span class="string">&quot;yaml&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Yaml</span>),
             <span class="string">&quot;zig&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Zig</span>),
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
         };
@@ -510,6 +515,7 @@
         <span class="string">&quot;scala&quot;</span> <span class="op">|</span> <span class="string">&quot;sbt&quot;</span> <span class="op">|</span> <span class="string">&quot;sc&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Scala</span>),
         <span class="string">&quot;ts&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">TypeScript</span>),
         <span class="string">&quot;tsx&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Tsx</span>),
+        <span class="string">&quot;yaml&quot;</span> <span class="op">|</span> <span class="string">&quot;yml&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Yaml</span>),
         <span class="string">&quot;zig&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Zig</span>),
         <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
     }

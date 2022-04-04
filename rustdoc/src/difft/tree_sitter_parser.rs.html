@@ -1013,6 +1013,17 @@
 <span id="1013">1013</span>
 <span id="1014">1014</span>
 <span id="1015">1015</span>
+<span id="1016">1016</span>
+<span id="1017">1017</span>
+<span id="1018">1018</span>
+<span id="1019">1019</span>
+<span id="1020">1020</span>
+<span id="1021">1021</span>
+<span id="1022">1022</span>
+<span id="1023">1023</span>
+<span id="1024">1024</span>
+<span id="1025">1025</span>
+<span id="1026">1026</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Load and configure parsers written with tree-sitter.</span>
 
 <span class="kw">use</span> <span class="ident">std::collections::HashSet</span>;
@@ -1087,6 +1098,7 @@
     <span class="kw">fn</span> <span class="ident">tree_sitter_scala</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_tsx</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_typescript</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
+    <span class="kw">fn</span> <span class="ident">tree_sitter_yaml</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_zig</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
 }
 
@@ -1567,6 +1579,16 @@
                     ),
                 )
                 .<span class="ident">unwrap</span>(),
+            }
+        }
+        <span class="ident">Yaml</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="kw">let</span> <span class="ident">language</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">tree_sitter_yaml</span>() };
+            <span class="ident">TreeSitterConfig</span> {
+                <span class="ident">name</span>: <span class="string">&quot;YAML&quot;</span>,
+                <span class="ident">language</span>,
+                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>, <span class="string">&quot;template_string&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)]),
+                <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(<span class="ident">language</span>, <span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>(),
             }
         }
         <span class="ident">Zig</span> <span class="op">=</span><span class="op">&gt;</span> {
