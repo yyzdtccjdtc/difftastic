@@ -1034,6 +1034,12 @@
 <span id="1034">1034</span>
 <span id="1035">1035</span>
 <span id="1036">1036</span>
+<span id="1037">1037</span>
+<span id="1038">1038</span>
+<span id="1039">1039</span>
+<span id="1040">1040</span>
+<span id="1041">1041</span>
+<span id="1042">1042</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Load and configure parsers written with tree-sitter.</span>
 
 <span class="kw">use</span> <span class="ident">std::collections::HashSet</span>;
@@ -1657,6 +1663,9 @@
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <span class="ident">config</span>.<span class="ident">highlight_query</span>.<span class="ident">capture_index_for_name</span>(<span class="string">&quot;constant&quot;</span>) {
         <span class="ident">keyword_ish_capture_ids</span>.<span class="ident">push</span>(<span class="ident">idx</span>);
     }
+    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <span class="ident">config</span>.<span class="ident">highlight_query</span>.<span class="ident">capture_index_for_name</span>(<span class="string">&quot;boolean&quot;</span>) {
+        <span class="ident">keyword_ish_capture_ids</span>.<span class="ident">push</span>(<span class="ident">idx</span>);
+    }
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <span class="ident">config</span>
         .<span class="ident">highlight_query</span>
         .<span class="ident">capture_index_for_name</span>(<span class="string">&quot;constant.builtin&quot;</span>)
@@ -1666,6 +1675,9 @@
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">string_capture_ids</span> <span class="op">=</span> <span class="macro">vec!</span>[];
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <span class="ident">config</span>.<span class="ident">highlight_query</span>.<span class="ident">capture_index_for_name</span>(<span class="string">&quot;string&quot;</span>) {
+        <span class="ident">string_capture_ids</span>.<span class="ident">push</span>(<span class="ident">idx</span>);
+    }
+    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <span class="ident">config</span>.<span class="ident">highlight_query</span>.<span class="ident">capture_index_for_name</span>(<span class="string">&quot;character&quot;</span>) {
         <span class="ident">string_capture_ids</span>.<span class="ident">push</span>(<span class="ident">idx</span>);
     }
 
