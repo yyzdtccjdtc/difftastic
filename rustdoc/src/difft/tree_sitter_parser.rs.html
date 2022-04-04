@@ -1024,6 +1024,16 @@
 <span id="1024">1024</span>
 <span id="1025">1025</span>
 <span id="1026">1026</span>
+<span id="1027">1027</span>
+<span id="1028">1028</span>
+<span id="1029">1029</span>
+<span id="1030">1030</span>
+<span id="1031">1031</span>
+<span id="1032">1032</span>
+<span id="1033">1033</span>
+<span id="1034">1034</span>
+<span id="1035">1035</span>
+<span id="1036">1036</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Load and configure parsers written with tree-sitter.</span>
 
 <span class="kw">use</span> <span class="ident">std::collections::HashSet</span>;
@@ -1586,9 +1596,19 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;YAML&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;string&quot;</span>, <span class="string">&quot;template_string&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[
+                    <span class="string">&quot;string_scalar&quot;</span>,
+                    <span class="string">&quot;double_quote_scalar&quot;</span>,
+                    <span class="string">&quot;single_quote_scalar&quot;</span>,
+                ])
+                .<span class="ident">into_iter</span>()
+                .<span class="ident">collect</span>(),
                 <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)]),
-                <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(<span class="ident">language</span>, <span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>(),
+                <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
+                    <span class="ident">language</span>,
+                    <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/yaml.scm&quot;</span>),
+                )
+                .<span class="ident">unwrap</span>(),
             }
         }
         <span class="ident">Zig</span> <span class="op">=</span><span class="op">&gt;</span> {
