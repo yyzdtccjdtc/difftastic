@@ -814,16 +814,15 @@
     } <span class="kw">else</span> {
         <span class="kw-2">&amp;</span><span class="ident">rhs_src</span>
     };
-    <span class="kw">let</span> <span class="ident">ts_lang</span> <span class="op">=</span> <span class="ident">language_override</span>
-        .<span class="ident">or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">guess</span>(<span class="ident">path</span>, <span class="ident">guess_src</span>))
-        .<span class="ident">map</span>(<span class="ident">tsp::from_language</span>);
+    <span class="kw">let</span> <span class="ident">language</span> <span class="op">=</span> <span class="ident">language_override</span>.<span class="ident">or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">guess</span>(<span class="ident">path</span>, <span class="ident">guess_src</span>));
+    <span class="kw">let</span> <span class="ident">lang_config</span> <span class="op">=</span> <span class="ident">language</span>.<span class="ident">map</span>(<span class="ident">tsp::from_language</span>);
 
     <span class="kw">if</span> <span class="ident">lhs_bytes</span> <span class="op">=</span><span class="op">=</span> <span class="ident">rhs_bytes</span> {
         <span class="comment">// If the two files are completely identical, return early</span>
         <span class="comment">// rather than doing any more work.</span>
         <span class="kw">return</span> <span class="ident">DiffResult</span> {
             <span class="ident">path</span>: <span class="ident">display_path</span>.<span class="ident">into</span>(),
-            <span class="ident">language</span>: <span class="ident">ts_lang</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">l</span><span class="op">|</span> <span class="ident">l</span>.<span class="ident">name</span>.<span class="ident">into</span>()),
+            <span class="ident">language</span>: <span class="ident">lang_config</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">l</span><span class="op">|</span> <span class="ident">l</span>.<span class="ident">name</span>.<span class="ident">into</span>()),
             <span class="ident">lhs_src</span>: <span class="ident">FileContent::Text</span>(<span class="string">&quot;&quot;</span>.<span class="ident">into</span>()),
             <span class="ident">rhs_src</span>: <span class="ident">FileContent::Text</span>(<span class="string">&quot;&quot;</span>.<span class="ident">into</span>()),
             <span class="ident">lhs_positions</span>: <span class="macro">vec!</span>[],
@@ -831,7 +830,7 @@
         };
     }
 
-    <span class="kw">let</span> (<span class="ident">lang_name</span>, <span class="ident">lhs_positions</span>, <span class="ident">rhs_positions</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">ts_lang</span> {
+    <span class="kw">let</span> (<span class="ident">lang_name</span>, <span class="ident">lhs_positions</span>, <span class="ident">rhs_positions</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">lang_config</span> {
         <span class="kw">_</span> <span class="kw">if</span> <span class="ident">lhs_bytes</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="ident">byte_limit</span> <span class="op">|</span><span class="op">|</span> <span class="ident">rhs_bytes</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="ident">byte_limit</span> <span class="op">=</span><span class="op">&gt;</span> {
             <span class="kw">let</span> <span class="ident">lhs_positions</span> <span class="op">=</span> <span class="ident">line_parser::change_positions</span>(<span class="kw-2">&amp;</span><span class="ident">lhs_src</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_src</span>);
             <span class="kw">let</span> <span class="ident">rhs_positions</span> <span class="op">=</span> <span class="ident">line_parser::change_positions</span>(<span class="kw-2">&amp;</span><span class="ident">rhs_src</span>, <span class="kw-2">&amp;</span><span class="ident">lhs_src</span>);
@@ -878,8 +877,9 @@
                         <span class="ident">rhs_section_nodes</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>(),
                     );
 
-                    <span class="ident">fix_all_sliders</span>(<span class="kw-2">&amp;</span><span class="ident">lhs_section_nodes</span>);
-                    <span class="ident">fix_all_sliders</span>(<span class="kw-2">&amp;</span><span class="ident">rhs_section_nodes</span>);
+                    <span class="kw">let</span> <span class="ident">language</span> <span class="op">=</span> <span class="ident">language</span>.<span class="ident">unwrap</span>();
+                    <span class="ident">fix_all_sliders</span>(<span class="ident">language</span>, <span class="kw-2">&amp;</span><span class="ident">lhs_section_nodes</span>);
+                    <span class="ident">fix_all_sliders</span>(<span class="ident">language</span>, <span class="kw-2">&amp;</span><span class="ident">rhs_section_nodes</span>);
                 }
 
                 <span class="kw">let</span> <span class="ident">lhs_positions</span> <span class="op">=</span> <span class="ident">syntax::change_positions</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>);
