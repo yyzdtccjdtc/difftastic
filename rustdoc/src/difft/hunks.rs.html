@@ -1311,8 +1311,8 @@
             (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">break</span>;
             }
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="macro">unreachable!</span>(<span class="string">&quot;Should be impossible: every LHS Unchanged MatchedPos should have a corresponding RHS Unchanged MatchedPos&quot;</span>);
+            (<span class="ident">lhs_mp</span>, <span class="ident">rhs_mp</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="macro">unreachable!</span>(<span class="string">&quot;Should be impossible: every LHS Unchanged MatchedPos should have a corresponding RHS Unchanged MatchedPos\n  {:?}\n  {:?}&quot;</span>, <span class="ident">lhs_mp</span>, <span class="ident">rhs_mp</span>);
             }
         }
     }

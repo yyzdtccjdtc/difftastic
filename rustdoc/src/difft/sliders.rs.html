@@ -1074,7 +1074,7 @@
         <span class="ident">lhs</span>[<span class="number">1</span>].<span class="ident">set_change</span>(<span class="ident">Novel</span>);
         <span class="ident">lhs</span>[<span class="number">2</span>].<span class="ident">set_change</span>(<span class="ident">Novel</span>);
 
-        <span class="ident">fix_all_sliders</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>);
+        <span class="ident">fix_all_sliders</span>(<span class="ident">guess_language::Language::EmacsLisp</span>, <span class="kw-2">&amp;</span><span class="ident">lhs</span>);
         <span class="macro">assert_eq!</span>(<span class="ident">lhs</span>[<span class="number">0</span>].<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">Novel</span>));
         <span class="macro">assert_eq!</span>(<span class="ident">lhs</span>[<span class="number">1</span>].<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">Novel</span>));
         <span class="macro">assert_eq!</span>(<span class="ident">lhs</span>[<span class="number">2</span>].<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">Unchanged</span>(<span class="ident">rhs</span>[<span class="number">0</span>])));
@@ -1122,7 +1122,7 @@
         <span class="ident">lhs</span>[<span class="number">1</span>].<span class="ident">set_change</span>(<span class="ident">Novel</span>);
         <span class="ident">lhs</span>[<span class="number">2</span>].<span class="ident">set_change</span>(<span class="ident">Unchanged</span>(<span class="ident">rhs</span>[<span class="number">0</span>]));
 
-        <span class="ident">fix_all_sliders</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>);
+        <span class="ident">fix_all_sliders</span>(<span class="ident">guess_language::Language::EmacsLisp</span>, <span class="kw-2">&amp;</span><span class="ident">lhs</span>);
         <span class="macro">assert_eq!</span>(<span class="ident">rhs</span>[<span class="number">0</span>].<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">Unchanged</span>(<span class="ident">lhs</span>[<span class="number">0</span>])));
         <span class="macro">assert_eq!</span>(<span class="ident">lhs</span>[<span class="number">0</span>].<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">Unchanged</span>(<span class="ident">rhs</span>[<span class="number">0</span>])));
         <span class="macro">assert_eq!</span>(<span class="ident">lhs</span>[<span class="number">1</span>].<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">Novel</span>));
@@ -1143,7 +1143,7 @@
         <span class="ident">rhs</span>[<span class="number">3</span>].<span class="ident">set_change</span>(<span class="ident">Novel</span>);
         <span class="ident">rhs</span>[<span class="number">4</span>].<span class="ident">set_change</span>(<span class="ident">Novel</span>);
 
-        <span class="ident">fix_all_sliders</span>(<span class="kw-2">&amp;</span><span class="ident">rhs</span>);
+        <span class="ident">fix_all_sliders</span>(<span class="ident">guess_language::Language::EmacsLisp</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>);
         <span class="macro">assert_eq!</span>(<span class="ident">rhs</span>[<span class="number">0</span>].<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">Novel</span>));
         <span class="macro">assert_eq!</span>(<span class="ident">rhs</span>[<span class="number">1</span>].<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">Novel</span>));
         <span class="macro">assert_eq!</span>(<span class="ident">rhs</span>[<span class="number">2</span>].<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">Novel</span>));
