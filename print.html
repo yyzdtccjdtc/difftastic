@@ -189,6 +189,10 @@ crates.io</a> with Cargo (which is
 part of Rust).</p>
 <pre><code>$ cargo install difftastic
 </code></pre>
+<p>Difftastic uses the <code>cc</code> crate for building C/C++ dependencies. This
+allows you to use environment variables <code>CC</code> and <code>CXX</code> to control the
+compiler used (see <a href="https://github.com/alexcrichton/cc-rs#external-configuration-via-environment-variables">the cc
+docs</a>).</p>
 <p>See <a href="./contributing.html">contributing</a> for instructions on debug
 builds.</p>
 <h2 id="diffing-files"><a class="header" href="#diffing-files">Diffing Files</a></h2>
