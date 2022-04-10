@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Tree Diffing - Difftastic Manual</title>
+        <title>Usage - Difftastic Manual</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="The official manual for difftastic, the syntactic differ">
@@ -75,7 +75,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting_started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="usage.html"><strong aria-hidden="true">3.</strong> Usage</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="git.html"><strong aria-hidden="true">3.1.</strong> Git</a></li><li class="chapter-item expanded "><a href="mercurial.html"><strong aria-hidden="true">3.2.</strong> Mercurial</a></li></ol></li><li class="chapter-item expanded "><a href="parsing.html"><strong aria-hidden="true">4.</strong> Parsing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="upstream_parsers.html"><strong aria-hidden="true">4.1.</strong> Upstream Parsers</a></li><li class="chapter-item expanded "><a href="adding_a_parser.html"><strong aria-hidden="true">4.2.</strong> Adding A Parser</a></li></ol></li><li class="chapter-item expanded "><a href="diffing.html"><strong aria-hidden="true">5.</strong> Diffing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tricky_cases.html"><strong aria-hidden="true">5.1.</strong> Tricky Cases</a></li></ol></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">6.</strong> Contributing</a></li><li class="chapter-item expanded "><a href="glossary.html"><strong aria-hidden="true">7.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="alternative_projects.html"><strong aria-hidden="true">8.</strong> Alternative Projects</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tree_diffing.html" class="active"><strong aria-hidden="true">8.1.</strong> Tree Diffing</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting_started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="usage.html" class="active"><strong aria-hidden="true">3.</strong> Usage</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="git.html"><strong aria-hidden="true">3.1.</strong> Git</a></li><li class="chapter-item expanded "><a href="mercurial.html"><strong aria-hidden="true">3.2.</strong> Mercurial</a></li></ol></li><li class="chapter-item expanded "><a href="parsing.html"><strong aria-hidden="true">4.</strong> Parsing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="upstream_parsers.html"><strong aria-hidden="true">4.1.</strong> Upstream Parsers</a></li><li class="chapter-item expanded "><a href="adding_a_parser.html"><strong aria-hidden="true">4.2.</strong> Adding A Parser</a></li></ol></li><li class="chapter-item expanded "><a href="diffing.html"><strong aria-hidden="true">5.</strong> Diffing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tricky_cases.html"><strong aria-hidden="true">5.1.</strong> Tricky Cases</a></li></ol></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">6.</strong> Contributing</a></li><li class="chapter-item expanded "><a href="glossary.html"><strong aria-hidden="true">7.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="alternative_projects.html"><strong aria-hidden="true">8.</strong> Alternative Projects</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tree_diffing.html"><strong aria-hidden="true">8.1.</strong> Tree Diffing</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -134,101 +134,34 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="tree-diffing"><a class="header" href="#tree-diffing">Tree Diffing</a></h1>
-<p>This page summarises some of the other tree diffing tools available.</p>
-<p>If you're in a hurry, start by looking at Autochrome. It's extremely
-capable, and has an excellent description of the design.</p>
-<p>If you're interested in a summary of the academic literature, <a href="http://useless-factor.blogspot.com/2008/01/matching-diffing-and-merging-xml.html">this
-blog
-post</a>
-(and its <a href="http://useless-factor.blogspot.com/2008/01/matching-diffing-and-merging-xml.html">accompanying
-paper</a>
--- mirrored under a CC BY-NC license) are great resources.</p>
-<h2 id="json-diff-2012"><a class="header" href="#json-diff-2012">json-diff (2012)</a></h2>
-<p>Languages: JSON<br />
-Algorithm: Pairwise comparison<br />
-Output: CLI colours</p>
-<p><a href="https://github.com/andreyvit/json-diff">json-diff</a> performs a
-structural diff of JSON files. It considers subtrees to be different
-if they don't match exactly, so e.g. <code>&quot;foo&quot;</code> and <code>[&quot;foo&quot;]</code> are
-entirely different.</p>
-<p>json-diff is also noteworthy for its extremely readable display of
-results.</p>
-<h2 id="gumtree-2014"><a class="header" href="#gumtree-2014">GumTree (2014)</a></h2>
-<p>Languages: <a href="https://github.com/GumTreeDiff/gumtree/wiki/Languages">~10 programming
-languages</a><br />
-Parser: Several, including <a href="https://www.srcml.org/">srcML</a><br />
-Algorithm: Top-down, then bottom-up<br />
-Ouput: HTML, Swing GUI, or text</p>
-<p><a href="https://github.com/GumTreeDiff/gumtree">GumTree</a> can parse several
-programming languages and then performs a tree-based diff, outputting
-an HTML display.</p>
-<p>The GumTree algorithm is described in the associated paper
-'Fine-grained and accurate source code differencing' by Falleri et al
-(<a href="http://doi.acm.org/10.1145/2642937.2642982">DOI</a>,
-<a href="https://hal.archives-ouvertes.fr/hal-01054552/document">PDF</a>). It
-performs a greedy top-down search for identical subtrees, then
-performs a bottom-up search to match up the rest.</p>
-<h2 id="tree-diff-2017"><a class="header" href="#tree-diff-2017">Tree Diff (2017)</a></h2>
-<p>Languages: S-expression data format<br />
-Algorithm: A* search<br />
-Output: Merged s-expression file</p>
-<p>Tristan Hume wrote a tree diffing algorithm during his 2017 internship
-and Jane Street. The source code is not available, but <a href="https://thume.ca/2017/06/17/tree-diffing/">he has a blog
-post</a> discussing the design
-in depth.</p>
-<p>This project finds minimal diffs between s-expression files used as
-configuration by Jane Street. It uses A* search to find the minimal
-diff between them, and builds a new s-expression with a section marked
-with <code>:date-switch</code> for the differing parts.</p>
-<p>(Jane Street also has patdiff, but that seems to be a line-oriented
-diff with some whitespace/integer display polish. It doesn't
-understand that e.g. whitespace in <code>&quot;foo &quot;</code> is meaningful).</p>
-<h2 id="autochrome-2017"><a class="header" href="#autochrome-2017">Autochrome (2017)</a></h2>
-<p>Languages: Clojure<br />
-Parser: Custom, preserves comments<br />
-Algorithm: Dijkstra (previously A* search)<br />
-Output: HTML</p>
-<p><a href="https://fazzone.github.io/autochrome.html">Autochrome</a> parses Clojure
-with a custom parser that preserves comments. Autochrome uses
-Dijkstra's algorithm to compare syntax trees.</p>
-<p>Autochrome's webpage includes worked examples of the algorithm and a
-discussion of design tradeoffs. It's a really great resource for
-understanding tree diffing techniques in general.</p>
-<h2 id="graphtage-2020"><a class="header" href="#graphtage-2020">graphtage (2020)</a></h2>
-<p>Languages: JSON, XML, HTML, YAML, plist, and CSS<br />
-Parser: json5, pyYAML, ignores comments<br />
-Algorithm: Levenshtein distance<br />
-Output: CLI colours</p>
-<p><a href="https://blog.trailofbits.com/2020/08/28/graphtage/">graphtage</a>
-compares structured data by parsing into a generic file format, then
-displaying a diff. It even allows things like diffing JSON against
-YAML.</p>
-<p>As with json-diff, it does not consider <code>[&quot;foo&quot;]</code> and <code>&quot;foo&quot;</code> to have
-any similarities.</p>
-<h2 id="diffsitter-2020"><a class="header" href="#diffsitter-2020">Diffsitter (2020)</a></h2>
-<p>Parser: <a href="https://tree-sitter.github.io/tree-sitter/">Tree-sitter</a><br />
-Algorithm: Longest-common-subsequence<br />
-Output: CLI colours</p>
-<p><a href="https://github.com/afnanenayet/diffsitter">Diffsitter</a> is another
-tree-sitter based diff tool. It uses <a href="https://github.com/afnanenayet/diffsitter/blob/b0fd72612c6fcfdb8c061d3afa3bea2b0b754f33/src/ast.rs#L310-L313">LCS diffing on the leaves of the
-syntax
-tree</a>.</p>
-<h2 id="sdiff-2021"><a class="header" href="#sdiff-2021">sdiff (2021)</a></h2>
-<p>Languages: Scheme<br />
-Parser: Scheme's built-in <code>read</code>, ignores comments<br />
-Algorithm: MH-Diff from the Chawathe paper<br />
-Output: CLI colours</p>
-<p><a href="https://archive.fosdem.org/2021/schedule/event/sexpressiondiff/">Semantically meaningful S-expression diff: Tree-diff for lisp source
-code</a>
-was presented at FOSDEM 2021.</p>
+                        <h1 id="usage"><a class="header" href="#usage">Usage</a></h1>
+<h2 id="diffing-files"><a class="header" href="#diffing-files">Diffing Files</a></h2>
+<pre><code>$ difft sample_files/before.js sample_files/after.js
+</code></pre>
+<p>Difftastic uses the file extension to decide which parser to use.</p>
+<h2 id="diffing-directories"><a class="header" href="#diffing-directories">Diffing Directories</a></h2>
+<pre><code>$ difft sample_files/dir_before/ sample_files/dir_after/
+</code></pre>
+<p>Difftastic will recursively walk the two directories, diffing files
+with the same name.</p>
+<h2 id="language-detection"><a class="header" href="#language-detection">Language Detection</a></h2>
+<p>Difftastic guesses the language used based on the file extension, file
+name, and the contents of the first lines.</p>
+<p>You can override the language detection by passing the <code>--language</code>
+option. Difftastic will treat input files as if they had that
+extension, and ignore other language detection heuristics.</p>
+<pre><code>$ difft --language cpp before.c after.c
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="alternative_projects.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="getting_started.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="git.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
                     </nav>
@@ -236,8 +169,11 @@ was presented at FOSDEM 2021.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="alternative_projects.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="getting_started.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="git.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
 

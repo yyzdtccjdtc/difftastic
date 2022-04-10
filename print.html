@@ -76,7 +76,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting_started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="git.html"><strong aria-hidden="true">2.1.</strong> Git</a></li><li class="chapter-item expanded "><a href="mercurial.html"><strong aria-hidden="true">2.2.</strong> Mercurial</a></li></ol></li><li class="chapter-item expanded "><a href="parsing.html"><strong aria-hidden="true">3.</strong> Parsing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="upstream_parsers.html"><strong aria-hidden="true">3.1.</strong> Upstream Parsers</a></li><li class="chapter-item expanded "><a href="adding_a_parser.html"><strong aria-hidden="true">3.2.</strong> Adding A Parser</a></li></ol></li><li class="chapter-item expanded "><a href="diffing.html"><strong aria-hidden="true">4.</strong> Diffing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tricky_cases.html"><strong aria-hidden="true">4.1.</strong> Tricky Cases</a></li></ol></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">5.</strong> Contributing</a></li><li class="chapter-item expanded "><a href="glossary.html"><strong aria-hidden="true">6.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="alternative_projects.html"><strong aria-hidden="true">7.</strong> Alternative Projects</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tree_diffing.html"><strong aria-hidden="true">7.1.</strong> Tree Diffing</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting_started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="usage.html"><strong aria-hidden="true">3.</strong> Usage</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="git.html"><strong aria-hidden="true">3.1.</strong> Git</a></li><li class="chapter-item expanded "><a href="mercurial.html"><strong aria-hidden="true">3.2.</strong> Mercurial</a></li></ol></li><li class="chapter-item expanded "><a href="parsing.html"><strong aria-hidden="true">4.</strong> Parsing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="upstream_parsers.html"><strong aria-hidden="true">4.1.</strong> Upstream Parsers</a></li><li class="chapter-item expanded "><a href="adding_a_parser.html"><strong aria-hidden="true">4.2.</strong> Adding A Parser</a></li></ol></li><li class="chapter-item expanded "><a href="diffing.html"><strong aria-hidden="true">5.</strong> Diffing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tricky_cases.html"><strong aria-hidden="true">5.1.</strong> Tricky Cases</a></li></ol></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">6.</strong> Contributing</a></li><li class="chapter-item expanded "><a href="glossary.html"><strong aria-hidden="true">7.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="alternative_projects.html"><strong aria-hidden="true">8.</strong> Alternative Projects</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tree_diffing.html"><strong aria-hidden="true">8.1.</strong> Tree Diffing</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -173,8 +173,11 @@ tool that understands syntax. It supports the following languages:</p>
 changelog</a>
 records which features and bug fixes are in each version.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
-<h2 id="installing-a-prebuilt-package"><a class="header" href="#installing-a-prebuilt-package">Installing a prebuilt package</a></h2>
-<p>Prebuilt packages are available on the following platforms.</p>
+<h2 id="installing-a-binary"><a class="header" href="#installing-a-binary">Installing a binary</a></h2>
+<p>Difftastic <a href="https://github.com/Wilfred/difftastic/releases">provides GitHub
+releases</a> with
+prebuilt binaries.</p>
+<p>Packages are also available on the following platforms.</p>
 <p><a href="https://repology.org/project/difftastic/versions"><img src="https://repology.org/badge/vertical-allrepos/difftastic.svg" alt="Packaging status" /></a></p>
 <h2 id="installing-from-source"><a class="header" href="#installing-from-source">Installing from source</a></h2>
 <h3 id="build-requirements"><a class="header" href="#build-requirements">Build Requirements</a></h3>
@@ -195,15 +198,24 @@ compiler used (see <a href="https://github.com/alexcrichton/cc-rs#external-confi
 docs</a>).</p>
 <p>See <a href="./contributing.html">contributing</a> for instructions on debug
 builds.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="usage"><a class="header" href="#usage">Usage</a></h1>
 <h2 id="diffing-files"><a class="header" href="#diffing-files">Diffing Files</a></h2>
 <pre><code>$ difft sample_files/before.js sample_files/after.js
 </code></pre>
 <p>Difftastic uses the file extension to decide which parser to use.</p>
 <h2 id="diffing-directories"><a class="header" href="#diffing-directories">Diffing Directories</a></h2>
-<pre><code>$ difft sample_files/dir_before sample_files/dir_after
+<pre><code>$ difft sample_files/dir_before/ sample_files/dir_after/
 </code></pre>
 <p>Difftastic will recursively walk the two directories, diffing files
 with the same name.</p>
+<h2 id="language-detection"><a class="header" href="#language-detection">Language Detection</a></h2>
+<p>Difftastic guesses the language used based on the file extension, file
+name, and the contents of the first lines.</p>
+<p>You can override the language detection by passing the <code>--language</code>
+option. Difftastic will treat input files as if they had that
+extension, and ignore other language detection heuristics.</p>
+<pre><code>$ difft --language cpp before.c after.c
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="git"><a class="header" href="#git">Git</a></h1>
 <p>Git <a href="https://git-scm.com/docs/diff-config#Documentation/diff-config.txt-diffexternal">supports external diff
 tools</a>. You
