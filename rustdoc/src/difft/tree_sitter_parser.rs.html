@@ -1040,6 +1040,8 @@
 <span id="1040">1040</span>
 <span id="1041">1041</span>
 <span id="1042">1042</span>
+<span id="1043">1043</span>
+<span id="1044">1044</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Load and configure parsers written with tree-sitter.</span>
 
 <span class="kw">use</span> <span class="ident">std::collections::HashSet</span>;
@@ -1622,7 +1624,9 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;Zig&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: (<span class="macro">vec!</span>[<span class="string">&quot;STRINGLITERALSINGLE&quot;</span>]).<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[<span class="string">&quot;STRINGLITERALSINGLE&quot;</span>, <span class="string">&quot;BUILTINIDENTIFIER&quot;</span>]
+                    .<span class="ident">into_iter</span>()
+                    .<span class="ident">collect</span>(),
                 <span class="ident">delimiter_tokens</span>: (<span class="macro">vec!</span>[(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>), (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>)])
                     .<span class="ident">into_iter</span>()
                     .<span class="ident">collect</span>(),
