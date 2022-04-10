@@ -1070,6 +1070,33 @@
 <span id="1070">1070</span>
 <span id="1071">1071</span>
 <span id="1072">1072</span>
+<span id="1073">1073</span>
+<span id="1074">1074</span>
+<span id="1075">1075</span>
+<span id="1076">1076</span>
+<span id="1077">1077</span>
+<span id="1078">1078</span>
+<span id="1079">1079</span>
+<span id="1080">1080</span>
+<span id="1081">1081</span>
+<span id="1082">1082</span>
+<span id="1083">1083</span>
+<span id="1084">1084</span>
+<span id="1085">1085</span>
+<span id="1086">1086</span>
+<span id="1087">1087</span>
+<span id="1088">1088</span>
+<span id="1089">1089</span>
+<span id="1090">1090</span>
+<span id="1091">1091</span>
+<span id="1092">1092</span>
+<span id="1093">1093</span>
+<span id="1094">1094</span>
+<span id="1095">1095</span>
+<span id="1096">1096</span>
+<span id="1097">1097</span>
+<span id="1098">1098</span>
+<span id="1099">1099</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Syntax tree definitions with change metadata.</span>
 
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy::mutable_key_type</span>)]</span> <span class="comment">// Hash for Syntax doesn&#39;t use mutable fields.</span>
@@ -1775,7 +1802,7 @@
         <span class="ident">pos</span>: <span class="kw-2">&amp;</span>[<span class="ident">SingleLineSpan</span>],
         <span class="ident">is_close</span>: <span class="ident">bool</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">kind</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">ck</span> {
+        <span class="kw">match</span> <span class="ident">ck</span> {
             <span class="ident">ReplacedComment</span>(<span class="ident">this</span>, <span class="ident">opposite</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">this_content</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">this</span> {
                     <span class="ident">List</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable!</span>(),
@@ -1788,13 +1815,13 @@
                     } <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">content</span>, <span class="ident">position</span>),
                 };
 
-                <span class="kw">return</span> <span class="ident">split_comment_words</span>(
+                <span class="ident">split_comment_words</span>(
                     <span class="ident">this_content</span>,
                     <span class="comment">// TODO: handle the whole pos here.</span>
                     <span class="ident">pos</span>[<span class="number">0</span>],
                     <span class="ident">opposite_content</span>,
                     <span class="ident">opposite_pos</span>[<span class="number">0</span>],
-                );
+                )
             }
             <span class="ident">Unchanged</span>(<span class="ident">opposite</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">opposite_pos</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">opposite</span> {
@@ -1812,33 +1839,60 @@
                     <span class="ident">Atom</span> { <span class="ident">position</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">position</span>.<span class="ident">clone</span>(),
                 };
 
-                <span class="ident">MatchKind::UnchangedToken</span> {
+                <span class="kw">let</span> <span class="ident">opposite_pos_len</span> <span class="op">=</span> <span class="ident">opposite_pos</span>.<span class="ident">len</span>();
+                <span class="kw">let</span> <span class="ident">kind</span> <span class="op">=</span> <span class="ident">MatchKind::UnchangedToken</span> {
                     <span class="ident">highlight</span>,
                     <span class="ident">self_pos</span>: <span class="ident">pos</span>.<span class="ident">to_vec</span>(),
                     <span class="ident">opposite_pos</span>,
+                };
+
+                <span class="comment">// Create a MatchedPos for every line that `pos` covers.</span>
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">vec!</span>[];
+                <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">line_pos</span>) <span class="kw">in</span> <span class="ident">pos</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
+                    <span class="comment">// Don&#39;t create a MatchedPos for empty positions</span>
+                    <span class="comment">// at the start. We will want empty positions on</span>
+                    <span class="comment">// multiline atoms elsewhere, as a multline string</span>
+                    <span class="comment">// literal may include empty lines.</span>
+                    <span class="kw">if</span> <span class="ident">i</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">line_pos</span>.<span class="ident">start_col</span> <span class="op">=</span><span class="op">=</span> <span class="ident">line_pos</span>.<span class="ident">end_col</span> {
+                        <span class="kw">continue</span>;
+                    }
+
+                    <span class="ident">res</span>.<span class="ident">push</span>(<span class="self">Self</span> {
+                        <span class="ident">kind</span>: <span class="ident">kind</span>.<span class="ident">clone</span>(),
+                        <span class="ident">pos</span>: <span class="kw-2">*</span><span class="ident">line_pos</span>,
+                    });
+
+                    <span class="comment">// Ensure we have the same number of unchanged</span>
+                    <span class="comment">// MatchedPos on the LHS and RHS. This allows us</span>
+                    <span class="comment">// to consider unchanged MatchedPos values</span>
+                    <span class="comment">// pairwise.</span>
+                    <span class="kw">if</span> <span class="ident">res</span>.<span class="ident">len</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">opposite_pos_len</span> {
+                        <span class="kw">break</span>;
+                    }
                 }
+                <span class="ident">res</span>
             }
-            <span class="ident">Novel</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">MatchKind::Novel</span> { <span class="ident">highlight</span> },
-        };
+            <span class="ident">Novel</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="kw">let</span> <span class="ident">kind</span> <span class="op">=</span> <span class="ident">MatchKind::Novel</span> { <span class="ident">highlight</span> };
+                <span class="comment">// Create a MatchedPos for every line that `pos` covers.</span>
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">vec!</span>[];
+                <span class="kw">for</span> <span class="ident">line_pos</span> <span class="kw">in</span> <span class="ident">pos</span> {
+                    <span class="comment">// Don&#39;t create a MatchedPos for empty positions. This</span>
+                    <span class="comment">// occurs when we have lists with empty open/close</span>
+                    <span class="comment">// delimiter positions, such as the top-level list of syntax items.</span>
+                    <span class="kw">if</span> <span class="ident">pos</span>.<span class="ident">len</span>() <span class="op">=</span><span class="op">=</span> <span class="number">1</span> <span class="op">&amp;&amp;</span> <span class="ident">line_pos</span>.<span class="ident">start_col</span> <span class="op">=</span><span class="op">=</span> <span class="ident">line_pos</span>.<span class="ident">end_col</span> {
+                        <span class="kw">continue</span>;
+                    }
 
-        <span class="comment">// Create a MatchedPos for every line that `pos` covers.</span>
-        <span class="comment">// TODO: what about opposite pos?</span>
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">vec!</span>[];
-        <span class="kw">for</span> <span class="ident">line_pos</span> <span class="kw">in</span> <span class="ident">pos</span> {
-            <span class="comment">// Don&#39;t create a MatchedPos for empty positions. This</span>
-            <span class="comment">// occurs when we have lists with empty open/close</span>
-            <span class="comment">// delimiter positions, such as the top-level list of syntax items.</span>
-            <span class="kw">if</span> <span class="ident">pos</span>.<span class="ident">len</span>() <span class="op">=</span><span class="op">=</span> <span class="number">1</span> <span class="op">&amp;&amp;</span> <span class="ident">line_pos</span>.<span class="ident">start_col</span> <span class="op">=</span><span class="op">=</span> <span class="ident">line_pos</span>.<span class="ident">end_col</span> {
-                <span class="kw">break</span>;
+                    <span class="ident">res</span>.<span class="ident">push</span>(<span class="self">Self</span> {
+                        <span class="ident">kind</span>: <span class="ident">kind</span>.<span class="ident">clone</span>(),
+                        <span class="ident">pos</span>: <span class="kw-2">*</span><span class="ident">line_pos</span>,
+                    });
+                }
+
+                <span class="ident">res</span>
             }
-
-            <span class="ident">res</span>.<span class="ident">push</span>(<span class="self">Self</span> {
-                <span class="ident">kind</span>: <span class="ident">kind</span>.<span class="ident">clone</span>(),
-                <span class="ident">pos</span>: <span class="kw-2">*</span><span class="ident">line_pos</span>,
-            });
         }
-
-        <span class="ident">res</span>
     }
 }
 
