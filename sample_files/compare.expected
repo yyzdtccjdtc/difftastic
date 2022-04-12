@@ -134,7 +134,7 @@ sample_files/text_before.txt sample_files/text_after.txt
 dfc3495b8d5931029b479f0c878a3219  -
 
 sample_files/todomvc_before.gleam sample_files/todomvc_after.gleam
-c1d8b44875121d81c583dd3a8fb43232  -
+6f2f2b3905fbff7e283a2d3b312dc658  -
 
 sample_files/typing_before.ml sample_files/typing_after.ml
 ceba89e4ffc8406454d337638c7d45e6  -

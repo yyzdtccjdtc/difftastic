@@ -1,5 +1,7 @@
 //! Manipulate lines of text and groups of lines.
 
+use unicode_width::UnicodeWidthStr;
+
 use crate::positions::SingleLineSpan;
 use std::{
     cmp::{max, Ordering},
@@ -157,6 +159,10 @@ pub fn codepoint_len(s: &str) -> usize {
 /// codepoints.
 pub fn byte_len(s: &str) -> usize {
     s.len()
+}
+
+pub fn display_len(s: &str) -> usize {
+    UnicodeWidthStr::width(s)
 }
 
 pub trait MaxLine {

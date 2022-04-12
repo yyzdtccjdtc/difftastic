@@ -2,7 +2,7 @@
 
 use crate::{
     constants::Side,
-    lines::{byte_len, codepoint_len, LineNumber},
+    lines::{byte_len, codepoint_len, display_len, LineNumber},
     positions::SingleLineSpan,
     syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
 };
@@ -59,14 +59,25 @@ fn split_string_by_codepoint(s: &str, max_len: usize, pad_last: bool) -> Vec<Str
     let mut res = vec![];
     let mut s = s;
 
-    while codepoint_len(s) > max_len {
-        res.push(substring_by_codepoint(s, 0, max_len).into());
-        s = substring_by_codepoint(s, max_len, codepoint_len(s));
+    while display_len(s) > max_len {
+        let mut next_substring = substring_by_codepoint(s, 0, max_len);
+        let display_difference =
+            codepoint_len(next_substring) as isize - display_len(next_substring) as isize;
+        if display_difference > 0 {
+            next_substring = substring_by_codepoint(
+                s,
+                0,
+                (codepoint_len(next_substring) as isize - display_difference) as usize,
+            );
+        }
+
+        res.push(next_substring.into());
+        s = substring_by_codepoint(s, codepoint_len(next_substring), codepoint_len(s));
     }
 
     if res.is_empty() || !s.is_empty() {
         if pad_last {
-            res.push(format!("{:width$}", s, width = max_len));
+            res.push(format!("{}{}", s, " ".repeat(max_len - display_len(s))));
         } else {
             res.push(s.to_string());
         }
