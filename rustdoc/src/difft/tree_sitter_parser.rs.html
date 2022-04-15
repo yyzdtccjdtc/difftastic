@@ -1076,6 +1076,15 @@
 <span id="1076">1076</span>
 <span id="1077">1077</span>
 <span id="1078">1078</span>
+<span id="1079">1079</span>
+<span id="1080">1080</span>
+<span id="1081">1081</span>
+<span id="1082">1082</span>
+<span id="1083">1083</span>
+<span id="1084">1084</span>
+<span id="1085">1085</span>
+<span id="1086">1086</span>
+<span id="1087">1087</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Load and configure parsers written with tree-sitter.</span>
 
 <span class="kw">use</span> <span class="ident">std::collections::HashSet</span>;
@@ -1717,13 +1726,22 @@
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <span class="ident">config</span>.<span class="ident">highlight_query</span>.<span class="ident">capture_index_for_name</span>(<span class="string">&quot;keyword&quot;</span>) {
         <span class="ident">keyword_ish_capture_ids</span>.<span class="ident">push</span>(<span class="ident">idx</span>);
     }
-    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <span class="ident">config</span>.<span class="ident">highlight_query</span>.<span class="ident">capture_index_for_name</span>(<span class="string">&quot;keyword.function&quot;</span>) {
+    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <span class="ident">config</span>
+        .<span class="ident">highlight_query</span>
+        .<span class="ident">capture_index_for_name</span>(<span class="string">&quot;keyword.function&quot;</span>)
+    {
         <span class="ident">keyword_ish_capture_ids</span>.<span class="ident">push</span>(<span class="ident">idx</span>);
     }
-    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <span class="ident">config</span>.<span class="ident">highlight_query</span>.<span class="ident">capture_index_for_name</span>(<span class="string">&quot;keyword.operator&quot;</span>) {
+    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <span class="ident">config</span>
+        .<span class="ident">highlight_query</span>
+        .<span class="ident">capture_index_for_name</span>(<span class="string">&quot;keyword.operator&quot;</span>)
+    {
         <span class="ident">keyword_ish_capture_ids</span>.<span class="ident">push</span>(<span class="ident">idx</span>);
     }
-    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <span class="ident">config</span>.<span class="ident">highlight_query</span>.<span class="ident">capture_index_for_name</span>(<span class="string">&quot;keyword.return&quot;</span>) {
+    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <span class="ident">config</span>
+        .<span class="ident">highlight_query</span>
+        .<span class="ident">capture_index_for_name</span>(<span class="string">&quot;keyword.return&quot;</span>)
+    {
         <span class="ident">keyword_ish_capture_ids</span>.<span class="ident">push</span>(<span class="ident">idx</span>);
     }
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <span class="ident">config</span>.<span class="ident">highlight_query</span>.<span class="ident">capture_index_for_name</span>(<span class="string">&quot;operator&quot;</span>) {
