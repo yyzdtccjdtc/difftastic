@@ -349,7 +349,7 @@
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">borrow::Borrow</span>, <span class="ident">env</span>};
 
 <span class="kw">use</span> <span class="ident">atty::Stream</span>;
-<span class="kw">use</span> <span class="ident">clap</span>::{<span class="ident">crate_authors</span>, <span class="ident">crate_description</span>, <span class="ident">crate_version</span>, <span class="ident">App</span>, <span class="ident">AppSettings</span>, <span class="ident">Arg</span>};
+<span class="kw">use</span> <span class="ident">clap</span>::{<span class="ident">crate_authors</span>, <span class="ident">crate_description</span>, <span class="ident">crate_version</span>, <span class="ident">Arg</span>, <span class="ident">Command</span>};
 <span class="kw">use</span> <span class="ident">const_format::formatcp</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">guess_language</span>, <span class="ident">style::BackgroundColor</span>};
@@ -366,8 +366,8 @@
     <span class="ident">Never</span>,
 }
 
-<span class="kw">fn</span> <span class="ident">app</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">clap::App</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span> {
-    <span class="ident">App::new</span>(<span class="string">&quot;Difftastic&quot;</span>)
+<span class="kw">fn</span> <span class="ident">app</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">clap::Command</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span> {
+    <span class="ident">Command::new</span>(<span class="string">&quot;Difftastic&quot;</span>)
         .<span class="ident">override_usage</span>(<span class="ident">USAGE</span>)
         .<span class="ident">version</span>(<span class="macro">crate_version!</span>())
         .<span class="ident">about</span>(<span class="macro">crate_description!</span>())
@@ -474,7 +474,7 @@
                 .<span class="ident">hide</span>(<span class="bool-val">true</span>)
                 .<span class="ident">allow_invalid_utf8</span>(<span class="bool-val">true</span>),
         )
-        .<span class="ident">setting</span>(<span class="ident">AppSettings::ArgRequiredElseHelp</span>)
+        .<span class="ident">arg_required_else_help</span>(<span class="bool-val">true</span>)
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
