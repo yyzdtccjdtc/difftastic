@@ -76,7 +76,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="installation.html"><strong aria-hidden="true">2.</strong> Installation</a></li><li class="chapter-item expanded "><a href="usage.html"><strong aria-hidden="true">3.</strong> Usage</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="git.html"><strong aria-hidden="true">3.1.</strong> Git</a></li><li class="chapter-item expanded "><a href="mercurial.html"><strong aria-hidden="true">3.2.</strong> Mercurial</a></li></ol></li><li class="chapter-item expanded "><a href="parsing.html"><strong aria-hidden="true">4.</strong> Parsing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="upstream_parsers.html"><strong aria-hidden="true">4.1.</strong> Upstream Parsers</a></li><li class="chapter-item expanded "><a href="adding_a_parser.html"><strong aria-hidden="true">4.2.</strong> Adding A Parser</a></li></ol></li><li class="chapter-item expanded "><a href="diffing.html"><strong aria-hidden="true">5.</strong> Diffing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tricky_cases.html"><strong aria-hidden="true">5.1.</strong> Tricky Cases</a></li></ol></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">6.</strong> Contributing</a></li><li class="chapter-item expanded "><a href="glossary.html"><strong aria-hidden="true">7.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="alternative_projects.html"><strong aria-hidden="true">8.</strong> Alternative Projects</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tree_diffing.html"><strong aria-hidden="true">8.1.</strong> Tree Diffing</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="installation.html"><strong aria-hidden="true">2.</strong> Installation</a></li><li class="chapter-item expanded "><a href="usage.html"><strong aria-hidden="true">3.</strong> Usage</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="git.html"><strong aria-hidden="true">3.1.</strong> Git</a></li><li class="chapter-item expanded "><a href="mercurial.html"><strong aria-hidden="true">3.2.</strong> Mercurial</a></li></ol></li><li class="chapter-item expanded "><a href="parsing.html"><strong aria-hidden="true">4.</strong> Parsing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="upstream_parsers.html"><strong aria-hidden="true">4.1.</strong> Upstream Parsers</a></li><li class="chapter-item expanded "><a href="parser_vendoring.html"><strong aria-hidden="true">4.2.</strong> Vendoring</a></li><li class="chapter-item expanded "><a href="adding_a_parser.html"><strong aria-hidden="true">4.3.</strong> Adding A Parser</a></li></ol></li><li class="chapter-item expanded "><a href="diffing.html"><strong aria-hidden="true">5.</strong> Diffing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tricky_cases.html"><strong aria-hidden="true">5.1.</strong> Tricky Cases</a></li></ol></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">6.</strong> Contributing</a></li><li class="chapter-item expanded "><a href="glossary.html"><strong aria-hidden="true">7.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="alternative_projects.html"><strong aria-hidden="true">8.</strong> Alternative Projects</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tree_diffing.html"><strong aria-hidden="true">8.1.</strong> Tree Diffing</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -412,6 +412,20 @@ example, the following command will update the Java parser:</p>
 command:</p>
 <pre><code>$ for d in $(git log | grep git-subtree-dir | tr -d ' ' | cut -d &quot;:&quot; -f2 | sort); do echo &quot;$d&quot;; git log --pretty=&quot;  %cs&quot; -n 1 $d; done
 </code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="vendoring"><a class="header" href="#vendoring">Vendoring</a></h1>
+<h2 id="git-subtrees"><a class="header" href="#git-subtrees">Git Subtrees</a></h2>
+<p>Tree-sitter parsers are sometimes packaged on npm, sometimes packaged
+on crates.io, and have different release frequencies. Difftastic uses
+git subtrees (not git submodules) to track parsers.</p>
+<h2 id="updating-a-parser-1"><a class="header" href="#updating-a-parser-1">Updating a parser</a></h2>
+<p>To update a parser, pull commits from the upstream git repository. For
+example, the following command will update the Java parser:</p>
+<pre><code>$ git subtree pull --prefix=vendor/tree-sitter-java git@github.com:tree-sitter/tree-sitter-java.git master
+</code></pre>
+<p>To see when each parser was last updated, use the following shell
+command:</p>
+<pre><code>$ for d in $(git log | grep git-subtree-dir | tr -d ' ' | cut -d &quot;:&quot; -f2 | sort); do echo &quot;$d&quot;; git log --pretty=&quot;  %cs&quot; -n 1 $d; done
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="adding-a-parser"><a class="header" href="#adding-a-parser">Adding A Parser</a></h1>
 <h2 id="finding-a-parser"><a class="header" href="#finding-a-parser">Finding a parser</a></h2>
 <p>New parsers for difftastic must be reasonably complete and maintained.</p>
@@ -419,9 +433,6 @@ command:</p>
 website includes <a href="https://tree-sitter.github.io/tree-sitter/#available-parsers">a list of some well-known
 parsers</a>.</p>
 <h2 id="add-the-source-code"><a class="header" href="#add-the-source-code">Add the source code</a></h2>
-<p>Tree-sitter parsers are sometimes packaged on npm, sometimes packaged
-on crates.io, and have different release frequencies. Difftastic uses
-git subtrees (not git submodules) to track parsers.</p>
 <p>Once you've found a parser, add it as a git subtree to
 <code>vendor/</code>. We'll use
 <a href="https://github.com/tree-sitter/tree-sitter-json">tree-sitter-json</a> as
