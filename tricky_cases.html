@@ -145,6 +145,7 @@ x
 ;; After
 (x)
 </code></pre>
+<p>Desired result: <code><span style="background-color: PaleGreen">(</span>x<span style="background-color: PaleGreen">)</span></code></p>
 <p>This is tricky because <code>x</code> has changed its depth in the tree, but <code>x</code>
 itself is unchanged.</p>
 <p>Not all tree diff algorithms handle this case. It is also challenging
@@ -167,6 +168,7 @@ than the <code>x</code>.</p>
 ;; After
 (x y)
 </code></pre>
+<p>Desired output: <code>(x <span style="background-color: PaleGreen">y</span>)</code></p>
 <p>In this case, we want to highlight <code>y</code>. Highlighting the delimiters
 could make <code>x</code> look changed.</p>
 <h2 id="contracting-delimiters"><a class="header" href="#contracting-delimiters">Contracting Delimiters</a></h2>
@@ -184,9 +186,10 @@ could make <code>x</code> look changed.</p>
 ;; After
 (foo (novel) (bar))
 </code></pre>
-<p>We want to highlight <code>(novel)</code>. It is easy to end up with
-<code>( +novel+ ) +(+ bar +)+</code>, where a later pair of delimiters are
-chosen.</p>
+<p>Desired result: <code>(foo <span style="background-color:PaleGreen">(novel)</span> (bar)</code></p>
+<p>It is easy to end up with
+<code>(foo (<span style="background-color:PaleGreen">novel</span>) <span style="background-color:PaleGreen">(</span>bar<span style="background-color:PaleGreen">)</span>)</code>,
+where a later pair of delimiters are chosen.</p>
 <h2 id="rewrapping-large-nodes"><a class="header" href="#rewrapping-large-nodes">Rewrapping Large Nodes</a></h2>
 <pre><code>;; Before
 [[foo]]
@@ -207,14 +210,16 @@ minimal diff.</p>
 ;; After
 (y x)
 </code></pre>
+<p>Desired result: <code>(<span style="background-color: PaleGreen">y</span> <span style="background-color: PaleGreen">x</span>)</code></p>
 <p>We want to highlight the list contents and not the delimiters.</p>
 <h2 id="middle-insertions"><a class="header" href="#middle-insertions">Middle Insertions</a></h2>
 <pre><code>// Before
-foo(bar(123));
+foo(bar(123))
 
 // After
-foo(extra(bar(123)));
+foo(extra(bar(123)))
 </code></pre>
+<p>Desired result: <code>foo(<span style="background-color: PaleGreen">extra(</span>bar(123)<span style="background-color: PaleGreen">)</span>)</code></p>
 <p>We want to consider both <code>foo</code> and <code>bar</code> to be unchanged. This case is
 challenging for diffing algorithms that do a bottom-up then top-down
 matching of trees.</p>
