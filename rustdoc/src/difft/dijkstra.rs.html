@@ -628,7 +628,7 @@
         }
     };
 
-    <span class="macro">info!</span>(
+    <span class="macro">debug!</span>(
         <span class="string">&quot;Found predecessors for {} vertices (hashmap key: {} bytes, value: {} bytes), with {} left on heap.&quot;</span>,
         <span class="ident">predecessors</span>.<span class="ident">len</span>(),
         <span class="ident">std::mem::size_of</span>::<span class="op">&lt;</span><span class="ident">Vertex</span><span class="op">&gt;</span>(),
@@ -647,13 +647,13 @@
     }
     <span class="ident">route</span>.<span class="ident">reverse</span>();
 
-    <span class="macro">info!</span>(<span class="string">&quot;Found a path of {} with cost {}.&quot;</span>, <span class="ident">route</span>.<span class="ident">len</span>(), <span class="ident">cost</span>);
+    <span class="macro">debug!</span>(<span class="string">&quot;Found a path of {} with cost {}.&quot;</span>, <span class="ident">route</span>.<span class="ident">len</span>(), <span class="ident">cost</span>);
     <span class="kw">let</span> <span class="ident">print_length</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">env::var</span>(<span class="string">&quot;DFT_VERBOSE&quot;</span>).<span class="ident">is_ok</span>() {
         <span class="number">50</span>
     } <span class="kw">else</span> {
         <span class="number">5</span>
     };
-    <span class="macro">info!</span>(
+    <span class="macro">debug!</span>(
         <span class="string">&quot;Initial {} items on path: {:#?}&quot;</span>,
         <span class="ident">print_length</span>,
         <span class="ident">route</span>
