@@ -660,7 +660,7 @@
             .<span class="ident">iter</span>()
             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> {
                 <span class="macro">format!</span>(
-                    <span class="string">&quot;{:10} {:10} --- {:3} {:?}&quot;</span>,
+                    <span class="string">&quot;{:20} {:20} --- {:3} {:?}&quot;</span>,
                     <span class="ident">x</span>.<span class="number">1</span>.<span class="ident">lhs_syntax</span>
                         .<span class="ident">map</span>(<span class="ident">Syntax::dbg_content</span>)
                         .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="string">&quot;None&quot;</span>.<span class="ident">into</span>()),
