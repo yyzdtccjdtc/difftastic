@@ -1077,6 +1077,19 @@
 <span id="1077">1077</span>
 <span id="1078">1078</span>
 <span id="1079">1079</span>
+<span id="1080">1080</span>
+<span id="1081">1081</span>
+<span id="1082">1082</span>
+<span id="1083">1083</span>
+<span id="1084">1084</span>
+<span id="1085">1085</span>
+<span id="1086">1086</span>
+<span id="1087">1087</span>
+<span id="1088">1088</span>
+<span id="1089">1089</span>
+<span id="1090">1090</span>
+<span id="1091">1091</span>
+<span id="1092">1092</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Load and configure parsers written with tree-sitter.</span>
 
 <span class="kw">use</span> <span class="ident">std::collections::HashSet</span>;
@@ -1146,6 +1159,7 @@
     <span class="kw">fn</span> <span class="ident">tree_sitter_ocaml</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_ocaml_interface</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_php</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
+    <span class="kw">fn</span> <span class="ident">tree_sitter_perl</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_python</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_ruby</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_rust</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
@@ -1550,6 +1564,18 @@
                     <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/php.scm&quot;</span>),
                 )
                 .<span class="ident">unwrap</span>(),
+            }
+        }
+        <span class="ident">Perl</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="kw">let</span> <span class="ident">language</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">tree_sitter_perl</span>() };
+            <span class="ident">TreeSitterConfig</span> {
+                <span class="ident">name</span>: <span class="string">&quot;Perl&quot;</span>,
+                <span class="ident">language</span>,
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[<span class="string">&quot;string_single_quoted&quot;</span>, <span class="string">&quot;string_double_quoted&quot;</span>]
+                    .<span class="ident">into_iter</span>()
+                    .<span class="ident">collect</span>(),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)],
+                <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(<span class="ident">language</span>, <span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>(),
             }
         }
         <span class="ident">Python</span> <span class="op">=</span><span class="op">&gt;</span> {
