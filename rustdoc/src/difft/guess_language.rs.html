@@ -299,9 +299,6 @@
 <span id="299">299</span>
 <span id="300">300</span>
 <span id="301">301</span>
-<span id="302">302</span>
-<span id="303">303</span>
-<span id="304">304</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Guess which programming language a file is written in.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! This is heavily based on GitHub&#39;s</span>
@@ -499,9 +496,6 @@
         <span class="comment">// Treat .h as C++ rather than C. This is an arbitrary choice,</span>
         <span class="comment">// but C++ is more widely used than C according to</span>
         <span class="comment">// https://madnight.github.io/githut/</span>
-        <span class="comment">//</span>
-        <span class="comment">// TODO: allow users to override the association between</span>
-        <span class="comment">// extensions and parses.</span>
         <span class="string">&quot;cc&quot;</span> <span class="op">|</span> <span class="string">&quot;cpp&quot;</span> <span class="op">|</span> <span class="string">&quot;h&quot;</span> <span class="op">|</span> <span class="string">&quot;hh&quot;</span> <span class="op">|</span> <span class="string">&quot;hpp&quot;</span> <span class="op">|</span> <span class="string">&quot;cxx&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">CPlusPlus</span>),
         <span class="string">&quot;bb&quot;</span> <span class="op">|</span> <span class="string">&quot;boot&quot;</span> <span class="op">|</span> <span class="string">&quot;clj&quot;</span> <span class="op">|</span> <span class="string">&quot;cljc&quot;</span> <span class="op">|</span> <span class="string">&quot;clje&quot;</span> <span class="op">|</span> <span class="string">&quot;cljs&quot;</span> <span class="op">|</span> <span class="string">&quot;cljx&quot;</span> <span class="op">|</span> <span class="string">&quot;edn&quot;</span> <span class="op">|</span> <span class="string">&quot;joke&quot;</span> <span class="op">|</span> <span class="string">&quot;joker&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
             <span class="prelude-val">Some</span>(<span class="ident">Clojure</span>)
