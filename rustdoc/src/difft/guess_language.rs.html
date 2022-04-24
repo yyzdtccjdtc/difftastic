@@ -299,6 +299,12 @@
 <span id="299">299</span>
 <span id="300">300</span>
 <span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Guess which programming language a file is written in.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! This is heavily based on GitHub&#39;s</span>
@@ -479,6 +485,9 @@
             <span class="op">|</span> <span class="string">&quot;gradlew&quot;</span> <span class="op">|</span> <span class="string">&quot;kshrc&quot;</span> <span class="op">|</span> <span class="string">&quot;login&quot;</span> <span class="op">|</span> <span class="string">&quot;man&quot;</span> <span class="op">|</span> <span class="string">&quot;profile&quot;</span> <span class="op">|</span> <span class="string">&quot;zlogin&quot;</span> <span class="op">|</span> <span class="string">&quot;zlogout&quot;</span>
             <span class="op">|</span> <span class="string">&quot;zprofile&quot;</span> <span class="op">|</span> <span class="string">&quot;zshenv&quot;</span> <span class="op">|</span> <span class="string">&quot;zshrc&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Bash</span>),
             <span class="string">&quot;.emacs&quot;</span> <span class="op">|</span> <span class="string">&quot;_emacs&quot;</span> <span class="op">|</span> <span class="string">&quot;Cask&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">EmacsLisp</span>),
+            <span class="string">&quot;.arcconfig&quot;</span> <span class="op">|</span> <span class="string">&quot;.auto-changelog&quot;</span> <span class="op">|</span> <span class="string">&quot;.c8rc&quot;</span> <span class="op">|</span> <span class="string">&quot;.htmlhintrc&quot;</span> <span class="op">|</span> <span class="string">&quot;.imgbotconfig&quot;</span>
+            <span class="op">|</span> <span class="string">&quot;.nycrc&quot;</span> <span class="op">|</span> <span class="string">&quot;.tern-config&quot;</span> <span class="op">|</span> <span class="string">&quot;.tern-project&quot;</span> <span class="op">|</span> <span class="string">&quot;.watchmanconfig&quot;</span> <span class="op">|</span> <span class="string">&quot;Pipfile.lock&quot;</span>
+            <span class="op">|</span> <span class="string">&quot;composer.lock&quot;</span> <span class="op">|</span> <span class="string">&quot;mcmod.info&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Json</span>),
             <span class="string">&quot;TARGETS&quot;</span> <span class="op">|</span> <span class="string">&quot;BUCK&quot;</span> <span class="op">|</span> <span class="string">&quot;DEPS&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Python</span>),
             <span class="string">&quot;Gemfile&quot;</span> <span class="op">|</span> <span class="string">&quot;Rakefile&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Ruby</span>),
             <span class="string">&quot;Cargo.lock&quot;</span> <span class="op">|</span> <span class="string">&quot;Gopkg.lock&quot;</span> <span class="op">|</span> <span class="string">&quot;Pipfile&quot;</span> <span class="op">|</span> <span class="string">&quot;poetry.lock&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Toml</span>),
@@ -514,7 +523,10 @@
         <span class="string">&quot;java&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Java</span>),
         <span class="string">&quot;cjs&quot;</span> <span class="op">|</span> <span class="string">&quot;js&quot;</span> <span class="op">|</span> <span class="string">&quot;mjs&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">JavaScript</span>),
         <span class="string">&quot;jsx&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Jsx</span>),
-        <span class="string">&quot;json&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Json</span>),
+        <span class="string">&quot;json&quot;</span> <span class="op">|</span> <span class="string">&quot;avsc&quot;</span> <span class="op">|</span> <span class="string">&quot;geojson&quot;</span> <span class="op">|</span> <span class="string">&quot;gltf&quot;</span> <span class="op">|</span> <span class="string">&quot;har&quot;</span> <span class="op">|</span> <span class="string">&quot;ice&quot;</span> <span class="op">|</span> <span class="string">&quot;JSON-tmLanguage&quot;</span> <span class="op">|</span> <span class="string">&quot;jsonl&quot;</span>
+        <span class="op">|</span> <span class="string">&quot;mcmeta&quot;</span> <span class="op">|</span> <span class="string">&quot;tfstate&quot;</span> <span class="op">|</span> <span class="string">&quot;tfstate.backup&quot;</span> <span class="op">|</span> <span class="string">&quot;topojson&quot;</span> <span class="op">|</span> <span class="string">&quot;webapp&quot;</span> <span class="op">|</span> <span class="string">&quot;webmanifest&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">Json</span>)
+        }
         <span class="string">&quot;kt&quot;</span> <span class="op">|</span> <span class="string">&quot;ktm&quot;</span> <span class="op">|</span> <span class="string">&quot;kts&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Kotlin</span>),
         <span class="string">&quot;lua&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Lua</span>),
         <span class="string">&quot;nix&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Nix</span>),
