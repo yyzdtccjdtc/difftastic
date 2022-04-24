@@ -1094,6 +1094,28 @@
 <span id="1094">1094</span>
 <span id="1095">1095</span>
 <span id="1096">1096</span>
+<span id="1097">1097</span>
+<span id="1098">1098</span>
+<span id="1099">1099</span>
+<span id="1100">1100</span>
+<span id="1101">1101</span>
+<span id="1102">1102</span>
+<span id="1103">1103</span>
+<span id="1104">1104</span>
+<span id="1105">1105</span>
+<span id="1106">1106</span>
+<span id="1107">1107</span>
+<span id="1108">1108</span>
+<span id="1109">1109</span>
+<span id="1110">1110</span>
+<span id="1111">1111</span>
+<span id="1112">1112</span>
+<span id="1113">1113</span>
+<span id="1114">1114</span>
+<span id="1115">1115</span>
+<span id="1116">1116</span>
+<span id="1117">1117</span>
+<span id="1118">1118</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Load and configure parsers written with tree-sitter.</span>
 
 <span class="kw">use</span> <span class="ident">std::collections::HashSet</span>;
@@ -1153,6 +1175,7 @@
     <span class="kw">fn</span> <span class="ident">tree_sitter_elm</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_go</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_haskell</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
+    <span class="kw">fn</span> <span class="ident">tree_sitter_hcl</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_janet_simple</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_java</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
     <span class="kw">fn</span> <span class="ident">tree_sitter_javascript</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ts::Language</span>;
@@ -1399,6 +1422,27 @@
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
                     <span class="ident">language</span>,
                     <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/haskell.scm&quot;</span>),
+                )
+                .<span class="ident">unwrap</span>(),
+            }
+        }
+        <span class="ident">Hcl</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="kw">let</span> <span class="ident">language</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">tree_sitter_hcl</span>() };
+            <span class="ident">TreeSitterConfig</span> {
+                <span class="ident">name</span>: <span class="string">&quot;Hcl&quot;</span>,
+                <span class="ident">language</span>,
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[<span class="string">&quot;string_lit&quot;</span>, <span class="string">&quot;heredoc_template&quot;</span>].<span class="ident">into_iter</span>().<span class="ident">collect</span>(),
+                <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[
+                    (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>),
+                    (<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>),
+                    (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>),
+                    (<span class="string">&quot;%{&quot;</span>, <span class="string">&quot;}&quot;</span>),
+                    (<span class="string">&quot;%{~&quot;</span>, <span class="string">&quot;~}&quot;</span>),
+                    (<span class="string">&quot;${&quot;</span>, <span class="string">&quot;}&quot;</span>),
+                ],
+                <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
+                    <span class="ident">language</span>,
+                    <span class="macro">include_str!</span>(<span class="string">&quot;../vendor/highlights/hcl.scm&quot;</span>),
                 )
                 .<span class="ident">unwrap</span>(),
             }

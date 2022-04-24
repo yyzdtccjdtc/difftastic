@@ -305,6 +305,9 @@
 <span id="305">305</span>
 <span id="306">306</span>
 <span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Guess which programming language a file is written in.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! This is heavily based on GitHub&#39;s</span>
@@ -339,6 +342,7 @@
     <span class="ident">Gleam</span>,
     <span class="ident">Go</span>,
     <span class="ident">Haskell</span>,
+    <span class="ident">Hcl</span>,
     <span class="ident">Janet</span>,
     <span class="ident">Java</span>,
     <span class="ident">JavaScript</span>,
@@ -416,6 +420,7 @@
             <span class="string">&quot;gleam&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Gleam</span>),
             <span class="string">&quot;go&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Go</span>),
             <span class="string">&quot;haskell&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Haskell</span>),
+            <span class="string">&quot;hcl&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Hcl</span>),
             <span class="string">&quot;janet&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Janet</span>),
             <span class="string">&quot;java&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Java</span>),
             <span class="string">&quot;js&quot;</span> <span class="op">|</span> <span class="string">&quot;js2&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">JavaScript</span>),
@@ -519,6 +524,7 @@
         <span class="string">&quot;gleam&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Gleam</span>),
         <span class="string">&quot;go&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Go</span>),
         <span class="string">&quot;hs&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Haskell</span>),
+        <span class="string">&quot;hcl&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Hcl</span>),
         <span class="string">&quot;janet&quot;</span> <span class="op">|</span> <span class="string">&quot;jdn&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Janet</span>),
         <span class="string">&quot;java&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Java</span>),
         <span class="string">&quot;cjs&quot;</span> <span class="op">|</span> <span class="string">&quot;js&quot;</span> <span class="op">|</span> <span class="string">&quot;mjs&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">JavaScript</span>),
