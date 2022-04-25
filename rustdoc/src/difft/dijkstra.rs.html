@@ -573,13 +573,24 @@
 <span id="573">573</span>
 <span id="574">574</span>
 <span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Implements Dijkstra&#39;s algorithm for shortest path, to find an</span>
 <span class="doccomment">//! optimal and readable diff between two ASTs.</span>
 
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">cmp::Reverse</span>, <span class="ident">env</span>};
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
-    <span class="ident">graph</span>::{<span class="ident">mark_route</span>, <span class="ident">neighbours</span>, <span class="ident">Edge</span>, <span class="ident">Vertex</span>},
+    <span class="ident">changes::ChangeMap</span>,
+    <span class="ident">graph</span>::{<span class="ident">neighbours</span>, <span class="ident">populate_change_map</span>, <span class="ident">Edge</span>, <span class="ident">Vertex</span>},
     <span class="ident">syntax::Syntax</span>,
 };
 <span class="kw">use</span> <span class="ident">itertools::Itertools</span>;
@@ -712,7 +723,11 @@
     <span class="ident">count</span>
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mark_syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">lhs_syntax</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">rhs_syntax</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>) {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mark_syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
+    <span class="ident">lhs_syntax</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">rhs_syntax</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">change_map</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ChangeMap</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
+) {
     <span class="macro">info!</span>(
         <span class="string">&quot;LHS nodes: {} ({} toplevel), RHS nodes: {} ({} toplevel)&quot;</span>,
         <span class="ident">node_count</span>(<span class="ident">lhs_syntax</span>),
@@ -723,16 +738,18 @@
 
     <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">Vertex::new</span>(<span class="ident">lhs_syntax</span>, <span class="ident">rhs_syntax</span>);
     <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>);
-    <span class="ident">mark_route</span>(<span class="kw-2">&amp;</span><span class="ident">route</span>);
+
+    <span class="ident">populate_change_map</span>(<span class="kw-2">&amp;</span><span class="ident">route</span>, <span class="ident">change_map</span>)
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::{
+        <span class="ident">changes::ChangeKind</span>,
         <span class="ident">graph::Edge</span>::<span class="kw-2">*</span>,
         <span class="ident">positions::SingleLineSpan</span>,
-        <span class="ident">syntax</span>::{<span class="ident">init_all_info</span>, <span class="ident">AtomKind</span>, <span class="ident">ChangeKind</span>},
+        <span class="ident">syntax</span>::{<span class="ident">init_all_info</span>, <span class="ident">AtomKind</span>},
     };
 
     <span class="kw">use</span> <span class="ident">itertools::Itertools</span>;
@@ -1131,9 +1148,11 @@
         <span class="kw">let</span> <span class="ident">rhs</span> <span class="op">=</span> <span class="ident">Syntax::new_atom</span>(<span class="kw-2">&amp;</span><span class="ident">arena</span>, <span class="ident">pos_helper</span>(<span class="number">1</span>), <span class="string">&quot;foo&quot;</span>, <span class="ident">AtomKind::Normal</span>);
         <span class="ident">init_all_info</span>(<span class="kw-2">&amp;</span>[<span class="ident">lhs</span>], <span class="kw-2">&amp;</span>[<span class="ident">rhs</span>]);
 
-        <span class="ident">mark_syntax</span>(<span class="prelude-val">Some</span>(<span class="ident">lhs</span>), <span class="prelude-val">Some</span>(<span class="ident">rhs</span>));
-        <span class="macro">assert_eq!</span>(<span class="ident">lhs</span>.<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">ChangeKind::Unchanged</span>(<span class="ident">rhs</span>)));
-        <span class="macro">assert_eq!</span>(<span class="ident">rhs</span>.<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">ChangeKind::Unchanged</span>(<span class="ident">lhs</span>)));
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">change_map</span> <span class="op">=</span> <span class="ident">ChangeMap::default</span>();
+        <span class="ident">mark_syntax</span>(<span class="prelude-val">Some</span>(<span class="ident">lhs</span>), <span class="prelude-val">Some</span>(<span class="ident">rhs</span>), <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">change_map</span>);
+
+        <span class="macro">assert_eq!</span>(<span class="ident">change_map</span>.<span class="ident">get</span>(<span class="ident">lhs</span>), <span class="prelude-val">Some</span>(<span class="ident">ChangeKind::Unchanged</span>(<span class="ident">rhs</span>)));
+        <span class="macro">assert_eq!</span>(<span class="ident">change_map</span>.<span class="ident">get</span>(<span class="ident">rhs</span>), <span class="prelude-val">Some</span>(<span class="ident">ChangeKind::Unchanged</span>(<span class="ident">lhs</span>)));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -1143,9 +1162,10 @@
         <span class="kw">let</span> <span class="ident">rhs</span> <span class="op">=</span> <span class="ident">Syntax::new_atom</span>(<span class="kw-2">&amp;</span><span class="ident">arena</span>, <span class="ident">pos_helper</span>(<span class="number">1</span>), <span class="string">&quot;bar&quot;</span>, <span class="ident">AtomKind::Normal</span>);
         <span class="ident">init_all_info</span>(<span class="kw-2">&amp;</span>[<span class="ident">lhs</span>], <span class="kw-2">&amp;</span>[<span class="ident">rhs</span>]);
 
-        <span class="ident">mark_syntax</span>(<span class="prelude-val">Some</span>(<span class="ident">lhs</span>), <span class="prelude-val">Some</span>(<span class="ident">rhs</span>));
-        <span class="macro">assert_eq!</span>(<span class="ident">lhs</span>.<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">ChangeKind::Novel</span>));
-        <span class="macro">assert_eq!</span>(<span class="ident">rhs</span>.<span class="ident">change</span>(), <span class="prelude-val">Some</span>(<span class="ident">ChangeKind::Novel</span>));
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">change_map</span> <span class="op">=</span> <span class="ident">ChangeMap::default</span>();
+        <span class="ident">mark_syntax</span>(<span class="prelude-val">Some</span>(<span class="ident">lhs</span>), <span class="prelude-val">Some</span>(<span class="ident">rhs</span>), <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">change_map</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">change_map</span>.<span class="ident">get</span>(<span class="ident">lhs</span>), <span class="prelude-val">Some</span>(<span class="ident">ChangeKind::Novel</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">change_map</span>.<span class="ident">get</span>(<span class="ident">rhs</span>), <span class="prelude-val">Some</span>(<span class="ident">ChangeKind::Novel</span>));
     }
 }
 </code></pre></div>
