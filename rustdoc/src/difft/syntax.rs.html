@@ -1024,23 +1024,11 @@
 <span id="1024">1024</span>
 <span id="1025">1025</span>
 <span id="1026">1026</span>
-<span id="1027">1027</span>
-<span id="1028">1028</span>
-<span id="1029">1029</span>
-<span id="1030">1030</span>
-<span id="1031">1031</span>
-<span id="1032">1032</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Syntax tree definitions with change metadata.</span>
 
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy::mutable_key_type</span>)]</span> <span class="comment">// Hash for Syntax doesn&#39;t use mutable fields.</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::{
-    <span class="ident">cell::Cell</span>,
-    <span class="ident">collections::HashMap</span>,
-    <span class="ident">env</span>, <span class="ident">fmt</span>,
-    <span class="ident">hash::Hash</span>,
-    <span class="ident">num::NonZeroU32</span>,
-};
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">cell::Cell</span>, <span class="ident">collections::HashMap</span>, <span class="ident">env</span>, <span class="ident">fmt</span>, <span class="ident">hash::Hash</span>, <span class="ident">num::NonZeroU32</span>};
 <span class="kw">use</span> <span class="ident">typed_arena::Arena</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
