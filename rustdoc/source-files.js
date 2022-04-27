@@ -45,6 +45,7 @@ sourcesIndex["static_assertions"] = {"name":"","files":["assert_cfg.rs","assert_
 sourcesIndex["strsim"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["term_size"] = {"name":"","dirs":[{"name":"platform","files":["mod.rs","unix.rs"]}],"files":["lib.rs"]};
 sourcesIndex["termcolor"] = {"name":"","files":["lib.rs"]};
+sourcesIndex["terminal_size"] = {"name":"","files":["lib.rs","unix.rs"]};
 sourcesIndex["textwrap"] = {"name":"","files":["core.rs","indentation.rs","lib.rs","word_separators.rs","word_splitters.rs","wrap_algorithms.rs"]};
 sourcesIndex["tree_sitter"] = {"name":"","files":["ffi.rs","lib.rs","util.rs"]};
 sourcesIndex["typed_arena"] = {"name":"","files":["lib.rs"]};
