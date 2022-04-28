@@ -308,6 +308,10 @@
 <span id="308">308</span>
 <span id="309">309</span>
 <span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Guess which programming language a file is written in.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! This is heavily based on GitHub&#39;s</span>
@@ -359,6 +363,7 @@
     <span class="ident">Ruby</span>,
     <span class="ident">Rust</span>,
     <span class="ident">Scala</span>,
+    <span class="ident">Swift</span>,
     <span class="ident">Toml</span>,
     <span class="ident">Tsx</span>,
     <span class="ident">TypeScript</span>,
@@ -432,6 +437,7 @@
             <span class="string">&quot;rust&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Rust</span>),
             <span class="string">&quot;scala&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Scala</span>),
             <span class="string">&quot;sh&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Bash</span>),
+            <span class="string">&quot;swift&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Swift</span>),
             <span class="string">&quot;toml&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Toml</span>),
             <span class="string">&quot;tuareg&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">OCaml</span>),
             <span class="string">&quot;typescript&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">TypeScript</span>),
@@ -470,6 +476,7 @@
                     <span class="string">&quot;perl&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">Perl</span>),
                     <span class="string">&quot;python&quot;</span> <span class="op">|</span> <span class="string">&quot;python2&quot;</span> <span class="op">|</span> <span class="string">&quot;python3&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">Python</span>),
                     <span class="string">&quot;ruby&quot;</span> <span class="op">|</span> <span class="string">&quot;macruby&quot;</span> <span class="op">|</span> <span class="string">&quot;rake&quot;</span> <span class="op">|</span> <span class="string">&quot;jruby&quot;</span> <span class="op">|</span> <span class="string">&quot;rbx&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">Ruby</span>),
+                    <span class="string">&quot;swift&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">Swift</span>),
                     <span class="string">&quot;deno&quot;</span> <span class="op">|</span> <span class="string">&quot;ts-node&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">TypeScript</span>),
                     <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {}
                 }
@@ -544,6 +551,7 @@
         <span class="string">&quot;rb&quot;</span> <span class="op">|</span> <span class="string">&quot;builder&quot;</span> <span class="op">|</span> <span class="string">&quot;spec&quot;</span> <span class="op">|</span> <span class="string">&quot;rake&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Ruby</span>),
         <span class="string">&quot;rs&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Rust</span>),
         <span class="string">&quot;scala&quot;</span> <span class="op">|</span> <span class="string">&quot;sbt&quot;</span> <span class="op">|</span> <span class="string">&quot;sc&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Scala</span>),
+        <span class="string">&quot;swift&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Swift</span>),
         <span class="string">&quot;toml&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Toml</span>),
         <span class="string">&quot;ts&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">TypeScript</span>),
         <span class="string">&quot;tsx&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Tsx</span>),
