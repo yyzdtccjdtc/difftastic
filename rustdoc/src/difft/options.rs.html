@@ -376,6 +376,18 @@
 <span id="376">376</span>
 <span id="377">377</span>
 <span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">borrow::Borrow</span>, <span class="ident">env</span>, <span class="ident">ffi::OsString</span>};
 
 <span class="kw">use</span> <span class="ident">atty::Stream</span>;
@@ -405,6 +417,7 @@
     <span class="kw">pub</span> <span class="ident">print_unchanged</span>: <span class="ident">bool</span>,
     <span class="kw">pub</span> <span class="ident">tab_width</span>: <span class="ident">usize</span>,
     <span class="kw">pub</span> <span class="ident">display_width</span>: <span class="ident">usize</span>,
+    <span class="kw">pub</span> <span class="ident">syntax_highlight</span>: <span class="ident">bool</span>,
 }
 
 <span class="kw">fn</span> <span class="ident">app</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">clap::Command</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span> {
@@ -483,6 +496,14 @@
                 .<span class="ident">env</span>(<span class="string">&quot;DFT_BACKGROUND&quot;</span>)
                 .<span class="ident">possible_values</span>([<span class="string">&quot;dark&quot;</span>, <span class="string">&quot;light&quot;</span>])
                 .<span class="ident">help</span>(<span class="string">&quot;Set the background brightness. Difftastic will prefer brighter colours on dark backgrounds.&quot;</span>)
+        )
+        .<span class="ident">arg</span>(
+            <span class="ident">Arg::new</span>(<span class="string">&quot;syntax-highlight&quot;</span>).<span class="ident">long</span>(<span class="string">&quot;syntax-highlight&quot;</span>)
+                .<span class="ident">value_name</span>(<span class="string">&quot;ON/OFF&quot;</span>)
+                .<span class="ident">env</span>(<span class="string">&quot;DFT_SYNTAX_HIGHLIGHT&quot;</span>)
+                .<span class="ident">possible_values</span>([<span class="string">&quot;on&quot;</span>, <span class="string">&quot;off&quot;</span>])
+                .<span class="ident">default_value</span>(<span class="string">&quot;on&quot;</span>)
+                .<span class="ident">help</span>(<span class="string">&quot;Enable or disable syntax highlighting.&quot;</span>)
         )
         .<span class="ident">arg</span>(
             <span class="ident">Arg::new</span>(<span class="string">&quot;skip-unchanged&quot;</span>).<span class="ident">long</span>(<span class="string">&quot;skip-unchanged&quot;</span>)
@@ -676,6 +697,8 @@
         <span class="ident">BackgroundColor::Dark</span>
     };
 
+    <span class="kw">let</span> <span class="ident">syntax_highlight</span> <span class="op">=</span> <span class="ident">matches</span>.<span class="ident">value_of</span>(<span class="string">&quot;syntax-highlight&quot;</span>) <span class="op">=</span><span class="op">=</span> <span class="prelude-val">Some</span>(<span class="string">&quot;on&quot;</span>);
+
     <span class="kw">let</span> <span class="ident">node_limit</span> <span class="op">=</span> <span class="ident">matches</span>
         .<span class="ident">value_of</span>(<span class="string">&quot;node-limit&quot;</span>)
         .<span class="ident">expect</span>(<span class="string">&quot;Always present as we&#39;ve given clap a default&quot;</span>)
@@ -706,6 +729,7 @@
         <span class="ident">tab_width</span>,
         <span class="ident">display_mode</span>,
         <span class="ident">display_width</span>,
+        <span class="ident">syntax_highlight</span>,
     };
 
     <span class="ident">Mode::Diff</span> {
