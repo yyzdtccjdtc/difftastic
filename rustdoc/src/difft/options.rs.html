@@ -374,6 +374,8 @@
 <span id="374">374</span>
 <span id="375">375</span>
 <span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">borrow::Borrow</span>, <span class="ident">env</span>, <span class="ident">ffi::OsString</span>};
 
 <span class="kw">use</span> <span class="ident">atty::Stream</span>;
@@ -398,7 +400,7 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DisplayOptions</span> {
     <span class="kw">pub</span> <span class="ident">background_color</span>: <span class="ident">BackgroundColor</span>,
-    <span class="kw">pub</span> <span class="ident">color_output</span>: <span class="ident">ColorOutput</span>,
+    <span class="kw">pub</span> <span class="ident">use_color</span>: <span class="ident">bool</span>,
     <span class="kw">pub</span> <span class="ident">display_mode</span>: <span class="ident">DisplayMode</span>,
     <span class="kw">pub</span> <span class="ident">print_unchanged</span>: <span class="ident">bool</span>,
     <span class="kw">pub</span> <span class="ident">tab_width</span>: <span class="ident">usize</span>,
@@ -695,9 +697,11 @@
     <span class="kw">let</span> <span class="ident">print_unchanged</span> <span class="op">=</span> <span class="op">!</span><span class="ident">matches</span>.<span class="ident">is_present</span>(<span class="string">&quot;skip-unchanged&quot;</span>);
     <span class="kw">let</span> <span class="ident">missing_as_empty</span> <span class="op">=</span> <span class="ident">matches</span>.<span class="ident">is_present</span>(<span class="string">&quot;missing-as-empty&quot;</span>);
 
+    <span class="kw">let</span> <span class="ident">use_color</span> <span class="op">=</span> <span class="ident">should_use_color</span>(<span class="ident">color_output</span>);
+
     <span class="kw">let</span> <span class="ident">display_options</span> <span class="op">=</span> <span class="ident">DisplayOptions</span> {
         <span class="ident">background_color</span>,
-        <span class="ident">color_output</span>,
+        <span class="ident">use_color</span>,
         <span class="ident">print_unchanged</span>,
         <span class="ident">tab_width</span>,
         <span class="ident">display_mode</span>,
