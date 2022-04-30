@@ -1132,6 +1132,11 @@
 <span id="1132">1132</span>
 <span id="1133">1133</span>
 <span id="1134">1134</span>
+<span id="1135">1135</span>
+<span id="1136">1136</span>
+<span id="1137">1137</span>
+<span id="1138">1138</span>
+<span id="1139">1139</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Load and configure parsers written with tree-sitter.</span>
 
 <span class="kw">use</span> <span class="ident">std::collections::HashSet</span>;
@@ -1636,9 +1641,14 @@
             <span class="ident">TreeSitterConfig</span> {
                 <span class="ident">name</span>: <span class="string">&quot;Perl&quot;</span>,
                 <span class="ident">language</span>,
-                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[<span class="string">&quot;string_single_quoted&quot;</span>, <span class="string">&quot;string_double_quoted&quot;</span>, <span class="string">&quot;comments&quot;</span>]
-                    .<span class="ident">into_iter</span>()
-                    .<span class="ident">collect</span>(),
+                <span class="ident">atom_nodes</span>: <span class="macro">vec!</span>[
+                    <span class="string">&quot;string_single_quoted&quot;</span>,
+                    <span class="string">&quot;string_double_quoted&quot;</span>,
+                    <span class="string">&quot;comments&quot;</span>,
+                    <span class="string">&quot;substitution_pattern_s&quot;</span>,
+                ]
+                .<span class="ident">into_iter</span>()
+                .<span class="ident">collect</span>(),
                 <span class="ident">delimiter_tokens</span>: <span class="macro">vec!</span>[(<span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>), (<span class="string">&quot;{&quot;</span>, <span class="string">&quot;}&quot;</span>), (<span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)],
                 <span class="ident">highlight_query</span>: <span class="ident">ts::Query::new</span>(
                     <span class="ident">language</span>,
