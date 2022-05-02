@@ -50,7 +50,6 @@ pub struct Vertex<'a> {
     rhs_parent_id: Option<NonZeroU32>,
     lhs_matched_ancestor_id: Option<NonZeroU32>,
     rhs_matched_ancestor_id: Option<NonZeroU32>,
-    can_pop_either: bool,
 }
 
 impl<'a> PartialEq for Vertex<'a> {
@@ -77,12 +76,6 @@ impl<'a> PartialEq for Vertex<'a> {
             && self.rhs_parent_id == other.rhs_parent_id
             && self.lhs_matched_ancestor_id == other.lhs_matched_ancestor_id
             && self.rhs_matched_ancestor_id == other.rhs_matched_ancestor_id
-            // We do want to distinguish whether we can pop each side
-            // independently though. Without this, if we find a case
-            // where we can pop sides together, we don't consider the
-            // case where we get a better diff by popping each side
-            // separately.
-            && self.can_pop_either == other.can_pop_either
     }
 }
 impl<'a> Eq for Vertex<'a> {}
@@ -97,8 +90,6 @@ impl<'a> Hash for Vertex<'a> {
 
         self.lhs_matched_ancestor_id.hash(state);
         self.rhs_matched_ancestor_id.hash(state);
-
-        self.can_pop_either.hash(state);
     }
 }
 
@@ -142,13 +133,6 @@ fn push_both_delimiters<'a>(
     rhs_delim: &'a Syntax<'a>,
 ) -> Stack<EnteredDelimiter<'a>> {
     entered.push(EnteredDelimiter::PopBoth((lhs_delim, rhs_delim)))
-}
-
-fn can_pop_either_parent(entered: &Stack<EnteredDelimiter>) -> bool {
-    match entered.peek() {
-        Some(EnteredDelimiter::PopEither(_)) => true,
-        _ => false,
-    }
 }
 
 fn try_pop_both<'a>(
@@ -283,7 +267,6 @@ impl<'a> Vertex<'a> {
             rhs_parent_id: None,
             lhs_matched_ancestor_id: None,
             rhs_matched_ancestor_id: None,
-            can_pop_either: false,
         }
     }
 }
@@ -381,7 +364,6 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 Vertex {
                     lhs_syntax: lhs_parent.next_sibling(),
                     rhs_syntax: rhs_parent.next_sibling(),
-                    can_pop_either: can_pop_either_parent(&parents_next),
                     parents: parents_next,
                     lhs_parent_id: lhs_parent.parent().map(Syntax::id),
                     rhs_parent_id: rhs_parent.parent().map(Syntax::id),
@@ -403,7 +385,6 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 Vertex {
                     lhs_syntax: lhs_parent.next_sibling(),
                     rhs_syntax: v.rhs_syntax,
-                    can_pop_either: can_pop_either_parent(&parents_next),
                     parents: parents_next,
                     lhs_parent_id: lhs_parent.parent().map(Syntax::id),
                     rhs_parent_id: v.rhs_parent_id,
@@ -425,7 +406,6 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 Vertex {
                     lhs_syntax: v.lhs_syntax,
                     rhs_syntax: rhs_parent.next_sibling(),
-                    can_pop_either: can_pop_either_parent(&parents_next),
                     parents: parents_next,
                     lhs_parent_id: v.lhs_parent_id,
                     rhs_parent_id: rhs_parent.parent().map(Syntax::id),
@@ -454,7 +434,6 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     rhs_parent_id: v.rhs_parent_id,
                     lhs_matched_ancestor_id: v.lhs_matched_ancestor_id,
                     rhs_matched_ancestor_id: v.rhs_matched_ancestor_id,
-                    can_pop_either: v.can_pop_either,
                 },
             ));
             i += 1;
@@ -497,7 +476,6 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         rhs_parent_id: Some(rhs_syntax.id()),
                         lhs_matched_ancestor_id: Some(lhs_syntax.id()),
                         rhs_matched_ancestor_id: Some(rhs_syntax.id()),
-                        can_pop_either: false,
                     },
                 ));
                 i += 1;
@@ -532,7 +510,6 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         rhs_parent_id: v.rhs_parent_id,
                         lhs_matched_ancestor_id: v.lhs_matched_ancestor_id,
                         rhs_matched_ancestor_id: v.rhs_matched_ancestor_id,
-                        can_pop_either: v.can_pop_either,
                     },
                 ));
                 i += 1;
@@ -558,7 +535,6 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         rhs_parent_id: v.rhs_parent_id,
                         lhs_matched_ancestor_id: v.lhs_matched_ancestor_id,
                         rhs_matched_ancestor_id: v.rhs_matched_ancestor_id,
-                        can_pop_either: v.can_pop_either,
                     },
                 ));
                 i += 1;
@@ -581,7 +557,6 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         rhs_parent_id: v.rhs_parent_id,
                         lhs_matched_ancestor_id: v.lhs_matched_ancestor_id,
                         rhs_matched_ancestor_id: v.rhs_matched_ancestor_id,
-                        can_pop_either: true,
                     },
                 ));
                 i += 1;
@@ -605,7 +580,6 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         rhs_parent_id: v.rhs_parent_id,
                         lhs_matched_ancestor_id: v.lhs_matched_ancestor_id,
                         rhs_matched_ancestor_id: v.rhs_matched_ancestor_id,
-                        can_pop_either: v.can_pop_either,
                     },
                 ));
                 i += 1;
@@ -628,7 +602,6 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         rhs_parent_id: Some(rhs_syntax.id()),
                         lhs_matched_ancestor_id: v.lhs_matched_ancestor_id,
                         rhs_matched_ancestor_id: v.rhs_matched_ancestor_id,
-                        can_pop_either: true,
                     },
                 ));
                 i += 1;
