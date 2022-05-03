@@ -634,6 +634,7 @@
 <span id="634">634</span>
 <span id="635">635</span>
 <span id="636">636</span>
+<span id="637">637</span>
 </pre><pre class="rust"><code><span class="doccomment">//! A graph representation for computing tree diffs.</span>
 
 <span class="kw">use</span> <span class="ident">rpds::Stack</span>;
@@ -641,12 +642,13 @@
     <span class="ident">cmp::min</span>,
     <span class="ident">fmt</span>,
     <span class="ident">hash</span>::{<span class="ident">Hash</span>, <span class="ident">Hasher</span>},
-    <span class="ident">num::NonZeroU32</span>,
 };
 <span class="kw">use</span> <span class="ident">strsim::normalized_levenshtein</span>;
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::changes</span>::{<span class="ident">insert_deep_unchanged</span>, <span class="ident">ChangeKind</span>, <span class="ident">ChangeMap</span>};
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::syntax</span>::{<span class="ident">AtomKind</span>, <span class="ident">Syntax</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::{
+    <span class="ident">changes</span>::{<span class="ident">insert_deep_unchanged</span>, <span class="ident">ChangeKind</span>, <span class="ident">ChangeMap</span>},
+    <span class="ident">syntax</span>::{<span class="ident">AtomKind</span>, <span class="ident">Syntax</span>, <span class="ident">SyntaxId</span>},
+};
 <span class="kw">use</span> <span class="ident">Edge</span>::<span class="kw-2">*</span>;
 
 <span class="doccomment">/// A vertex in a directed acyclic graph that represents a diff.</span>
@@ -682,8 +684,8 @@
     <span class="kw">pub</span> <span class="ident">lhs_syntax</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">rhs_syntax</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="ident">parents</span>: <span class="ident">Stack</span><span class="op">&lt;</span><span class="ident">EnteredDelimiter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    <span class="ident">lhs_parent_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NonZeroU32</span><span class="op">&gt;</span>,
-    <span class="ident">rhs_parent_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NonZeroU32</span><span class="op">&gt;</span>,
+    <span class="ident">lhs_parent_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SyntaxId</span><span class="op">&gt;</span>,
+    <span class="ident">rhs_parent_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SyntaxId</span><span class="op">&gt;</span>,
     <span class="ident">can_pop_either</span>: <span class="ident">bool</span>,
 }
 

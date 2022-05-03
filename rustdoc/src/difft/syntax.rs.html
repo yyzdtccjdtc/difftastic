@@ -1024,6 +1024,8 @@
 <span id="1024">1024</span>
 <span id="1025">1025</span>
 <span id="1026">1026</span>
+<span id="1027">1027</span>
+<span id="1028">1028</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Syntax tree definitions with change metadata.</span>
 
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy::mutable_key_type</span>)]</span> <span class="comment">// Hash for Syntax doesn&#39;t use mutable fields.</span>
@@ -1060,6 +1062,8 @@
     }
 }
 
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">SyntaxId</span> <span class="op">=</span> <span class="ident">NonZeroU32</span>;
+
 <span class="doccomment">/// Fields that are common to both `Syntax::List` and `Syntax::Atom`.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SyntaxInfo</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="doccomment">/// The previous node with the same parent as this one.</span>
@@ -1077,7 +1081,7 @@
     <span class="doccomment">/// The number of nodes that are ancestors of this one.</span>
     <span class="ident">num_ancestors</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="doccomment">/// A number that uniquely identifies this syntax node.</span>
-    <span class="ident">unique_id</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="ident">NonZeroU32</span><span class="op">&gt;</span>,
+    <span class="ident">unique_id</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="ident">SyntaxId</span><span class="op">&gt;</span>,
     <span class="doccomment">/// A number that uniquely identifies the content of this syntax</span>
     <span class="doccomment">/// node. This may be the same as nodes on the other side of the</span>
     <span class="doccomment">/// diff, or nodes at different positions.</span>
@@ -1290,7 +1294,7 @@
 
     <span class="doccomment">/// A unique ID of this syntax node. Every node is guaranteed to</span>
     <span class="doccomment">/// have a different value.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">NonZeroU32</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SyntaxId</span> {
         <span class="self">self</span>.<span class="ident">info</span>().<span class="ident">unique_id</span>.<span class="ident">get</span>()
     }
 
@@ -1419,13 +1423,13 @@
     <span class="ident">set_prev_is_contiguous</span>(<span class="ident">roots</span>);
 }
 
-<span class="kw">fn</span> <span class="ident">init_info_single</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">roots</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>], <span class="ident">next_id</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">NonZeroU32</span>) {
+<span class="kw">fn</span> <span class="ident">init_info_single</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">roots</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>], <span class="ident">next_id</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SyntaxId</span>) {
     <span class="ident">set_parent</span>(<span class="ident">roots</span>, <span class="prelude-val">None</span>);
     <span class="ident">set_num_ancestors</span>(<span class="ident">roots</span>, <span class="number">0</span>);
     <span class="ident">set_unique_id</span>(<span class="ident">roots</span>, <span class="ident">next_id</span>);
 }
 
-<span class="kw">fn</span> <span class="ident">set_unique_id</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">nodes</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>], <span class="ident">next_id</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">NonZeroU32</span>) {
+<span class="kw">fn</span> <span class="ident">set_unique_id</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">nodes</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>], <span class="ident">next_id</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SyntaxId</span>) {
     <span class="kw">for</span> <span class="ident">node</span> <span class="kw">in</span> <span class="ident">nodes</span> {
         <span class="ident">node</span>.<span class="ident">info</span>().<span class="ident">unique_id</span>.<span class="ident">set</span>(<span class="kw-2">*</span><span class="ident">next_id</span>);
         <span class="kw-2">*</span><span class="ident">next_id</span> <span class="op">=</span> <span class="ident">NonZeroU32::new</span>(<span class="ident">u32::from</span>(<span class="kw-2">*</span><span class="ident">next_id</span>) <span class="op">+</span> <span class="number">1</span>)
