@@ -635,13 +635,15 @@
 <span id="635">635</span>
 <span id="636">636</span>
 <span id="637">637</span>
+<span id="638">638</span>
 </pre><pre class="rust"><code><span class="doccomment">//! A graph representation for computing tree diffs.</span>
 
 <span class="kw">use</span> <span class="ident">rpds::Stack</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">cmp::min</span>,
     <span class="ident">fmt</span>,
-    <span class="ident">hash</span>::{<span class="ident">Hash</span>, <span class="ident">Hasher</span>}, <span class="ident">rc::Rc</span>,
+    <span class="ident">hash</span>::{<span class="ident">Hash</span>, <span class="ident">Hasher</span>},
+    <span class="ident">rc::Rc</span>,
 };
 <span class="kw">use</span> <span class="ident">strsim::normalized_levenshtein</span>;
 
