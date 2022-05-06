@@ -50,7 +50,7 @@ pub struct Vertex<'a> {
     parents: Stack<EnteredDelimiter<'a>>,
     lhs_parent_id: Option<SyntaxId>,
     rhs_parent_id: Option<SyntaxId>,
-    can_pop_either: bool,
+    num_pop_both: u32,
 }
 
 impl<'a> PartialEq for Vertex<'a> {
@@ -80,7 +80,7 @@ impl<'a> PartialEq for Vertex<'a> {
             // where we can pop sides together, we don't consider the
             // case where we get a better diff by popping each side
             // separately.
-            && self.can_pop_either == other.can_pop_either
+            && self.num_pop_both == other.num_pop_both
     }
 }
 impl<'a> Eq for Vertex<'a> {}
@@ -92,7 +92,7 @@ impl<'a> Hash for Vertex<'a> {
 
         self.lhs_parent_id.hash(state);
         self.rhs_parent_id.hash(state);
-        self.can_pop_either.hash(state);
+        self.num_pop_both.hash(state);
     }
 }
 
@@ -138,11 +138,18 @@ fn push_both_delimiters<'a>(
     entered.push(EnteredDelimiter::PopBoth((lhs_delim, rhs_delim)))
 }
 
-fn can_pop_either_parent(entered: &Stack<EnteredDelimiter>) -> bool {
-    match entered.peek() {
-        Some(EnteredDelimiter::PopEither(_)) => true,
-        _ => false,
+fn count_num_pop_both(entered: &Stack<EnteredDelimiter>) -> u32 {
+    let mut count = 0;
+    for ed in entered {
+        match ed {
+            EnteredDelimiter::PopEither(_) => break,
+            EnteredDelimiter::PopBoth(_) => {
+                count += 1;
+            }
+        }
     }
+
+    count
 }
 
 fn try_pop_both<'a>(
@@ -261,7 +268,7 @@ impl<'a> Vertex<'a> {
             parents,
             lhs_parent_id: None,
             rhs_parent_id: None,
-            can_pop_either: false,
+            num_pop_both: 0,
         }
     }
 }
@@ -351,7 +358,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 Vertex {
                     lhs_syntax: lhs_parent.next_sibling(),
                     rhs_syntax: rhs_parent.next_sibling(),
-                    can_pop_either: can_pop_either_parent(&parents_next),
+                    num_pop_both: v.num_pop_both - 1,
                     parents: parents_next,
                     lhs_parent_id: lhs_parent.parent().map(Syntax::id),
                     rhs_parent_id: rhs_parent.parent().map(Syntax::id),
@@ -371,7 +378,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 Vertex {
                     lhs_syntax: lhs_parent.next_sibling(),
                     rhs_syntax: v.rhs_syntax,
-                    can_pop_either: can_pop_either_parent(&parents_next),
+                    num_pop_both: count_num_pop_both(&parents_next),
                     parents: parents_next,
                     lhs_parent_id: lhs_parent.parent().map(Syntax::id),
                     rhs_parent_id: v.rhs_parent_id,
@@ -391,7 +398,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 Vertex {
                     lhs_syntax: v.lhs_syntax,
                     rhs_syntax: rhs_parent.next_sibling(),
-                    can_pop_either: can_pop_either_parent(&parents_next),
+                    num_pop_both: count_num_pop_both(&parents_next),
                     parents: parents_next,
                     lhs_parent_id: v.lhs_parent_id,
                     rhs_parent_id: rhs_parent.parent().map(Syntax::id),
@@ -416,7 +423,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     parents: v.parents.clone(),
                     lhs_parent_id: v.lhs_parent_id,
                     rhs_parent_id: v.rhs_parent_id,
-                    can_pop_either: v.can_pop_either,
+                    num_pop_both: v.num_pop_both,
                 },
             ));
             i += 1;
@@ -457,7 +464,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         parents: parents_next,
                         lhs_parent_id: Some(lhs_syntax.id()),
                         rhs_parent_id: Some(rhs_syntax.id()),
-                        can_pop_either: false,
+                        num_pop_both: v.num_pop_both + 1,
                     },
                 ));
                 i += 1;
@@ -490,7 +497,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         parents: v.parents.clone(),
                         lhs_parent_id: v.lhs_parent_id,
                         rhs_parent_id: v.rhs_parent_id,
-                        can_pop_either: v.can_pop_either,
+                        num_pop_both: v.num_pop_both,
                     },
                 ));
                 i += 1;
@@ -514,7 +521,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         parents: v.parents.clone(),
                         lhs_parent_id: v.lhs_parent_id,
                         rhs_parent_id: v.rhs_parent_id,
-                        can_pop_either: v.can_pop_either,
+                        num_pop_both: v.num_pop_both,
                     },
                 ));
                 i += 1;
@@ -535,7 +542,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         parents: parents_next,
                         lhs_parent_id: Some(lhs_syntax.id()),
                         rhs_parent_id: v.rhs_parent_id,
-                        can_pop_either: true,
+                        num_pop_both: 0,
                     },
                 ));
                 i += 1;
@@ -557,7 +564,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         parents: v.parents.clone(),
                         lhs_parent_id: v.lhs_parent_id,
                         rhs_parent_id: v.rhs_parent_id,
-                        can_pop_either: v.can_pop_either,
+                        num_pop_both: v.num_pop_both,
                     },
                 ));
                 i += 1;
@@ -578,7 +585,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         parents: parents_next,
                         lhs_parent_id: v.lhs_parent_id,
                         rhs_parent_id: Some(rhs_syntax.id()),
-                        can_pop_either: true,
+                        num_pop_both: 0,
                     },
                 ));
                 i += 1;
