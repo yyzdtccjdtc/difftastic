@@ -482,8 +482,6 @@
 <span id="482">482</span>
 <span id="483">483</span>
 <span id="484">484</span>
-<span id="485">485</span>
-<span id="486">486</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Apply colours and styling to strings.</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
@@ -505,7 +503,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">BackgroundColor</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_dark</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_dark</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="macro">matches!</span>(<span class="self">self</span>, <span class="ident">BackgroundColor::Dark</span>)
     }
 }
@@ -716,12 +714,10 @@
         } <span class="kw">else</span> {
             <span class="ident">style</span>.<span class="ident">bright_green</span>()
         }
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">is_lhs</span> {
+        <span class="ident">style</span>.<span class="ident">red</span>()
     } <span class="kw">else</span> {
-        <span class="kw">if</span> <span class="ident">is_lhs</span> {
-            <span class="ident">style</span>.<span class="ident">red</span>()
-        } <span class="kw">else</span> {
-            <span class="ident">style</span>.<span class="ident">green</span>()
-        }
+        <span class="ident">style</span>.<span class="ident">green</span>()
     }
 }
 

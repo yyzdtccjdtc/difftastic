@@ -274,7 +274,7 @@
                 <span class="kw">if</span> <span class="op">!</span><span class="ident">seen</span>.<span class="ident">contains</span>(<span class="ident">lhs_path</span>) {
                     <span class="comment">// It should be impossible to get duplicates, but</span>
                     <span class="comment">// be defensive.</span>
-                    <span class="ident">res</span>.<span class="ident">push</span>(<span class="ident">lhs_path</span>.<span class="ident">to_owned</span>());
+                    <span class="ident">res</span>.<span class="ident">push</span>(<span class="ident">lhs_path</span>.<span class="ident">clone</span>());
                     <span class="ident">seen</span>.<span class="ident">insert</span>(<span class="ident">lhs_path</span>);
                 }
 
@@ -287,8 +287,8 @@
                 } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">seen</span>.<span class="ident">contains</span>(<span class="ident">rhs_path</span>) {
                     <span class="ident">j</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
                 } <span class="kw">else</span> {
-                    <span class="ident">res</span>.<span class="ident">push</span>(<span class="ident">lhs_path</span>.<span class="ident">to_owned</span>());
-                    <span class="ident">res</span>.<span class="ident">push</span>(<span class="ident">rhs_path</span>.<span class="ident">to_owned</span>());
+                    <span class="ident">res</span>.<span class="ident">push</span>(<span class="ident">lhs_path</span>.<span class="ident">clone</span>());
+                    <span class="ident">res</span>.<span class="ident">push</span>(<span class="ident">rhs_path</span>.<span class="ident">clone</span>());
 
                     <span class="ident">seen</span>.<span class="ident">insert</span>(<span class="ident">lhs_path</span>);
                     <span class="ident">seen</span>.<span class="ident">insert</span>(<span class="ident">rhs_path</span>);
