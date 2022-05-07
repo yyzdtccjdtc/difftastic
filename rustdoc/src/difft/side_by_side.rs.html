@@ -728,10 +728,6 @@
 <span id="728">728</span>
 <span id="729">729</span>
 <span id="730">730</span>
-<span id="731">731</span>
-<span id="732">732</span>
-<span id="733">733</span>
-<span id="734">734</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Side-by-side (two column) display of diffs.</span>
 
 <span class="kw">use</span> <span class="ident">owo_colors</span>::{<span class="ident">OwoColorize</span>, <span class="ident">Style</span>};
@@ -794,10 +790,6 @@
     } <span class="kw">else</span> {
         <span class="ident">prev_num</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">source_dims</span>.<span class="ident">rhs_max_line</span>
     };
-
-    <span class="kw">if</span> <span class="ident">after_end</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">is_lhs</span> {
-        <span class="kw">return</span> <span class="string">&quot;&quot;</span>.<span class="ident">into</span>();
-    }
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">style</span> <span class="op">=</span> <span class="ident">Style::new</span>();
     <span class="kw">if</span> <span class="ident">use_color</span> {
