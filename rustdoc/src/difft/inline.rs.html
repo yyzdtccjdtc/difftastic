@@ -108,6 +108,8 @@
 <span id="108">108</span>
 <span id="109">109</span>
 <span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Inline, or &quot;unified&quot; diff display.</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
@@ -167,7 +169,9 @@
                 <span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>,
                 <span class="ident">hunks</span>.<span class="ident">len</span>(),
                 <span class="ident">lang_name</span>,
+                <span class="comment">// TODO: Just pass display_options.</span>
                 <span class="ident">display_options</span>.<span class="ident">use_color</span>,
+                <span class="ident">display_options</span>.<span class="ident">in_vcs</span>,
                 <span class="ident">display_options</span>.<span class="ident">background_color</span>
             )
         );
