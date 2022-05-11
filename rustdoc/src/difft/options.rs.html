@@ -403,7 +403,11 @@
 <span id="403">403</span>
 <span id="404">404</span>
 <span id="405">405</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">borrow::Borrow</span>, <span class="ident">env</span>, <span class="ident">ffi::OsString</span>};
+<span id="406">406</span>
+<span id="407">407</span>
+</pre><pre class="rust"><code><span class="doccomment">//! CLI option parsing.</span>
+
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">borrow::Borrow</span>, <span class="ident">env</span>, <span class="ident">ffi::OsString</span>};
 
 <span class="kw">use</span> <span class="ident">atty::Stream</span>;
 <span class="kw">use</span> <span class="ident">clap</span>::{<span class="ident">crate_authors</span>, <span class="ident">crate_description</span>, <span class="ident">crate_version</span>, <span class="ident">Arg</span>, <span class="ident">Command</span>};

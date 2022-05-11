@@ -709,7 +709,13 @@
 <span id="709">709</span>
 <span id="710">710</span>
 <span id="711">711</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::changes</span>::{<span class="ident">insert_deep_unchanged</span>, <span class="ident">ChangeKind</span>, <span class="ident">ChangeMap</span>};
+<span id="712">712</span>
+<span id="713">713</span>
+<span id="714">714</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Find nodes that are obviously unchanged, so we can run the main</span>
+<span class="doccomment">//! diff on smaller inputs.</span>
+
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::changes</span>::{<span class="ident">insert_deep_unchanged</span>, <span class="ident">ChangeKind</span>, <span class="ident">ChangeMap</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::myers_diff</span>;
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::syntax::Syntax</span>;
