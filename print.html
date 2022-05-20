@@ -213,6 +213,18 @@ compiler used (see <a href="https://github.com/alexcrichton/cc-rs#external-confi
 docs</a>).</p>
 <p>See <a href="./contributing.html">contributing</a> for instructions on debug
 builds.</p>
+<h2 id="optional-install-mime-database"><a class="header" href="#optional-install-mime-database">(Optional) Install MIME Database</a></h2>
+<p>If a MIME database is available, difftastic will use it to detect
+binary files more accurately. This is the same database used by the
+<code>file</code> command, so you probably already have it.</p>
+<p>The MIME database path is <a href="https://specifications.freedesktop.org/shared-mime-info-spec/0.11/ar01s03.html">specified in the XDG
+specification</a>. The
+database should be at one of the following paths:</p>
+<ul>
+<li><code>/usr/share/mime/magic</code></li>
+<li><code>/usr/local/share/mime/magic</code></li>
+<li><code>$HOME/.local/share/mime/magic</code></li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="usage"><a class="header" href="#usage">Usage</a></h1>
 <h2 id="diffing-files"><a class="header" href="#diffing-files">Diffing Files</a></h2>
 <pre><code>$ difft sample_files/before.js sample_files/after.js
