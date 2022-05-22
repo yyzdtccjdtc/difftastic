@@ -582,6 +582,15 @@
 <span id="582">582</span>
 <span id="583">583</span>
 <span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Implements Dijkstra&#39;s algorithm for shortest path, to find an</span>
 <span class="doccomment">//! optimal and readable diff between two ASTs.</span>
 
@@ -599,7 +608,7 @@
 
 <span class="kw">type</span> <span class="ident">PredecessorInfo</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span> <span class="op">=</span> (<span class="ident">u64</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="ident">Vertex</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="ident">Edge</span>);
 
-<span class="kw">fn</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>: <span class="ident">Vertex</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">Edge</span>, <span class="ident">Vertex</span>)<span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>: <span class="ident">Vertex</span>, <span class="ident">size_hint</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">Edge</span>, <span class="ident">Vertex</span>)<span class="op">&gt;</span> {
     <span class="comment">// We want to visit nodes with the shortest distance first, but</span>
     <span class="comment">// RadixHeapMap is a max-heap. Ensure nodes are wrapped with</span>
     <span class="comment">// Reverse to flip comparisons.</span>
@@ -611,6 +620,7 @@
     <span class="comment">// TODO: this grows very big. Consider using IDA* to reduce memory</span>
     <span class="comment">// usage.</span>
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">predecessors</span>: <span class="ident">FxHashMap</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Vertex</span>, <span class="ident">PredecessorInfo</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">FxHashMap::default</span>();
+    <span class="ident">predecessors</span>.<span class="ident">reserve</span>(<span class="ident">size_hint</span>);
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">neighbour_buf</span> <span class="op">=</span> [
         <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>,
@@ -726,16 +736,24 @@
     <span class="ident">rhs_syntax</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="ident">change_map</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ChangeMap</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
 ) {
+    <span class="kw">let</span> <span class="ident">lhs_node_count</span> <span class="op">=</span> <span class="ident">node_count</span>(<span class="ident">lhs_syntax</span>) <span class="kw">as</span> <span class="ident">usize</span>;
+    <span class="kw">let</span> <span class="ident">rhs_node_count</span> <span class="op">=</span> <span class="ident">node_count</span>(<span class="ident">rhs_syntax</span>) <span class="kw">as</span> <span class="ident">usize</span>;
     <span class="macro">info!</span>(
         <span class="string">&quot;LHS nodes: {} ({} toplevel), RHS nodes: {} ({} toplevel)&quot;</span>,
-        <span class="ident">node_count</span>(<span class="ident">lhs_syntax</span>),
+        <span class="ident">lhs_node_count</span>,
         <span class="ident">tree_count</span>(<span class="ident">lhs_syntax</span>),
-        <span class="ident">node_count</span>(<span class="ident">rhs_syntax</span>),
+        <span class="ident">rhs_node_count</span>,
         <span class="ident">tree_count</span>(<span class="ident">rhs_syntax</span>),
     );
 
+    <span class="comment">// When there are a large number of changes, we end up building a</span>
+    <span class="comment">// graph whose size is roughly quadratic. Use this as a size hint,</span>
+    <span class="comment">// so we don&#39;t spend too much time re-hashing and expanding the</span>
+    <span class="comment">// predecessors hashmap.</span>
+    <span class="kw">let</span> <span class="ident">size_hint</span> <span class="op">=</span> <span class="ident">lhs_node_count</span> <span class="op">*</span> <span class="ident">rhs_node_count</span>;
+
     <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">Vertex::new</span>(<span class="ident">lhs_syntax</span>, <span class="ident">rhs_syntax</span>);
-    <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>);
+    <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>, <span class="ident">size_hint</span>);
 
     <span class="ident">populate_change_map</span>(<span class="kw-2">&amp;</span><span class="ident">route</span>, <span class="ident">change_map</span>);
 }
@@ -779,7 +797,7 @@
         <span class="ident">init_all_info</span>(<span class="kw-2">&amp;</span>[<span class="ident">lhs</span>], <span class="kw-2">&amp;</span>[<span class="ident">rhs</span>]);
 
         <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">Vertex::new</span>(<span class="prelude-val">Some</span>(<span class="ident">lhs</span>), <span class="prelude-val">Some</span>(<span class="ident">rhs</span>));
-        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>);
+        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>, <span class="number">0</span>);
 
         <span class="kw">let</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">route</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">action</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="kw-2">*</span><span class="ident">action</span>).<span class="ident">collect_vec</span>();
         <span class="macro">assert_eq!</span>(
@@ -819,7 +837,7 @@
         <span class="ident">init_all_info</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>);
 
         <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">Vertex::new</span>(<span class="ident">lhs</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>(), <span class="ident">rhs</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>());
-        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>);
+        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>, <span class="number">0</span>);
 
         <span class="kw">let</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">route</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">action</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="kw-2">*</span><span class="ident">action</span>).<span class="ident">collect_vec</span>();
         <span class="macro">assert_eq!</span>(
@@ -861,7 +879,7 @@
         <span class="ident">init_all_info</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>);
 
         <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">Vertex::new</span>(<span class="ident">lhs</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>(), <span class="ident">rhs</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>());
-        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>);
+        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>, <span class="number">0</span>);
 
         <span class="kw">let</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">route</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">action</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="kw-2">*</span><span class="ident">action</span>).<span class="ident">collect_vec</span>();
         <span class="macro">assert_eq!</span>(
@@ -907,7 +925,7 @@
         <span class="ident">init_all_info</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>);
 
         <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">Vertex::new</span>(<span class="ident">lhs</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>(), <span class="ident">rhs</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>());
-        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>);
+        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>, <span class="number">0</span>);
 
         <span class="kw">let</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">route</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">action</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="kw-2">*</span><span class="ident">action</span>).<span class="ident">collect_vec</span>();
         <span class="macro">assert_eq!</span>(
@@ -946,7 +964,7 @@
         <span class="ident">init_all_info</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>);
 
         <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">Vertex::new</span>(<span class="ident">lhs</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>(), <span class="ident">rhs</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>());
-        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>);
+        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>, <span class="number">0</span>);
 
         <span class="kw">let</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">route</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">action</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="kw-2">*</span><span class="ident">action</span>).<span class="ident">collect_vec</span>();
         <span class="macro">assert_eq!</span>(
@@ -983,7 +1001,7 @@
         <span class="ident">init_all_info</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>);
 
         <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">Vertex::new</span>(<span class="ident">lhs</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>(), <span class="ident">rhs</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>());
-        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>);
+        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>, <span class="number">0</span>);
 
         <span class="kw">let</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">route</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">action</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="kw-2">*</span><span class="ident">action</span>).<span class="ident">collect_vec</span>();
         <span class="macro">assert_eq!</span>(
@@ -1021,7 +1039,7 @@
         <span class="ident">init_all_info</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>);
 
         <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">Vertex::new</span>(<span class="ident">lhs</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>(), <span class="ident">rhs</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>());
-        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>);
+        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>, <span class="number">0</span>);
 
         <span class="kw">let</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">route</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">action</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="kw-2">*</span><span class="ident">action</span>).<span class="ident">collect_vec</span>();
         <span class="macro">assert_eq!</span>(
@@ -1055,7 +1073,7 @@
         <span class="ident">init_all_info</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>);
 
         <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">Vertex::new</span>(<span class="ident">lhs</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>(), <span class="ident">rhs</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>());
-        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>);
+        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>, <span class="number">0</span>);
 
         <span class="kw">let</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">route</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">action</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="kw-2">*</span><span class="ident">action</span>).<span class="ident">collect_vec</span>();
         <span class="macro">assert_eq!</span>(
@@ -1086,7 +1104,7 @@
         <span class="ident">init_all_info</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>);
 
         <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">Vertex::new</span>(<span class="ident">lhs</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>(), <span class="ident">rhs</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>());
-        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>);
+        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>, <span class="number">0</span>);
 
         <span class="kw">let</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">route</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">action</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="kw-2">*</span><span class="ident">action</span>).<span class="ident">collect_vec</span>();
         <span class="macro">assert_eq!</span>(
@@ -1125,7 +1143,7 @@
         <span class="ident">init_all_info</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>);
 
         <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">Vertex::new</span>(<span class="ident">lhs</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>(), <span class="ident">rhs</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">copied</span>());
-        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>);
+        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">shortest_path</span>(<span class="ident">start</span>, <span class="number">0</span>);
 
         <span class="kw">let</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">route</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">action</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="kw-2">*</span><span class="ident">action</span>).<span class="ident">collect_vec</span>();
         <span class="macro">assert_eq!</span>(
