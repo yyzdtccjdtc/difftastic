@@ -3,6 +3,7 @@ sourcesIndex["aho_corasick"] = {"name":"","dirs":[{"name":"packed","dirs":[{"nam
 sourcesIndex["archery"] = {"name":"","dirs":[{"name":"shared_pointer","dirs":[{"name":"kind","dirs":[{"name":"arc","files":["mod.rs"]},{"name":"rc","files":["mod.rs"]}],"files":["mod.rs"]}],"files":["mod.rs"]}],"files":["lib.rs"]};
 sourcesIndex["atty"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["bitflags"] = {"name":"","files":["lib.rs"]};
+sourcesIndex["bumpalo"] = {"name":"","files":["alloc.rs","lib.rs"]};
 sourcesIndex["bytecount"] = {"name":"","files":["integer_simd.rs","lib.rs","naive.rs"]};
 sourcesIndex["cfg_if"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["clap"] = {"name":"","dirs":[{"name":"build","files":["app_settings.rs","arg.rs","arg_group.rs","arg_predicate.rs","arg_settings.rs","command.rs","debug_asserts.rs","macros.rs","mod.rs","possible_value.rs","usage_parser.rs","value_hint.rs"]},{"name":"error","files":["context.rs","kind.rs","mod.rs"]},{"name":"output","files":["fmt.rs","help.rs","mod.rs","usage.rs"]},{"name":"parse","dirs":[{"name":"features","files":["mod.rs","suggestions.rs"]},{"name":"matches","files":["arg_matches.rs","matched_arg.rs","mod.rs","value_source.rs"]}],"files":["arg_matcher.rs","mod.rs","parser.rs","validator.rs"]},{"name":"util","files":["color.rs","fnv.rs","graph.rs","id.rs","mod.rs","str_to_bool.rs"]}],"files":["derive.rs","lib.rs","macros.rs","mkeymap.rs"]};
