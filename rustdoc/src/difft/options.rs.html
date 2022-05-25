@@ -413,7 +413,7 @@
 <span class="kw">use</span> <span class="ident">clap</span>::{<span class="ident">crate_authors</span>, <span class="ident">crate_description</span>, <span class="ident">crate_version</span>, <span class="ident">Arg</span>, <span class="ident">Command</span>};
 <span class="kw">use</span> <span class="ident">const_format::formatcp</span>;
 
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">guess_language</span>, <span class="ident">style::BackgroundColor</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">display::style::BackgroundColor</span>, <span class="ident">parse::guess_language</span>};
 
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">DEFAULT_NODE_LIMIT</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">30_000</span>;
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">DEFAULT_BYTE_LIMIT</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">1_000_000</span>;
