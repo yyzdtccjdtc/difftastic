@@ -9,10 +9,10 @@ use std::{cmp::Ordering, fmt};
 ///
 /// Zero-indexed internally.
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct LineNumber(pub usize);
+pub struct LineNumber(pub u32);
 
 impl LineNumber {
-    pub fn one_indexed(self) -> usize {
+    pub fn one_indexed(self) -> u32 {
         self.0 + 1
     }
 }
@@ -27,8 +27,8 @@ impl fmt::Debug for LineNumber {
     }
 }
 
-impl From<usize> for LineNumber {
-    fn from(number: usize) -> Self {
+impl From<u32> for LineNumber {
+    fn from(number: u32) -> Self {
         Self(number)
     }
 }
@@ -97,7 +97,7 @@ impl NewlinePositions {
         for idx in first_idx..=last_idx {
             let (line_start, line_end) = self.positions[idx];
             res.push(SingleLineSpan {
-                line: idx.into(),
+                line: (idx as u32).into(),
                 start_col: if line_start > region_start {
                     0
                 } else {
@@ -163,11 +163,12 @@ pub trait MaxLine {
 
 impl<S: AsRef<str>> MaxLine for S {
     fn max_line(&self) -> LineNumber {
-        self.as_ref()
+        (self
+            .as_ref()
             .trim_end() // Remove extra trailing whitespaces.
             .split('\n') // Split by `\n` to calculate lines.
             .count()
-            .sub(1) // Sub 1 to make zero-indexed LineNumber
+            .sub(1) as u32) // Sub 1 to make zero-indexed LineNumber
             .into()
     }
 }
