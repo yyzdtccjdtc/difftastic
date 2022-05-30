@@ -35,15 +35,15 @@ impl From<usize> for LineNumber {
     }
 }
 
-pub fn format_line_num(line_num: LineNumber) -> String {
-    format!("{} ", line_num.one_indexed())
+pub fn format_line_num(line_num: u32) -> String {
+    format!("{} ", line_num + 1)
 }
 
 /// A position in a single line of a string.
 #[derive(Debug, PartialEq, Clone, Copy)]
 struct LinePosition {
     /// Both zero-indexed.
-    pub line: LineNumber,
+    pub line: u32,
     column: usize,
 }
 
@@ -99,7 +99,7 @@ impl NewlinePositions {
         for idx in first_idx..=last_idx {
             let (line_start, line_end) = self.positions[idx];
             res.push(SingleLineSpan {
-                line: idx.into(),
+                line: idx as u32,
                 start_col: if line_start > region_start {
                     0
                 } else {
@@ -126,7 +126,7 @@ impl NewlinePositions {
 
         let mut res = vec![];
         for pos in self.from_offsets(region_start, region_end) {
-            if pos.line.0 == 0 {
+            if pos.line == 0 {
                 res.push(SingleLineSpan {
                     line: start.line,
                     start_col: start.start_col + pos.start_col,
@@ -134,7 +134,7 @@ impl NewlinePositions {
                 });
             } else {
                 res.push(SingleLineSpan {
-                    line: (start.line.0 + pos.line.0).into(),
+                    line: start.line + pos.line,
                     start_col: pos.start_col,
                     end_col: pos.end_col,
                 });
@@ -152,12 +152,12 @@ pub fn codepoint_len(s: &str) -> usize {
 }
 
 pub trait MaxLine {
-    fn max_line(&self) -> LineNumber;
+    fn max_line(&self) -> u32;
 }
 
 impl<S: AsRef<str>> MaxLine for S {
-    fn max_line(&self) -> LineNumber {
-        (max(1, self.as_ref().split('\n').count()) - 1).into()
+    fn max_line(&self) -> u32 {
+        (max(1, self.as_ref().split('\n').count()) - 1) as u32
     }
 }
 

@@ -6,7 +6,7 @@ use rustc_hash::FxHashSet;
 
 use crate::{
     hunks::{compact_gaps, ensure_contiguous},
-    lines::LineNumber,
+    // lines::u32,
     syntax::{zip_repeat_shorter, MatchKind, MatchedPos},
 };
 
@@ -20,7 +20,7 @@ pub const MAX_PADDING: usize = 3;
 pub fn all_matched_lines_filled(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
-) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+) -> Vec<(Option<u32>, Option<u32>)> {
     let matched_lines = all_matched_lines(lhs_mps, rhs_mps);
 
     compact_gaps(&ensure_contiguous(&matched_lines))
@@ -29,7 +29,7 @@ pub fn all_matched_lines_filled(
 fn all_matched_lines(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
-) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+) -> Vec<(Option<u32>, Option<u32>)> {
     let lhs_matched_lines = matched_lines_from_unchanged(lhs_mps);
     let rhs_lines = all_lines(rhs_mps);
 
@@ -39,23 +39,23 @@ fn all_matched_lines(
     flip_tuples(&merge_in_opposite_lines(&flip_tuples(&lines), &lhs_lines))
 }
 
-fn all_lines(mps: &[MatchedPos]) -> Vec<LineNumber> {
+fn all_lines(mps: &[MatchedPos]) -> Vec<u32> {
     let mut lines = FxHashSet::default();
     for mp in mps {
         lines.insert(mp.pos.line);
     }
-    let mut res: Vec<LineNumber> = lines.into_iter().collect();
+    let mut res: Vec<u32> = lines.into_iter().collect();
     res.sort_unstable();
     res
 }
 
 fn matched_lines_from_unchanged(
     mps: &[MatchedPos],
-) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+) -> Vec<(Option<u32>, Option<u32>)> {
     let mut highest_line = None;
     let mut highest_opposite_line = None;
 
-    let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
+    let mut res: Vec<(Option<u32>, Option<u32>)> = vec![];
     for mp in mps {
         let opposite_line = match &mp.kind {
             MatchKind::UnchangedToken { opposite_pos, .. }
@@ -91,10 +91,10 @@ fn matched_lines_from_unchanged(
 }
 
 fn merge_in_opposite_lines(
-    matched_lines: &[(Option<LineNumber>, Option<LineNumber>)],
-    novel_opposite_lines: &[LineNumber],
-) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
-    let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
+    matched_lines: &[(Option<u32>, Option<u32>)],
+    novel_opposite_lines: &[u32],
+) -> Vec<(Option<u32>, Option<u32>)> {
+    let mut res: Vec<(Option<u32>, Option<u32>)> = vec![];
 
     let mut i = 0;
     for (line, opposite_line) in matched_lines {
@@ -122,8 +122,8 @@ fn merge_in_opposite_lines(
 }
 
 // TODO: use FxHashMap here.
-pub fn opposite_positions(mps: &[MatchedPos]) -> HashMap<LineNumber, HashSet<LineNumber>> {
-    let mut res: HashMap<LineNumber, HashSet<LineNumber>> = HashMap::new();
+pub fn opposite_positions(mps: &[MatchedPos]) -> HashMap<u32, HashSet<u32>> {
+    let mut res: HashMap<u32, HashSet<u32>> = HashMap::new();
 
     for mp in mps {
         match &mp.kind {
@@ -170,27 +170,27 @@ pub fn opposite_positions(mps: &[MatchedPos]) -> HashMap<LineNumber, HashSet<Lin
 /// 120    -- (novel)
 /// ```
 fn before_with_opposites(
-    before_lines: &[LineNumber],
-    opposite_lines: &HashMap<LineNumber, HashSet<LineNumber>>,
-) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    before_lines: &[u32],
+    opposite_lines: &HashMap<u32, HashSet<u32>>,
+) -> Vec<(Option<u32>, Option<u32>)> {
     let mut lines = before_lines.to_vec();
     lines.reverse();
 
-    let mut prev_opposite: Option<LineNumber> = None;
+    let mut prev_opposite: Option<u32> = None;
     let mut res = vec![];
 
     for line in lines {
-        let current_opposite: Option<LineNumber> = match prev_opposite {
+        let current_opposite: Option<u32> = match prev_opposite {
             Some(prev_opposite) => {
-                if prev_opposite.0 > 0 {
-                    Some((prev_opposite.0 - 1).into())
+                if prev_opposite > 0 {
+                    Some(prev_opposite - 1)
                 } else {
                     None
                 }
             }
             None => match opposite_lines.get(&line) {
                 Some(all_opposites) => {
-                    let mut all_opposites: Vec<LineNumber> =
+                    let mut all_opposites: Vec<u32> =
                         all_opposites.iter().copied().collect();
                     all_opposites.sort();
 
@@ -210,18 +210,18 @@ fn before_with_opposites(
     res
 }
 
-fn pad_before(ln: LineNumber) -> Vec<LineNumber> {
+fn pad_before(ln: u32) -> Vec<u32> {
     let mut res = vec![];
 
     let mut current = ln;
     // Use one more line than MAX_PADDING so we merge immediately
     // adjacent hunks.
     for _ in 0..MAX_PADDING + 1 {
-        if current.0 == 0 {
+        if current == 0 {
             break;
         }
 
-        current = (current.0 - 1).into();
+        current = current - 1;
         res.push(current);
     }
 
@@ -229,7 +229,7 @@ fn pad_before(ln: LineNumber) -> Vec<LineNumber> {
     res
 }
 
-fn pad_after(ln: LineNumber, max_line: LineNumber) -> Vec<LineNumber> {
+fn pad_after(ln: u32, max_line: u32) -> Vec<u32> {
     let mut res = vec![];
 
     let mut current = ln;
@@ -240,7 +240,7 @@ fn pad_after(ln: LineNumber, max_line: LineNumber) -> Vec<LineNumber> {
             break;
         }
 
-        current = (current.0 + 1).into();
+        current = current + 1;
         res.push(current);
     }
 
@@ -266,26 +266,26 @@ pub fn flip_tuples<Tx: Copy, Ty: Copy>(items: &[(Tx, Ty)]) -> Vec<(Ty, Tx)> {
 /// 121    --
 /// 122    91 (closest match)
 fn after_with_opposites(
-    after_lines: &[LineNumber],
-    opposite_lines: &HashMap<LineNumber, HashSet<LineNumber>>,
-    prev_max_opposite: Option<LineNumber>,
-    max_opposite: LineNumber,
-) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
-    let mut prev_opposite: Option<LineNumber> = None;
-    let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
+    after_lines: &[u32],
+    opposite_lines: &HashMap<u32, HashSet<u32>>,
+    prev_max_opposite: Option<u32>,
+    max_opposite: u32,
+) -> Vec<(Option<u32>, Option<u32>)> {
+    let mut prev_opposite: Option<u32> = None;
+    let mut res: Vec<(Option<u32>, Option<u32>)> = vec![];
 
     for line in after_lines {
-        let current_opposite: Option<LineNumber> = match prev_opposite {
+        let current_opposite: Option<u32> = match prev_opposite {
             Some(prev_opposite) => {
                 if prev_opposite < max_opposite {
-                    Some((prev_opposite.0 + 1).into())
+                    Some(prev_opposite + 1)
                 } else {
                     None
                 }
             }
             None => match opposite_lines.get(line) {
                 Some(all_opposites) => {
-                    let mut all_opposites: Vec<LineNumber> =
+                    let mut all_opposites: Vec<u32> =
                         all_opposites.iter().copied().collect();
                     all_opposites.sort();
 
@@ -312,10 +312,10 @@ fn after_with_opposites(
 }
 
 pub fn calculate_before_context(
-    lines: &[(Option<LineNumber>, Option<LineNumber>)],
-    opposite_to_lhs: &HashMap<LineNumber, HashSet<LineNumber>>,
-    opposite_to_rhs: &HashMap<LineNumber, HashSet<LineNumber>>,
-) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    lines: &[(Option<u32>, Option<u32>)],
+    opposite_to_lhs: &HashMap<u32, HashSet<u32>>,
+    opposite_to_rhs: &HashMap<u32, HashSet<u32>>,
+) -> Vec<(Option<u32>, Option<u32>)> {
     match lines.first() {
         Some(first_line) => match *first_line {
             (Some(lhs_line), _) => {
@@ -333,12 +333,12 @@ pub fn calculate_before_context(
 }
 
 pub fn calculate_after_context(
-    lines: &[(Option<LineNumber>, Option<LineNumber>)],
-    opposite_to_lhs: &HashMap<LineNumber, HashSet<LineNumber>>,
-    opposite_to_rhs: &HashMap<LineNumber, HashSet<LineNumber>>,
-    max_lhs_src_line: LineNumber,
-    max_rhs_src_line: LineNumber,
-) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    lines: &[(Option<u32>, Option<u32>)],
+    opposite_to_lhs: &HashMap<u32, HashSet<u32>>,
+    opposite_to_rhs: &HashMap<u32, HashSet<u32>>,
+    max_lhs_src_line: u32,
+    max_rhs_src_line: u32,
+) -> Vec<(Option<u32>, Option<u32>)> {
     match lines.last() {
         Some(first_line) => match *first_line {
             (Some(lhs_line), _) => {
@@ -382,12 +382,12 @@ pub fn calculate_after_context(
 }
 
 pub fn add_context(
-    lines: &[(Option<LineNumber>, Option<LineNumber>)],
-    opposite_to_lhs: &HashMap<LineNumber, HashSet<LineNumber>>,
-    opposite_to_rhs: &HashMap<LineNumber, HashSet<LineNumber>>,
-    max_lhs_src_line: LineNumber,
-    max_rhs_src_line: LineNumber,
-) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    lines: &[(Option<u32>, Option<u32>)],
+    opposite_to_lhs: &HashMap<u32, HashSet<u32>>,
+    opposite_to_rhs: &HashMap<u32, HashSet<u32>>,
+    max_lhs_src_line: u32,
+    max_rhs_src_line: u32,
+) -> Vec<(Option<u32>, Option<u32>)> {
     let before_lines = calculate_before_context(lines, opposite_to_lhs, opposite_to_rhs);
     let after_lines = calculate_after_context(
         &[&before_lines, lines].concat(),

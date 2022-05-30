@@ -6,7 +6,7 @@ use crate::lines::LineNumber;
 #[derive(Debug, PartialEq, Clone, Copy, Eq, PartialOrd, Ord, Hash)]
 pub struct SingleLineSpan {
     /// All zero-indexed.
-    pub line: LineNumber,
+    pub line: u32,
     pub start_col: usize,
     pub end_col: usize,
 }
